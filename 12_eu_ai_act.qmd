@@ -125,7 +125,7 @@ For high-risk systems a dense catalogue of obligations applies across the whole 
 
 Before a high-risk system may reach the market, it goes through **conformity assessment** ([Art. 43-49 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}): checking against the requirements, registering stand-alone Annex III systems in an EU database, signing a declaration of conformity and, finally, the **CE marking**. Substantial changes trigger the procedure afresh.
 
-![The path of a high-risk AI system to market: from development through conformity assessment, registration in the EU database and the declaration of conformity to placement on the market with the CE marking. Substantial changes lead back to step 2 (source: Session slide deck).](media/ai-act-conformity-assessment.jpg){fig-alt="Four-step diagram: 1 system developed, 2 conformity assessment, 3 registration in EU database, 4 declaration of conformity and CE marking; substantial changes send the process back to step 2." width="90%"}
+![The path of a high-risk AI system to market: from development through conformity assessment, registration in the EU database and the declaration of conformity to placement on the market with the CE marking. Substantial changes lead back to step 2 (source: EU Commission).](media/ai-act-conformity-assessment.jpg){fig-alt="Four-step diagram: 1 system developed, 2 conformity assessment, 3 registration in EU database, 4 declaration of conformity and CE marking; substantial changes send the process back to step 2." width="90%"}
 
 After market entry, national market-surveillance authorities take over supervision. **Deployers** must ensure use in line with the instructions, keep logs ([Art. 26 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}) and, as public bodies and certain private deployers of Annex III systems, carry out a **fundamental-rights impact assessment** before putting the system into use ([Art. 27 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}). **Providers** set up post-market monitoring; both report serious incidents to the authorities.
 
@@ -172,15 +172,18 @@ Cutting across all risk tiers is one duty that touches every use. Under **[Art. 
 
 Enforcement rests on a **multi-level governance structure** (Novelli et al. 2024). At the supranational level sits the **AI Office (DG CNECT)** within the Commission, which supervises GPAI providers in particular; it is flanked by the **AI Board**, an advisory **Forum** and a **Scientific Panel**. At the national level, Member States designate **notifying** and **market-surveillance authorities**; conformity is checked by independent **notified bodies**.
 
-![Governance structure of the AI Act (simplified): the Commission's AI Office supervises GPAI providers and advises the Member States, which in turn designate notifying and market-surveillance authorities; the notifying authorities notify and supervise the independent notified bodies (source: Session slide deck, after Novelli et al. 2024).](media/ai-act-governance-structure.png){fig-alt="Diagram with a supranational level (European Commission with AI Office, AI Board, Advisory Forum, Scientific Panel) and a national level (Member States designate notifying authorities and market-surveillance authorities; notifying authorities recognise and monitor notified bodies)." width="95%"}
+![Governance structure of the AI Act (simplified): the Commission's AI Office supervises GPAI providers and advises the Member States, which in turn designate notifying and market-surveillance authorities; the notifying authorities notify and supervise the independent notified bodies (source: Novelli et al. 2024).](media/ai-act-governance-structure.png){fig-alt="Diagram with a supranational level (European Commission with AI Office, AI Board, Advisory Forum, Scientific Panel) and a national level (Member States designate notifying authorities and market-surveillance authorities; notifying authorities recognise and monitor notified bodies)." width="95%"}
 
 ### The staggered applicability (Art. 113 AI Act)
 
-The AI Act does not apply in one stroke but in stages ([Art. 113](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}). Four stages were originally envisaged; the **Digital Omnibus** (see the deep dive below) pushed two of them back by more than a year. Explore the timeline interactively:
+The AI Act does not apply in one stroke but in stages ([Art. 113](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}). Four stages were originally envisaged; the **Digital Omnibus** (see the deep dive below) pushed two of them back by more than a year. The timeline that governs after the political agreement of May 2026:
 
-::: {.widget}
-<iframe src="widgets/kapitel-12/widget-ai-act-timeline.html" width="100%" height="620px" frameborder="0" style="border:none;" title="AI Act staggered applicability timeline"></iframe>
-:::
+- **2 February 2025**: the **prohibitions** (Chapters I and II) and the AI-literacy duty become applicable (the latter softened by the Omnibus; the new ban on "nudifiers" and AI-generated abuse material follows on **2 December 2026**);
+- **2 August 2025**: the rules on **GPAI models**, the authorities, **governance** and **penalties**, which the Omnibus leaves untouched;
+- **2 August 2026**: the **transparency duties** of [Art. 50](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"} (chatbot disclosure, deepfake labelling); for the marking duty under Art. 50(2), systems already on the market have a transition period until **2 December 2026**;
+- **2 August 2027**: the Member States' deadline to set up **regulatory sandboxes** (Art. 57), originally 2026;
+- **2 December 2027**: the stand-alone **Annex III high-risk systems** ([Art. 6(2)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}), originally 2 August 2026;
+- **2 August 2028**: the **product-related** high-risk systems ([Art. 6(1)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}), originally 2 August 2027.
 
 ::: {.details}
 #### Deep dive: why 2028 for Art. 6(1)?
@@ -226,4 +229,4 @@ With this, a large arc of the course closes. In the units on ethics we grounded 
 - Regulation (EU) 2024/1689 of the European Parliament and of the Council of 13 June 2024 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act). <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689>
 - Proposal for a Regulation amending the AI Act as regards certain application dates for high-risk AI systems and amending further legal acts ("Digital Omnibus on AI"), COM(2025) 897, tabled on 19 November 2025; provisional trilogue agreement of 7 May 2026, approved by the European Parliament on 16 June 2026 and the Council on 29 June 2026 (publication in the Official Journal pending at editorial close).
 - OECD (2024): *Explanatory memorandum on the updated OECD definition of an AI system*. OECD Artificial Intelligence Papers No. 8. OECD Publishing, Paris.
-- AI Office guidelines on the definition of an AI system (6 February 2025) and on prohibited practices (4 February 2025).
+- AI Office guidelines on the [definition of an AI system](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-ai-system-definition-facilitate-first-ai-acts-rules-application) (6 February 2025) and on [prohibited practices](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act) (4 February 2025).
