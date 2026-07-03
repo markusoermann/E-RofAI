@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Quarto render output
+*.html
+*_files/
+.quarto/
+
+# Freeze cache
+/.quarto/
+
+# Local lecture games (large)
+*_lernspiel.html
