@@ -130,6 +130,12 @@ If responsibility is hard to assign after harm, the natural move is to intervene
 
 : The Collingridge dilemma: the window for cheap, well-informed intervention never opens on its own. {tbl-colwidths="[22,20,20,38]"}
 
+The explorer below lets you trace both curves for yourself. Slide along a technology's lifecycle, or jump to a worked example, and watch the control gap widen as knowledge and flexibility pull apart.
+
+::: {.widget}
+<iframe src="widgets/kapitel-04/widget-collingridge-dilemma-explorer.html" width="100%" height="820px" frameborder="0" style="border:none;" title="Collingridge dilemma explorer"></iframe>
+:::
+
 ### Responsible Research and Innovation
 
 The conclusion Collingridge forces is constructive. Since neither pure foresight nor pure hindsight suffices, the response must be procedural: establish binding ethical guidelines and assessment procedures for all the stakeholders, that is, all the moral agents, involved in developing and deploying AI, and do so throughout the process rather than at its end. This is the programme of **Responsible Research and Innovation (RRI)** in and of AI, an ongoing, participatory practice of anticipating effects, reflecting on values and adjusting the design while adjustment is still cheap. RRI operationalises the relational demand for answerability at the level of the whole innovation system: it distributes the many hands deliberately, and it manufactures, as early as possible, the knowledge that the Collingridge dilemma otherwise withholds.

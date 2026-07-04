@@ -60,6 +60,12 @@ The point is not academic hair-splitting. Consider the invalid inference: *fact*
 
 For AI ethics this discipline is indispensable, because the field is full of hidden "ought"s dressed as facts. "The model is more accurate than human judges, so we should use it" is a naturalistic fallacy: accuracy is a fact, "should use" an ought, and the missing premise (that we ought to maximise accuracy even at the cost of, say, contestability) is exactly the ethical claim that deserves scrutiny. Naming the normative premise is where honest AI ethics starts.
 
+Train your eye on the distinction in the detector below: for each statement, decide whether it is descriptive, normative, or a fallacious leap from is to ought, and check your reasoning against Hume's law.
+
+::: {.widget}
+<iframe src="widgets/kapitel-02/widget-is-ought-detector.html" width="100%" height="560px" frameborder="0" style="border:none;" title="Is/ought fallacy detector"></iframe>
+:::
+
 ::: {.quick-check}
 "Everyone already shares their data online, so it is fine for us to scrape it for training." Which error does this argument commit?
 

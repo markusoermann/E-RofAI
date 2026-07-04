@@ -82,6 +82,12 @@ What is the central finding of the ILO study by Gmyrek, Berg and Bescond (2023)?
 - Exposure to AI is spread perfectly evenly across countries and genders.
 :::
 
+The automation-versus-augmentation split is easier to grasp per occupation than in the aggregate. The explorer below lets you pick a job, see how its tasks divide between outright automation, human-in-the-loop augmentation and little exposure, and read the mix through the substitution and complementarity paradigms.
+
+::: {.widget}
+<iframe src="widgets/kapitel-09/widget-task-exposure-explorer.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Job task-exposure explorer: automation vs. augmentation by occupation"></iframe>
+:::
+
 ### The quality of work, not just its quantity
 
 Counting jobs is only half the ethical question. Even where employment survives, AI can change the *quality* of work, and Bankins and Formosa (2023) supply the framework. Work is meaningful along several dimensions, autonomy, task identity and significance, the use and development of competence, social embeddedness, and a sense of purpose, and AI threatens these along three paths. **Deskilling** occurs when AI absorbs the complex, developing parts of a job and leaves humans the residual, simpler tasks, producing the paradox that more advanced AI can create *simpler* jobs. **De-autonomization** occurs when algorithmic management dictates how, when and where work happens, draining the sense of agency. **Depersonalization** occurs when hiring, evaluation and even dismissal are mediated by systems, stripping work of its intersubjective recognition. The same technology can, in principle, remove tedious or dangerous tasks and augment human judgement, so the outcome is a design choice rather than a technological fate, which is why the constructive answer points back to the value-driven, participatory design we met in earlier units.

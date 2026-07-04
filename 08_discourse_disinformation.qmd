@@ -132,6 +132,12 @@ The central provision is [Art. 50 AI Act](https://eur-lex.europa.eu/legal-conten
 | Art. 50(4) | Deployer | Label deep fakes, and AI-generated text on matters of public interest, as artificial. |
 | Art. 50(5) | Both | Mark clearly and at first exposure; techniques effective, interoperable, robust, reliable. |
 
+The decisive move in Art. 50 is that the duty attaches to a *role* in the value chain, provider or deployer, rather than to the content alone. Work through the scenarios below to see who owes which disclosure, under which paragraph, and where a narrow exception lets the obligation fall away.
+
+::: {.widget}
+<iframe src="widgets/kapitel-08/widget-art50-transparency-mapper.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Art. 50 transparency-obligation mapper"></iframe>
+:::
+
 ::: {.quick-check}
 Under Art. 50 AI Act, an AI-generated deep-fake video published by a company must be:
 

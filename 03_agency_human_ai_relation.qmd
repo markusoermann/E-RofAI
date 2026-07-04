@@ -150,6 +150,12 @@ A cookie banner shows a big highlighted "Accept all" button and hides "Reject" b
 - A moral patient
 :::
 
+Because choice architecture is inescapable, the ethically decisive question is not whether a design steers but how far it steers and against whom. Design the consent screen of an AI assistant yourself in the explorer below and watch when a legitimate nudge tips over into a manipulative dark pattern.
+
+::: {.widget}
+<iframe src="widgets/kapitel-03/nudge-choice-architecture-explorer.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Choice architecture explorer: nudge versus dark pattern"></iframe>
+:::
+
 ::: {.details}
 #### Deep dive: is libertarian paternalism really libertarian?
 Critics argue the phrase papers over a genuine loss of autonomy. Because choice architecture is inescapable, the honest question is not *whether* to steer but *toward what* and *by whom*, and a default set by a self-interested platform is paternalism without the benevolence. Defenders reply that since some arrangement is unavoidable, choosing the one that most people would endorse on reflection is the least bad option, and that transparency plus an easy opt-out preserves real freedom. The disagreement maps neatly onto the schools of the previous unit: a consequentialist weighs the improved average outcome, a Kantian asks whether nudging through System 1 treats the person as a rational end or as a mechanism to be triggered. For AI systems, whose scale and personalisation make nudges vastly more powerful than a salad bar, this is not an academic quarrel.
