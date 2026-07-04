@@ -152,6 +152,12 @@ A bank's AI proposes loan decisions, and a caseworker must review and sign off o
 - No human oversight
 :::
 
+Choosing the right mode is not a matter of taste but of stakes and tempo, and every mode brings its own characteristic way of failing. Work through the use cases below to see which oversight mode fits each situation, what the human is actually expected to do, and the failure risks the mode invites, from rubber-stamping and automation bias to intervening too late to matter.
+
+::: {.widget}
+<iframe src="widgets/kapitel-10/widget-human-oversight-explorer.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Human oversight mode explorer"></iframe>
+:::
+
 ### Traceability, recognisability and explainability
 
 The principle of transparency likewise breaks down into practical requirements. **Traceability** asks that the datasets and the processes yielding a system's decisions, including data gathering, labelling and the algorithms used, be documented to the best possible standard, so that outcomes can be reconstructed after the fact. **Recognisability** holds that a system should not pass itself off as human: people have a right to know when they are interacting with an AI. **Explainability** requires that the reasons for a decision can be communicated to those affected, whether through technical methods of explainable AI or through plain-language account. These three are not the same. Traceability serves the internal ability to audit and reconstruct; explainability serves the external duty to answer to the people a decision touches. Together they operationalise the answerability we grounded in the unit on responsibility, and they resurface, as we will see, as concrete documentation, transparency and oversight duties in the AI Act.

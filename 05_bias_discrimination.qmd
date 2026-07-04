@@ -109,6 +109,12 @@ What does Chouldechova's impossibility result establish?
 - Bias can always be removed by deleting the protected attribute.
 :::
 
+The result is easier to believe once you have tried and failed to beat it yourself. In the explorer below you control the decision threshold and the gap between the two groups' base rates on a COMPAS-like example, and the three fairness metrics update live; try to make all three equal at once while the base rates differ.
+
+::: {.widget}
+<iframe src="widgets/kapitel-05/widget-fairness-impossibility-explorer.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Fairness-metrics impossibility explorer"></iframe>
+:::
+
 ::: {.details}
 #### Deep dive: base rates, and why they are not neutral
 It is tempting to treat the differing base rates in the COMPAS data as a brute fact that the algorithm merely reflects. That reading is too quick. Arrest and reconviction rates are themselves the product of policing patterns, prosecutorial choices and historical discrimination, so the "ground truth" the model is trained to predict is not an innocent measurement of criminality but a record of how the criminal-justice system has treated groups differently. Preexisting bias thus enters through the very definition of the target variable, before any question of metrics arises. This is why the impossibility result, though genuinely mathematical, does not licence a shrug: the choice of what to predict, on what data, is prior to and more consequential than the choice among fairness metrics, and it is a choice for which humans remain answerable.
