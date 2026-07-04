@@ -60,7 +60,11 @@ A machine-based system that operates with varying autonomy, may adapt after depl
 
 ## The risk-based approach
 
-The core idea of the AI Act is simple: instead of treating every AI alike, the Regulation grades its requirements by the assumed **risk** to safety, life and fundamental rights. The result is a pyramid of four tiers. The higher the risk, the denser the obligations; the vast mass of everyday AI stays unregulated. Test this logic in the classifier below by sorting concrete use cases into their tiers.
+The core idea of the AI Act is simple: instead of treating every AI alike, the Regulation grades its requirements by the assumed **risk** to safety, life and fundamental rights. The result is a pyramid of four tiers. The higher the risk, the denser the obligations; the vast mass of everyday AI stays unregulated.
+
+![The four-tier risk pyramid of the AI Act: unacceptable risk is prohibited outright; high-risk systems face risk-management obligations before they may be placed on the market; limited-risk systems, such as generative AI and chatbots, face transparency obligations; minimal-risk AI remains free from regulation (own illustration).](media/ai-act-risk-pyramid.png){fig-alt="Pyramid with four tiers from top to bottom: Unacceptable Risk; High Risk, with risk management obligations before AI systems are allowed to be put on the market; Limited Risk, with transparency obligations for generative AI systems and chatbots; Minimal Risk, free from regulation." width="80%"}
+
+Test this logic in the classifier below by sorting concrete use cases into their tiers.
 
 ::: {.widget}
 <iframe src="widgets/kapitel-12/widget-ai-risk-classifier.html" width="100%" height="560px" frameborder="0" style="border:none;" title="AI Act risk classifier"></iframe>
@@ -172,7 +176,7 @@ Cutting across all risk tiers is one duty that touches every use. Under **[Art. 
 
 Enforcement rests on a **multi-level governance structure** (Novelli et al. 2024). At the supranational level sits the **AI Office (DG CNECT)** within the Commission, which supervises GPAI providers in particular; it is flanked by the **AI Board**, an advisory **Forum** and a **Scientific Panel**. At the national level, Member States designate **notifying** and **market-surveillance authorities**; conformity is checked by independent **notified bodies**.
 
-![Governance structure of the AI Act (simplified): the Commission's AI Office supervises GPAI providers and advises the Member States, which in turn designate notifying and market-surveillance authorities; the notifying authorities notify and supervise the independent notified bodies (source: Novelli et al. 2024).](media/ai-act-governance-structure.png){fig-alt="Diagram with a supranational level (European Commission with AI Office, AI Board, Advisory Forum, Scientific Panel) and a national level (Member States designate notifying authorities and market-surveillance authorities; notifying authorities recognise and monitor notified bodies)." width="95%"}
+![Governance structure of the AI Act (simplified): the Commission's AI Office supervises GPAI providers and advises the Member States, which in turn designate notifying and market-surveillance authorities; the notifying authorities notify and supervise the independent notified bodies (own illustration based on Novelli et al. 2024).](media/ai-act-governance-structure.png){fig-alt="Diagram: the European Commission's AI Office (DG-CNECT) advises Member States and supervises the GPAI provider; Member States define notification authorities and market surveillance authorities; the notification authorities notify and supervise the notified body." width="85%"}
 
 ### The staggered applicability (Art. 113 AI Act)
 
