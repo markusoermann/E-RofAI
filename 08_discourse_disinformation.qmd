@@ -1,0 +1,175 @@
+---
+title: "Discourse, the Public Sphere & Disinformation"
+subtitle: "Habermas, information disorder and the transparency of synthetic content"
+date: last-modified
+lang: en
+toc-depth: 1
+
+# Author
+author:
+  - name: Prof. Dr. Markus Oermann
+    email: markus.oermann@thws.de
+    role: Instructor
+    affiliation: THWS FIW
+
+# Course data
+semester: "WS 26/27"
+course: "Introduction to the Ethics and Regulation of AI"
+version: "1.0"
+
+# --- Output formats ---
+format: moodle-html
+---
+
+The previous unit ended with the fear that predictive models let a few actors know and steer what many people think, and this unit asks the political question that follows: what happens to democratic opinion-formation when both the information and the interlocutors in public debate can be manufactured by machines? We begin with the classical theory of why democracy needs a functioning public sphere, move through the discourse ethics that tells us when a norm may count as valid, then confront the empirical reality of the digital public sphere, the vocabulary of information disorder, deep fakes and synthetic reality, and finally the regulatory answer that European law now offers.
+
+## Why democracy needs a public sphere
+
+### From the will of the people to public opinion
+
+Democracy means that political rule is tied back to the will of the governed. In Abraham Lincoln's Gettysburg formula it is "government of the people, by the people, and for the people", and in a parliamentary democracy elections are the mechanism that carries the majority will of the population into the legislative and executive branches. This presupposes something easy to overlook: that minority views can *become* majority views over time. That in turn requires the free formation of opinion, which above all means that opinion-formation is not controlled by the state or by those who hold power.
+
+Jürgen Habermas gave this requirement its classical form in *Strukturwandel der Öffentlichkeit* (1962). In a modern mass society, he argued, the free formation of public opinion rests on a plurality of freely reporting journalistic and editorial media. These media perform a **public-watchdog** function: they are meant to supply a reliable base of information for forming opinions, and they serve at the same time as forums for the exchange of opinions and as an infrastructure that makes deliberation possible at all. The public sphere, on this account, is not a luxury of democracy but one of its enabling conditions.
+
+::: {.flip-card}
+#### The public sphere (Habermas 1962)
+The communicative space, carried by free and plural media, in which private citizens form and exchange public opinion free of state control; its watchdog and forum functions supply the information base that democratic opinion-formation presupposes.
+:::
+
+### Speech acts and their validity claims
+
+Before we can ask when public discourse *succeeds*, we need a theory of what we do when we speak. Linguistics has shown that utterances always carry an element of action: we do things with words, we communicate in and through **speech acts**. As a communication community we attach different **validity claims** to different kinds of speech act. To every communication we attach a claim to *comprehensibility*; to expressive utterances (representativa) a claim to *truthfulness*, meaning inner sincerity; to normative utterances (regulativa) a claim to *normative correctness*; and to factual assertions (constativa) a claim to *truth*. Truth, on this view, is not a property of statements in the abstract but a validity claim we raise for a particular class of statements and can be asked to redeem.
+
+::: {.drag-exercise}
+An expressive utterance raises a claim to *truthfulness*, a normative utterance a claim to *correctness*, and a factual assertion a claim to *truth*, while every utterance at minimum raises a claim to *comprehensibility*.
+:::
+
+## Discourse ethics: principles D and U
+
+These validity claims are redeemed, if at all, in **discourse**: the rational exchange of arguments. Habermas and Karl-Otto Apel model this against the counterfactual ideal of an *ideal communication community*, in which the only force is the force of the better argument. Discourse theory distinguishes two families. In **theoretical discourses** we argue about constativa, about what is *true*, as in science. In **practical discourses** we argue about regulativa, about what is *normatively correct*, as in politics. This distinction matters for AI ethics, because it locates the disputes of this course, over fairness, over legitimate regulation, squarely in the practical register, where the test is not correspondence to facts but the assent of those affected.
+
+From this Habermas and Apel derive **discourse ethics**, which offers two conditions for the validity of a norm. The **discourse principle (D)** holds that valid norms are precisely those to which all those affected could agree as participants in a rational discourse. The **universalisation principle (U)** adds a test that any single participant can apply in thought: a norm is valid only if the consequences and side effects that would follow from its general observance can be accepted by everyone affected. Principle U is the discourse-ethical successor to Kant's categorical imperative, but it relocates the test from the solitary conscience to an actual or virtual dialogue.
+
+::: {.flip-card}
+#### Principles D and U (Habermas, Apel)
+Principle **D**: valid norms are those all affected parties could accept as participants in a rational discourse. Principle **U**: a norm is valid only if the consequences of its general observance are acceptable to everyone affected.
+:::
+
+::: {.quick-check}
+According to the universalisation principle (U), a norm is valid when:
+
+- it maximises the aggregate welfare of society
+- it is enacted by a democratically elected legislature
+- **the consequences of its general observance can be accepted by all those affected**
+- it follows logically from a higher moral law
+:::
+
+The reason discourse ethics belongs in a unit on the *public sphere* is now visible. Principles D and U are only meaningful if a real discourse can approximate the ideal one: if the affected parties can actually speak, be heard and revise their views. That is exactly what a functioning public sphere is supposed to guarantee, and exactly what the digital transformation of that sphere puts in question.
+
+## The digital public sphere and its discontents
+
+### From one-to-many to many-to-many
+
+Mass media (print, radio, television) organise public communication in a **one-to-many** structure: an editorial office decides which information is published and can therefore be perceived at all. Social media invert this into a **many-to-many** network structure in which, at least in principle, everyone can address everyone. The gatekeeping does not disappear, however; it changes hands. Which posts are seen by whom is now determined chiefly by search and, above all, **feed algorithms** that select, sort and rank. As media use shifts to social platforms and these become the first point of access to information, control over what is perceived migrates from the editorial offices of media companies to the platform operators, whose selection logic is optimised for engagement rather than for the informational needs of a democratic public. Habermas's diagnosis, first published in 1962, has only sharpened in this platform age.
+
+### Filter bubbles and echo chambers: the empirical pushback
+
+Two related worries dominate the debate. The **filter-bubble** thesis holds that algorithmic personalisation increasingly shows individual users content that matches and reinforces their existing views, sealing them into a private informational world. The **echo-chamber** thesis, associated with Eli Pariser, adds a social mechanism: people on social media tend to talk mainly with the like-minded, forming groups closed off from one another. Both would corrode the shared information base that principles D and U require.
+
+The pedagogically important point is that the strong versions of these theses are not well supported by the evidence. Personalisation-driven filter bubbles remain, on the best current reading, empirically unproven as a dominant effect (see Guess et al. and the wider literature). Echo chambers, similarly, look less like a pure product of social-media architecture and more like a reflection of pre-existing groups with shared worldviews. Gounaridis and Newell (2024), studying the geography of climate-change denial in the United States, illustrate this: denial clusters spatially, but the clustering tracks partisan and community structure rather than being manufactured wholesale by feeds. The lesson is one of intellectual discipline. The digital public sphere is genuinely fragmented and polarised in ways that matter for democracy, but the causal story is not the tidy technological determinism that "filter bubble" suggests, and a serious ethics of the public sphere must resist the temptation to over-attribute.
+
+![Climate-change denial by U.S. county (Gounaridis and Newell 2024): the left panel shows the share of "deniers" against a national average of 14.8%; the right panel maps the strong spatial clustering. The pattern tracks partisan and community structure rather than a pure social-media effect (source: Gounaridis and Newell 2024, Scientific Reports).](media/discourse-climate-denial-map.png){fig-alt="Two U.S. maps: left shades counties by percentage of climate-change deniers around a 14.8% national average; right shows clustered red and blue counties indicating denial concentrated in specific regions." width="95%"}
+
+::: {.details}
+#### Deep dive: why the correction to Pariser matters ethically
+It would be convenient for regulators if algorithms simply built the walls of the echo chamber, because then removing the algorithm would remove the harm. The empirical picture is less obliging. If fragmentation reflects offline group structure amplified, but not created, by platform dynamics, then a purely technical fix addresses only part of the problem, and interventions that assume otherwise may disappoint. Thiel's structural analysis makes the deeper point: even without full informational isolation, it is enough that platform dynamics foster polarisation and erode trust for democratic harm to follow. Honesty about causation is therefore not academic hair-splitting; it is what keeps regulation proportionate and effective.
+:::
+
+## Information disorder: mis-, dis- and malinformation
+
+Beyond homogeneous, mutually closed sub-networks, the second great challenge to successful public discourse is **false or harmful information**. The field has converged on a three-way distinction that turns on two questions: is the content *false*, and is it spread with an *intent to harm*? **Misinformation** is false information, untrue statements of fact, spread without the intent to harm, typically in honest error. **Disinformation** is false information spread deliberately and knowingly to deceive or damage. **Malinformation** is a residual category of otherwise harmful content, hate speech, terror propaganda, abuse material, or genuinely true information weaponised to injure, where the damage does not hinge on any statement being false. All three can occur in any medium: text, photo, audio, video, drawing. Sort the scenarios in the classifier below along the two axes and watch how the same fact pattern changes category as intent changes.
+
+::: {.widget}
+<iframe src="widgets/kapitel-08/widget-information-disorder-classifier.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Information disorder classifier"></iframe>
+:::
+
+::: {.flip-card}
+#### Mis- / dis- / malinformation
+*Misinformation*: false content, no intent to harm (honest error). *Disinformation*: false content spread deliberately to harm. *Malinformation*: harmful content, including true information weaponised to injure, where harm does not depend on falsity.
+:::
+
+### Generative AI as an engine of information disorder
+
+Generative AI touches all three categories at once. By its very construction it produces **misinformation**: hallucination is not a bug at the margin but a consequence of the stochastic mechanism, so that a system can generate untrue statements of fact in perfect good faith and pass them to a user who does the same. It can be steered to create explicit **malinformation**, hate messages, depictions of violence, and abuse material, which is why keeping such output out of a deployed system depends on a large human workforce of data trainers and moderators, a labour question the next unit takes up directly. And it collapses the cost of **disinformation** by making persuasive falsehoods cheap, scalable, customisable and, increasingly, interactive.
+
+### Deep fakes and synthetic reality
+
+The manipulation of media is almost as old as recording itself, but generative AI marks a threshold. It permits the creation of **deep fakes**: deceptively real yet wholly inauthentic images, audio and video of people in situations that never occurred. Prominently discussed cases include a fabricated image of one head of state kneeling before another, a staged "arrest" of Donald Trump, a fake image of a burning Pentagon that briefly moved stock markets, and non-consensual sexual imagery of Taylor Swift. Emilio Ferrara (2026) argues that the right unit of analysis is no longer the individual fake but **synthetic reality**: coherent, interactive and personalisable information environments in which content, identities and social interactions are jointly fabricated and mutually reinforcing. The genuinely new capacity is not the forged artefact but the ability to fabricate an entire *context of belief*, who is present, what evidence exists, which claims circulate and how they are socially validated.
+
+Ferrara's sharpest thesis is the **generative AI paradox**: the more ubiquitous synthetic content becomes, the more *rational* it becomes for a society to discount digital evidence in general, which raises the cost of truth and hands strategic actors a "liar's dividend", since genuine evidence can now be dismissed as fake. This asymmetry also explains why *debunking* is a weak remedy. There is a time gap in which serious damage occurs before a fake is corrected, as the Pentagon case showed; corrections do not reliably reach everyone who saw the original; misinformation is especially sticky when it confirms the recipient's worldview (confirmation bias); and, psychologically, a correction seen later is simply less effective, because something of the false first impression tends to remain.
+
+::: {.case-study}
+#### Case: the market-moving fake
+A photorealistic but fabricated image of a large explosion at a government building spreads on social media during trading hours. Before news organisations can verify that it is a deep fake, automated and human traders react and an index dips sharply. By the time the debunking circulates, some damage is done. Which categories apply, and why is the after-the-fact correction only a partial remedy?
+
+::: {.solution}
+The image is a fabricated statement of fact, published to deceive, so it is **disinformation** delivered as a deep fake; if the aim were purely to injure a named party with harmful but non-false material, the label would shift toward **malinformation**. The correction fails to fully repair the harm for the four reasons the debunking literature identifies. The **time gap** means the financial damage is realised before verification arrives. The **outreach** problem means the correction does not reach every viewer of the original. **Confirmation bias** means recipients already primed to expect instability absorb the fake more readily than the correction. And the **primacy** effect means a later correction is psychologically weaker than the first impression. This is exactly the dynamic Ferrara's generative-AI paradox predicts: as fakes proliferate, the epistemic cost of establishing what is real rises for everyone, which is why the regulatory response focuses on *provenance* and *labelling* upstream rather than on debunking downstream.
+:::
+:::
+
+## The regulatory response: transparency instead of prohibition
+
+### Why label rather than ban
+
+Faced with synthetic content, providers of large generative systems have reacted with ad hoc technical restrictions, especially before elections, and platforms such as YouTube and Meta have introduced labelling requirements. The European legislator's structural answer is not to ban synthetic content, which would collide with communication freedoms, but to make it **recognisable**. This is the logic of the limited-risk tier of the EU AI Act, examined in detail in a later unit: the content itself is not governed, only its transparency.
+
+The central provision is [Art. 50 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}. It addresses two groups of actors. **Providers** of systems meant to interact directly with people must disclose that interaction (Art. 50(1)), and providers of generative systems must mark synthetic audio, image, video or text output in a **machine-readable** way as artificially generated or manipulated (Art. 50(2)). **Deployers** must disclose deep fakes as artificially generated and must label AI-generated or AI-manipulated **text** published to inform the public on matters of public interest (Art. 50(4)). Across all of this, the marking must be clear, distinguishable and applied at the latest at the first interaction or exposure, and the technical solutions must be effective, interoperable, robust and reliable so far as technically feasible (Art. 50(5)). Narrow exceptions cover, among others, law-enforcement uses and manifestly artistic, satirical or fictional works. These duties apply from 2 August 2026.
+
+| Paragraph | Addressee | Duty |
+|---|---|---|
+| Art. 50(1) | Provider | Disclose that a person is interacting with an AI system (for example a chatbot). |
+| Art. 50(2) | Provider | Mark generative output as artificial in a machine-readable way (watermarking). |
+| Art. 50(4) | Deployer | Label deep fakes, and AI-generated text on matters of public interest, as artificial. |
+| Art. 50(5) | Both | Mark clearly and at first exposure; techniques effective, interoperable, robust, reliable. |
+
+::: {.quick-check}
+Under Art. 50 AI Act, an AI-generated deep-fake video published by a company must be:
+
+- removed from the platform within 24 hours
+- **labelled by the deployer as artificially generated**
+- submitted to a conformity assessment before publication
+- banned outright as a prohibited practice
+:::
+
+### Operationalising Art. 50: the Code of Practice
+
+Art. 50 states obligations but not techniques, and the gap is filled by the **Code of Practice on Transparency of AI-Generated Content** (Bontcheva, Bechmann et al. 2026), drawn up under the Commission's AI Office as a soft-law interpretive aid. It works on two levels. On the **provider** side it requires two layers of marking: digitally signed provenance metadata following the C2PA standard, and imperceptible **watermarking**, together with a detection tool made available free of charge to regulators, media and researchers, with an interoperability deadline of 2 February 2027. On the **deployer** side it introduces a visible EU icon reading "AI GENERATED" or "AI MODIFIED", to be applied for deep fakes and published AI text at the latest on first exposure, with carve-outs for law enforcement, genuine editorial control in journalism, and art or satire.
+
+The Code is a real step toward closing what Ferrara calls the **provenance gap**, the absence of a reliable chain of custody for digital media, but it remains structurally limited. Watermarks can be fragile under compression, re-encoding and cross-model remixing; the "analog hole" (re-recording a screen) defeats embedded signals; and there is as yet no settled interoperability standard across providers. Transparency, in short, mitigates the harm of synthetic reality without dissolving it, which is why the deeper answers still point back to platform governance, institutional workflow redesign and public epistemic resilience.
+
+::: {.details}
+#### Deep dive: is Art. 50 a genuine "risk category"?
+It is common to draw the AI Act as a four-level pyramid and to slot Art. 50 in as the "limited-risk" tier. That picture can mislead. Art. 50 does not turn on the *size* of a risk at all; it turns on a *capability* of the system, namely its use in communication with people, and high-risk duties continue to apply alongside it (Art. 50(6)). Commentary has also criticised Art. 50(4) for text as poorly drafted: tying the duty to content that "informs the public" on "matters of public interest" produces a paradox in which precisely the contributions most strongly protected by communication freedom are regulated, while gossip is not, and the legislator seems to have had algorithmic journalism in mind rather than the wider field of non-journalistic information. The point for this course is that even a transparency-only instrument raises hard questions of scope and fit, which the AI Office's practice guidelines under Art. 50(7) will have to resolve.
+:::
+
+## From discourse to transformation
+
+We have traced a single argument across this unit: democracy depends on a public sphere in which discourse can approximate the ideal that principles D and U presuppose, the digital transformation of that sphere strains this condition through fragmentation and, more acutely, through information disorder and synthetic reality, and European law responds not by banning content but by trying to keep its origins transparent. That regulatory answer, like the moderation of harmful output, rests on a great deal of hidden human labour and consumes real physical resources, and it is to the transformation of work and the sustainability of AI that the next unit turns.
+
+## References
+
+### Literature
+
+- Ferrara, E. (2026): *The Generative AI Paradox: GenAI and the Erosion of Trust, the Corrosion of Information Verification, and the Demise of Truth*. arXiv:2601.00306.
+- Gounaridis, D. & Newell, J. P. (2024): The social anatomy of climate change denial in the United States. *Scientific Reports* 14 (1), 2097. <https://doi.org/10.1038/s41598-024-52422-8>
+- Guess, A. M., Nyhan, B., Lyons, B. & Reifler, J.: on the empirical limits of the filter-bubble and echo-chamber theses; see the summary of the literature in the works cited here.
+- Habermas, J. (1962): *Strukturwandel der Öffentlichkeit: Untersuchungen zu einer Kategorie der bürgerlichen Gesellschaft*. Luchterhand, Neuwied.
+- Habermas, J. (1991): *Erläuterungen zur Diskursethik*. Suhrkamp, Frankfurt am Main.
+- Lorenz-Spreen, P., Lewandowsky, S., Sunstein, C. R. & Hertwig, R. (2020): How behavioural sciences can promote truth, autonomy and democratic discourse online. *Nature Human Behaviour* 4, pp. 1102-1109. <https://doi.org/10.1038/s41562-020-0889-7>
+- Pariser, E. (2011): *The Filter Bubble: What the Internet Is Hiding from You*. Penguin Press, New York.
+- Thiel, T. (2018): Digitalisierung: Gefahr für die Demokratie? *Politikum* 4 (4), pp. 4-11.
+
+### Norms & Standards
+
+- Regulation (EU) 2024/1689 of the European Parliament and of the Council of 13 June 2024 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), in particular Art. 50 (transparency obligations for certain AI systems). <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689>
+- Bontcheva, K., Bechmann, A., Pedreschi, D., De Gregorio, G., Riess, C. & Botan, M. (2026): *Code of Practice on Transparency of AI-Generated Content*. AI Office / European Commission.
