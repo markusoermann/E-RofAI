@@ -21,13 +21,31 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 In the previous unit we saw that responsibility cannot rest with the machine but must be distributed among human agents and built into development from the start; this unit takes up the value that proved hardest to specify and easiest to violate, namely fairness. AI systems draw distinctions for a living: a spam filter separates wanted from unwanted mail, a scoring model separates likely defaulters from safe borrowers. Drawing distinctions is not in itself wrong. The ethical and legal problem begins when a system treats people who are alike in the relevant respects unequally, systematically and to their detriment, along lines such as gender, ethnicity or disability. This unit asks how such bias enters AI systems, how we can classify it, how landmark cases expose it, and why no system will ever be perfectly fair.
 
 ## What is bias, and where does it come from?
 
 ### A working definition
 
-It helps to fix terms before piling up examples. Following Friedman and Nissenbaum, whose 1996 article opened the systematic study of the problem, we understand **bias** in a computer system as a *systematic and unfair discrimination against certain individuals or groups*. Three words carry the weight. The discrimination must be *systematic*, that is, a recurring tendency rather than a one-off error; it must be *unfair*, judged against some standard of what people are owed; and it must fall on *identifiable groups or individuals*, typically along socially salient lines. Note immediately that whether a given unequal treatment counts as *unfair* is not a technical fact read off the data. It is an ethical and political judgement, and different societies and legal orders draw the line differently. This is why bias cannot be fully outsourced to engineers: deciding which distinctions are acceptable is a normative task.
+It helps to fix terms before piling up examples. Following Friedman and Nissenbaum, whose 1996 article opened the systematic study of the problem, we understand **bias** in a computer system as a *systematic and unfair discrimination against certain individuals or groups*. Three words carry the weight. The discrimination must be *systematic*, that is, a recurring tendency rather than a one-off error; it must be *unfair*, judged against some standard of what people are owed; and it must fall on *identifiable groups or individuals*, typically along socially salient lines. Note immediately that whether a given unequal treatment counts as *unfair* is not a technical fact read off the data. It is an ethical and political judgement, and different societies and legal orders draw the line differently. This is why bias cannot be fully outsourced to engineers alone: deciding which distinctions are acceptable is a normative task.
 
 ::: {.flip-card}
 #### Bias (Friedman & Nissenbaum 1996)
@@ -45,7 +63,7 @@ A hiring model that learns a historical preference for male candidates carries a
 The practical payoff of the typology is diagnostic. Because preexisting and technical biases are, in principle, present at the moment of development, a well-structured and ethically informed design process can usually detect and correct them before deployment. Emergent bias is harder, because by definition it does not exist yet when the system ships; it surfaces once the system meets a world the designers did not fully anticipate, and it surfaces especially when a system built for one context is scaled into another. The organisational answer is agile, responsive development with continuous feedback loops, so that the system can be readjusted as its effects become visible. That answer, however, is precisely the one that is hardest to apply where it matters most, in domains such as criminal justice or safety-critical control, where reliability requirements forbid casual live experimentation. Test the typology on real cases in the classifier below before we work through them one by one.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-05/widget-bias-source-classifier.html" width="100%" height="640px" frameborder="0" style="border:none;" title="Bias-source classifier"></iframe>
+<iframe src="widgets/kapitel-05/widget-bias-source-classifier.html" width="100%" height="660px" frameborder="0" style="border:none;" title="Bias-source classifier"></iframe>
 :::
 
 ### A fuller taxonomy for machine learning
@@ -58,9 +76,7 @@ Friedman and Nissenbaum wrote before the deep-learning era, and modern machine l
 
 ### Algorithms of Oppression: search as a mirror of power
 
-Safiya Umoja Noble's *Algorithms of Oppression* (2018) turned a private discomfort into a public argument. Searching for terms about Black women, Noble found that a supposedly neutral engine returned degrading, sexualised and racist results and suggestions. Her point is not that an engineer typed in prejudice, but that a commercial ranking system, optimised for clicks and advertising revenue and fed by the aggregate behaviour of millions of users, faithfully reflects and then amplifies the racist and sexist associations already circulating in society. This is emergent bias in Friedman and Nissenbaum's sense, generated in live use, but it also carries a preexisting layer, since the raw material is social prejudice. Noble's deeper move is to reframe the problem as one of *power*: search engines are not mirrors held up to a neutral world but privately owned infrastructures whose defaults shape what counts as knowledge, and the groups least able to contest those defaults bear the cost.
-
-![Safiya Umoja Noble's *Algorithms of Oppression* (2018) argues that commercial search rankings reproduce and amplify racism rather than neutrally reflecting the world (source: book cover, NYU Press).](media/bias-algorithms-of-oppression-cover.png){fig-alt="Book cover of Algorithms of Oppression by Safiya Umoja Noble, showing a stylised search box with autocomplete suggestions beginning why are black women so." width="38%"}
+Safiya Umoja Noble's *Algorithms of Oppression* (2018) turned a private discomfort into a public argument. Searching for terms about Black women on Google, Noble found that a supposedly neutral engine returned degrading, sexualised and racist results and suggestions. Her point is not that an engineer typed in prejudice, but that a commercial ranking system, optimised for clicks and advertising revenue and fed by the aggregate behaviour of millions of users, faithfully reflects and then amplifies the racist and sexist associations already circulating in society. This is emergent bias in Friedman and Nissenbaum's sense, generated in live use, but it also carries a preexisting layer, since the raw material is social prejudice. Noble's deeper move is to reframe the problem as one of *power*: search engines are not mirrors held up to a neutral world but privately owned infrastructures whose defaults shape what counts as knowledge, and the groups least able to contest those defaults bear the cost.
 
 ### Proxy bias: Apple Card and Gender Shades
 
@@ -88,17 +104,21 @@ Discrimination that results from the combination of several characteristics (suc
 
 ### Error-rate bias and feedback loops: COMPAS
 
-The COMPAS case is where fairness stops being intuitive and becomes mathematically thorny. COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) is a risk-assessment tool used in US courts to estimate a defendant's likelihood of reoffending, informing bail and sentencing decisions. In 2016 the investigative outlet ProPublica analysed its outputs and found a disturbing asymmetry in *how the tool failed*. Among defendants who did **not** go on to reoffend, Black defendants were labelled higher-risk far more often than white defendants; among those who **did** reoffend, white defendants were labelled lower-risk far more often. The errors, in other words, were distributed unequally, and the costs of those errors, wrongful detention on one side, fell disproportionately on Black defendants.
+The COMPAS case is where fairness stops being intuitive and becomes mathematically thorny. COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) is a risk-assessment tool used in US courts to estimate a defendant's likelihood of reoffending, informing bail and sentencing decisions.
+
+COMPAS produces a raw recidivism score on a **1-to-10 scale**, which Northpointe then buckets into three risk categories: Low (1–4), Medium (5–7) and High (8–10). In practice, judges see this categorical label rather than the raw number, so "higher risk" in what follows means Medium or High. As with the explorer above, the raw score itself is neutral; the consequential decision, and the one open to challenge, is where the cut-offs between Low, Medium and High are drawn.
+
+In 2016 the investigative outlet ProPublica analysed COMPAS's outputs and found a disturbing asymmetry in *how the tool failed*. Among defendants who did **not** go on to reoffend, Black defendants were labelled higher-risk far more often than white defendants; among those who **did** reoffend, white defendants were labelled lower-risk far more often. The errors, in other words, were distributed unequally, and the costs of those errors, wrongful detention on one side, fell disproportionately on Black defendants.
 
 ![ProPublica's analysis of COMPAS: among defendants who did not reoffend, 44.9% of Black defendants but only 23.5% of white defendants were labelled higher risk; the tool made the opposite mistake for white defendants (source: ProPublica 2016, analysis of Broward County data).](media/bias-compas-error-rates.png){fig-alt="Table titled Prediction Fails Differently for Black Defendants: labelled higher risk but did not re-offend, White 23.5% versus African American 44.9%; labelled lower risk yet did re-offend, White 47.7% versus African American 28.0%." width="92%"}
 
 This is **error-rate bias**: a system can be equally *accurate* overall for two groups yet distribute its false positives and false negatives very differently between them. The harm is compounded by a **feedback loop** peculiar to such deployments. Only defendants who are released generate new data about whether they reoffend, so the system learns chiefly from its own release decisions; false positives, people wrongly flagged as high-risk and therefore detained, rarely get the chance to prove the prediction wrong. The same structure appears in credit scoring, where only applicants granted a loan can be observed defaulting or repaying, so "false negatives", creditworthy people wrongly refused, never enter the correction loop. Over time such loops entrench existing disadvantage and manufacture *self-fulfilling prophecies*: the system's prediction shapes the outcome that then appears to confirm the prediction.
 
-![COMPAS risk-score distribution by race in the ProPublica data: a far higher share of Black defendants fall into the medium and high-risk categories, so even Black defendants who do not reoffend are more likely to be scored high risk (source: ProPublica 2016).](media/bias-compas-risk-distribution.png){fig-alt="Stacked bar chart comparing Black and white defendants across Low and Medium/High risk categories, split into reoffended and did not reoffend, showing more Black defendants in the higher-risk category." width="92%"}
+![COMPAS risk-score distribution by race in the ProPublica data: a far higher share of Black defendants fall into the medium and high-risk categories, so even Black defendants who do not reoffend are more likely to be scored high risk (source: Corbett-Davies, S., Pierson, E., Feller, A., & Goel, S. (2016, Oktober 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It’s actually not that clear. The Washington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2016/10/17/can-an-algorithm-be-racist-our-analysis-is-more-cautious-than-propublicas/).](media/bias-compas-risk-distribution.png){fig-alt="Stacked bar chart comparing Black and white defendants across Low and Medium/High risk categories, split into reoffended and did not reoffend, showing more Black defendants in the higher-risk category." width="92%"}
 
 ### The impossibility result
 
-Northpointe, the maker of COMPAS, did not concede the point. It replied that its tool was **calibrated**: at any given risk score, the actual reoffending rate was the same for both groups, so a score of seven meant the same thing regardless of race. Remarkably, both sides were right. ProPublica's complaint about unequal false-positive rates and Northpointe's claim of calibration are both mathematically correct statements about the same tool. Alexandra Chouldechova (2017) explained why they must both be true and cannot be reconciled. When the *base rates* of the outcome differ between two groups, as they do here because of upstream, socially produced differences in arrest and conviction, it is mathematically impossible for a classifier to satisfy calibration, an equal false-positive rate, and an equal false-negative rate all at once. Satisfying any two forces a violation of the third. The consequence is profound: there is no purely technical fix that makes such a system fair on every reasonable definition simultaneously. Choosing *which* fairness criterion to honour, and therefore which kind of error to tolerate and impose on whom, is an irreducibly political and ethical decision that no algorithm can make for us.
+Northpointe, the maker of COMPAS, did not concede the point. It replied that its tool was **calibrated**: at any given risk score, the actual reoffending rate was the same for both groups, so a score of seven meant the same thing regardless of race. **Remarkably, both sides were right.** ProPublica's complaint about unequal false-positive rates and Northpointe's claim of calibration are both mathematically correct statements about the same tool. Alexandra Chouldechova (2017) explained why they must both be true and cannot be reconciled. When the *base rates* of the outcome differ between two groups, as they do here because of upstream, socially produced differences in arrest and conviction, it is mathematically impossible for a classifier to satisfy calibration, an equal false-positive rate, and an equal false-negative rate all at once. Satisfying any two forces a violation of the third. **The consequence is profound: there is no purely technical fix that makes such a system fair on every reasonable definition simultaneously. Choosing *which* fairness criterion to honour, and therefore which kind of error to tolerate and impose on whom, is an irreducibly political and ethical decision that no algorithm can make for us.**
 
 ::: {.quick-check}
 What does Chouldechova's impossibility result establish?
@@ -109,7 +129,7 @@ What does Chouldechova's impossibility result establish?
 - Bias can always be removed by deleting the protected attribute.
 :::
 
-The result is easier to believe once you have tried and failed to beat it yourself. In the explorer below you control the decision threshold and the gap between the two groups' base rates on a COMPAS-like example, and the three fairness metrics update live; try to make all three equal at once while the base rates differ.
+The result is easier to believe once you have tried and failed to beat it yourself. The explorer below models a COMPAS-like tool that scores every defendant on a 10-point risk scale; the tool itself is fixed, so everything comes down to *where you draw the line*, that is, which score on that scale counts as "high risk". You control that decision threshold and the gap between the two groups' base rates, and the three fairness metrics update live; try to find a threshold that makes all three equal at once while the base rates differ.
 
 ::: {.widget}
 <iframe src="widgets/kapitel-05/widget-fairness-impossibility-explorer.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Fairness-metrics impossibility explorer"></iframe>
@@ -124,7 +144,11 @@ It is tempting to treat the differing base rates in the COMPAS data as a brute f
 
 ### Borrowing the equal-treatment schema
 
-Faced with a concrete system, how should one decide whether an unequal treatment is an acceptable distinction or an unfair bias? A workable method can be borrowed from the way constitutional equal-treatment guarantees are examined, adapted here as an ethical analysis rather than a legal opinion. The analysis proceeds in two stages. First, one asks whether there is a *systematic, repeated unequal treatment of individuals or groups who are alike in the characteristics that matter for the context.* The unequal treatment can be **direct**, tied openly to a protected characteristic; **indirect**, tied to a proxy that correlates with it, as in the Apple Card; or **intersectional**, tied to a combination of characteristics, as in *DeGraffenreid*. Second, if such unequal treatment exists, one asks whether there is an *objective, legitimate reason* for it that is suitable and proportionate to its consequences. The heavier the burden imposed, and the less the affected group can influence the differentiating factor, the stronger the justification must be.
+Faced with a concrete system, how should one decide whether an unequal treatment is an acceptable distinction or an unfair bias? A workable method can be borrowed from the way constitutional equal-treatment guarantees are examined, adapted here as an ethical analysis rather than a legal opinion. The analysis proceeds in two stages. 
+
+1. First, one asks whether there is a *systematic, repeated unequal treatment of individuals or groups who are alike in the characteristics that matter for the context.* The unequal treatment can be **direct**, tied openly to a protected characteristic; **indirect**, tied to a proxy that correlates with it, as in the Apple Card; or **intersectional**, tied to a combination of characteristics, as in *DeGraffenreid*. 
+
+2. Second, if such unequal treatment exists, one asks whether there is an *objective, legitimate reason* for it that is suitable and proportionate to its consequences. The heavier the burden imposed, and the less the affected group or individuals can influence the differentiating factor, the stronger the justification must be. In these cases we end in an weighning of arguments.
 
 ::: {.case-study}
 #### Case: a scholarship-screening model

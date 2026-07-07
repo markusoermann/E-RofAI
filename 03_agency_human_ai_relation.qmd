@@ -21,24 +21,46 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 In the previous unit we assembled the toolkit of moral philosophy, from virtue ethics through utilitarianism to Kant's deontology, and asked whether these traditions still have something to tell us about AI. This unit turns that question on the systems themselves: when an AI acts, decides and is spoken of as an actor, what exactly is its standing in a moral constellation? We first clarify three foundational concepts, moral status, moral patient and moral agent, then confront the machine-ethics claim that machines could be moral agents, examine why humans so readily read intention into moving shapes, follow Actor-Network Theory in redistributing agency across humans and things, and finally see how the very design of AI interfaces steers behaviour through nudges. The through-line is a single problem: to whom, or to what, do we attribute agency in the digital age?
 
 ## Three concepts: status, patient, agent
 
 ### What it means to have moral standing
 
-Three terms bring order to almost every ethical debate about a new kind of entity. **Moral status** is the property of being morally considerable at all, of being something that can be treated rightly or wrongly. A **moral patient** is an entity with moral status that is *affected* by a morally relevant action; it can be wronged, harmed or benefited. A **moral agent**, by contrast, is an entity that can *act* with reference to right and wrong, that can make moral judgements and, crucially, bear responsibility for what it does. The decisive insight is that these two roles come apart. Every moral agent is also a patient, but not every patient is an agent. An infant or a sentient animal has moral status and can plainly be wronged, yet we do not hold it responsible for its conduct. Patiency and agency are two distinct axes, not one scale, and much of the confusion about AI dissolves once they are kept separate.
+Three terms bring order to almost every ethical debate about a new kind of entity. 
+
+**Moral status** is the property of being morally considerable at all, of being something that can be treated rightly or wrongly. 
+
+A **moral patient** is an entity with moral status that is *affected* by a morally relevant action; it can be wronged, harmed or benefited. 
+
+A **moral agent**, by contrast, is an entity that can *act* with reference to right and wrong, that can make moral judgements and, crucially, bear responsibility for what it does. 
+
+The decisive insight is that these two roles come apart. Every moral agent is also a patient, but not every patient is an agent. An infant or a sentient animal has moral status and can plainly be wronged, yet we do not hold it responsible for its conduct. Patiency and agency are two distinct axes, not one scale, and much of the confusion about AI dissolves once they are kept separate.
 
 ::: {.flip-card}
 #### Moral patient vs. moral agent
 A moral patient *undergoes* morally relevant actions and can be wronged; a moral agent *performs* them, can judge right from wrong, and bears responsibility for the outcome.
 :::
 
-Applied to AI, the two questions split cleanly. *Can an AI be a moral patient?* Some scholars argue for a "technological person" endowed with rights of its own, but legislators have so far declined to adopt any such "electronic personhood". *Can an AI be a moral agent?* That is the claim of the school of machine ethics, examined below. And *is AI merely a tool*, developed and deployed by humans for their ends and to be treated as such? The honest answer, developed across this unit, is that AI has qualities that exceed those of a simple tool, yet still falls short of full moral agency, which is why the central human moral agents remain in view and the question of their responsibility carries over into the next unit. Place a range of entities on the two axes yourself in the classifier below.
-
-::: {.widget}
-<iframe src="widgets/kapitel-03/moral-status-classifier.html" width="100%" height="640px" frameborder="0" style="border:none;" title="Moral status classifier: agent and patient axes"></iframe>
-:::
+Applied to AI, the two questions split cleanly. *Can an AI be a moral patient?* Some scholars argue for a "technological person" endowed with rights of its own, but legislators have so far declined to adopt any such "electronic personhood". *Can an AI be a moral agent?* That is the claim of the school of machine ethics, examined below. And *is AI merely a tool*, developed and deployed by humans for their ends and to be treated as such? The honest answer, developed across this unit, is that AI has qualities that exceed those of a simple tool, yet still falls short of full moral agency, which is why the central human moral agents remain in view and the question of their responsibility carries over into the next unit.
 
 ::: {.drag-exercise}
 An entity that can be wronged but cannot answer for its own conduct, such as an infant, is a moral *patient* but not a moral *agent*. Granting AI its own rights would require recognising it as a moral *patient*, a step the legislator has so far refused.
@@ -70,7 +92,11 @@ On Floridi and Sanders' account, in what sense can an artificial agent be "moral
 
 ### Heider and Simmel's moving shapes
 
-Long before there were chatbots, psychology had already shown how eagerly humans attribute agency to things that have none. In a classic 1944 experiment, Fritz Heider and Marianne Simmel showed viewers a short animation of a large triangle, a small triangle and a circle moving around a rectangle with an opening. Asked what they saw, almost no one described geometric shapes in motion. They described a bully chasing a couple, a hero rescuing a victim, a jealous quarrel: full stories of intention, fear and desire projected onto three abstract forms. The finding is robust and cross-cultural, and it names a deep human disposition to read minds into motion.
+First, watch the video. Continue reading afterwards!
+
+[![Heider-Simmel-Experiment](https://img.youtube.com/vi/VTNmLt7QX8E/maxresdefault.jpg)](https://www.youtube.com/watch?v=VTNmLt7QX8E)
+
+What did you see here? Probably a chase, children playing, or a family argument. The fascinating thing about it is that, in reality, only geometric shapes were moving here. Long before there were chatbots, psychology had already shown how eagerly humans attribute agency to things that have none. In a classic 1944 experiment, Fritz Heider and Marianne Simmel showed viewers a short animation of a large triangle, a small triangle and a circle moving around a rectangle with an opening. Asked what they saw, almost no one described geometric shapes in motion. They described a bully chasing a couple, a hero rescuing a victim, a jealous quarrel: full stories of intention, fear and desire projected onto three abstract forms. The finding is robust and cross-cultural, and it names a deep human disposition to read minds into motion.
 
 Philosophers call the resulting habit the **intentional stance**: we make sense of a system's behaviour by treating it *as if* it had beliefs, desires and goals, because doing so is a fast and usually effective predictive strategy. It shapes our everyday language about technology, in which "Siri is doing this" and "the algorithm wants you to stay" come naturally, and it explains why conversational AI feels like a partner rather than a program. For an ethics of AI the disposition cuts both ways. It is what makes AI socially usable, and it is also what produces over-trust and automation bias, the tendency to defer to a system precisely because it presents as a knowing agent. Anthropomorphism is thus not a harmless quirk; it quietly shifts how much authority we grant a machine.
 
@@ -117,20 +143,20 @@ What is the core move Actor-Network Theory makes about agency?
 
 If ANT loosens the grip of the tool model from the side of philosophy, economics and the social studies of technology loosen it from the side of fact. Complex digital technologies are not just means to given ends; assessed as **sociotechnical systems**, they are platforms and infrastructures with powerful microeconomic effects, network effects and lock-in, that carry macroeconomic weight. They also carry **affordances**, features that invite and shape particular uses, and through them they mould cultural practices and even users' sense of themselves. Providers do not merely serve pre-existing ends; they partly *create* the ends their applications satisfy, and they stabilise a "new normal" that their business model needs in order to be accepted.
 
-A vivid demonstration is **human computation**, popularised by Luis von Ahn. His "purposeful games" harvested human cognitive labour for useful output: in the ESP Game two strangers independently labelled the same image, and agreement produced a reliable tag, generating high-quality training data for image search while the players believed they were merely playing. The same logic drives **reCAPTCHA**, where solving a puzzle to prove you are human simultaneously digitises books or labels street scenes for machine-learning systems. From the web-2.0 era onward this became a general strategy: services are offered not for direct profit but for the *data*, later monetised through personalised advertising. Users supply the labour and the raw material that make AI possible, usually without noticing, which is precisely why the human-AI relation cannot be reduced to a user wielding a tool.
+A vivid demonstration is **human computation**, popularised by Luis von Ahn (cf. von Ahn/Dabbish 2004). His "purposeful games" harvested human cognitive labour for useful output: in the ESP Game two strangers independently labelled the same image, and agreement produced a reliable tag, generating high-quality training data for image search while the players believed they were merely playing. The same logic drives **reCAPTCHA**, where solving a puzzle to prove you are human simultaneously digitises books or labels street scenes for machine-learning systems. From the web-2.0 era onward this became a general strategy: services are offered not for direct profit but for the *data*, later monetised through personalised advertising. Users supply the labour and the raw material that make AI possible, usually without noticing, which is precisely why the human-AI relation cannot be reduced to a user wielding a tool.
 
 ::: {.flip-card}
 #### Human computation
-A design strategy (Luis von Ahn) that harnesses human cognitive work, often through games or CAPTCHAs, to produce data or labour that machines cannot yet generate on their own.
+A design strategy that harnesses human cognitive work, often through games or CAPTCHAs, to produce data or labour that machines cannot yet generate on their own.
 :::
 
 ## The nudge: designing the choice
 
 ### Choice architecture and libertarian paternalism
 
-The clearest place where the design of a system becomes a lever on human behaviour is the **nudge**. Coined by Thaler and Sunstein, a nudge is a deliberate feature of the **choice architecture**, the way options are presented, that predictably steers behaviour without forbidding any option or changing economic incentives. Choice architecture is unavoidable: options must always be arranged *somehow*, through spatial layout on an interface, the number of alternatives offered, the way each is described, and above all the **default**. Placing the salad bar at the start of the canteen line, switching organ donation from opt-in to opt-out, or reminding a taxpayer that "most of your neighbours have already filed" all leave every choice formally open while making one of them far more likely.
+The clearest place where the design of a system becomes a lever on human behaviour is the **nudge**. Coined by Thaler and Sunstein (2008), a nudge is a deliberate feature of the **choice architecture**, the way options are presented, that predictably steers behaviour without forbidding any option or changing economic incentives. Choice architecture is unavoidable: options must always be arranged *somehow*, through spatial layout on an interface, the number of alternatives offered, the way each is described, and above all the **default**. Placing the salad bar at the start of the canteen line, switching organ donation from opt-in to opt-out, or reminding a taxpayer that "most of your neighbours have already filed" all leave every choice formally open while making one of them far more likely.
 
-The mechanism is psychological. As the two-systems account of Daniel Kahneman has it, most everyday behaviour runs on the fast, automatic, intuitive "System 1" rather than the slow, effortful, reasoning "System 2". A nudge works on System 1: it sets small, cheap cues in the environment that trigger behaviour below the level of conscious deliberation. Its goal is statistical, to shift the average outcome, not to determine any single decision. Thaler and Sunstein defend this as **libertarian paternalism**: paternalist because it steers people toward what is held to be good for them, libertarian because freedom of choice is formally preserved. The tension in that phrase is the whole ethical debate.
+The mechanism is psychological. As the two-systems account of Daniel Kahneman (2011) has it, most everyday behaviour runs on the fast, automatic, intuitive "System 1" rather than the slow, effortful, reasoning "System 2". A nudge works on System 1: it sets small, cheap cues in the environment that trigger behaviour below the level of conscious deliberation. Its goal is statistical, to shift the average outcome, not to determine any single decision. Thaler and Sunstein defend this as **libertarian paternalism**: paternalist because it steers people toward what is held to be good for them, libertarian because freedom of choice is formally preserved. The tension in that phrase is the whole ethical debate.
 
 ::: {.flip-card}
 #### Nudge and choice architecture
@@ -153,7 +179,7 @@ A cookie banner shows a big highlighted "Accept all" button and hides "Reject" b
 Because choice architecture is inescapable, the ethically decisive question is not whether a design steers but how far it steers and against whom. Design the consent screen of an AI assistant yourself in the explorer below and watch when a legitimate nudge tips over into a manipulative dark pattern.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-03/nudge-choice-architecture-explorer.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Choice architecture explorer: nudge versus dark pattern"></iframe>
+<iframe src="widgets/kapitel-03/nudge-choice-architecture-explorer.html" width="100%" height="740px" frameborder="0" style="border:none;" title="Choice architecture explorer: nudge versus dark pattern"></iframe>
 :::
 
 ::: {.details}

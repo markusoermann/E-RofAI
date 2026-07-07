@@ -21,7 +21,25 @@ version: "1.0"
 format: moodle-html
 ---
 
-In the previous unit we clarified what "AI" means and why its social effects call for ethical scrutiny at all; this unit supplies the conceptual toolkit that the rest of the course will rely on. The aim is not to turn you into moral philosophers, but to give you an instrument with which you can recognise, justify and articulate ethical requirements for AI systems. When a recommender system shapes what millions read, when a scoring model decides who gets a loan, or when a chatbot advises a user in distress, the question is no longer only whether the system *works*, but whether its use is *right*. That second question cannot be answered with engineering alone, and answering it well begins with a small number of distinctions that moral philosophy has refined over two and a half thousand years.
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
+In the previous unit we clarified what "AI" means (at least to us) and why its social effects call for ethical scrutiny at all; this unit supplies the conceptual toolkit that the rest of the course will rely on. The aim is not to turn you into moral philosophers, but to give you an instrument with which you can recognise, justify and articulate ethical requirements for AI systems. When a recommender system shapes what millions read, when a scoring model decides who gets a loan, or when a chatbot advises a user in distress, the question is no longer only whether the system *works*, but whether its use is *right*. That second question cannot be answered with engineering alone, and answering it well begins with a small number of distinctions that moral philosophy has refined over two and a half thousand years.
 
 ## What is ethics? Basic concepts
 
@@ -40,7 +58,7 @@ Morality is the lived stock of value convictions of a group; ethics is the schol
 
 The basic concepts of ethics build on one another like rungs of a ladder. **Values** are action-guiding standards of orientation. On the prevailing view in philosophy they are not properties of facts or objects but *claims to validity* that human beings raise; the question is therefore not whether a value exists but whether it is valid and for whom. The ethical concept of value must also be kept apart from the economic notion of exchange value. A decision is not ethical merely because it is profitable, a distinction that matters acutely in a field where the most lucrative data practice is rarely the most respectful one.
 
-**Principles** join a value to a first "ought" statement: value X *shall* obtain. Human dignity, for instance, grounds the principle that every person be treated with respect. **Norms**, finally, are more or less binding "ought" sentences for a group, ranging from custom and convention through morality to law, and graded by their degree of bindingness and social control. When a principle is made concrete for its addressees, we speak of a **rule**. Norms *can* be traced back to principles and, through them, to values, but they need not be: a paper-size standard such as DIN A4 is a norm without any recognisable ethical value behind it.
+**Principles** join a value to a first "ought" statement: value X *shall* obtain. Human dignity, for instance, grounds the principle that every person be treated with respect. **Norms**, finally, are more or less binding "ought" sentences for a group or an individual, ranging from custom and convention through morality to law, and graded by their degree of bindingness and social control. A norm is *specific to its addressees*; a principle is typically **universal** (it applies to all persons, or all persons in a certain role) and **timeless** (it is not limited to a specific historical period). When a principle is made concrete for its addressees, we speak of a **rule**. Norms *can* be traced back to principles and, through them, to values, but they need not be: a paper-size standard such as DIN A4 is a norm without any recognisable ethical value behind it.
 
 ::: {.drag-exercise}
 A *value* is an action-guiding standard of orientation, a *principle* links it to a first "ought" statement, and a concrete, addressee-specific behavioural norm is called a *rule*.
@@ -58,7 +76,7 @@ The point is not academic hair-splitting. Consider the invalid inference: *fact*
 | Descriptive fact | People are starving in country X. | People are starving in country X. |
 | Conclusion | Therefore they must be helped. | Therefore they must be helped. |
 
-For AI ethics this discipline is indispensable, because the field is full of hidden "ought"s dressed as facts. "The model is more accurate than human judges, so we should use it" is a naturalistic fallacy: accuracy is a fact, "should use" an ought, and the missing premise (that we ought to maximise accuracy even at the cost of, say, contestability) is exactly the ethical claim that deserves scrutiny. Naming the normative premise is where honest AI ethics starts.
+For AI ethics this discipline is indispensable, because the field is full of hidden "ought"s dressed as facts. "The model is more accurate than human judges, so we should use it" is a naturalistic fallacy: accuracy is a fact, "should use" an ought, and the missing premise (that we ought to maximise accuracy even at the cost of, say, contestability) is exactly the ethical claim that deserves scrutiny. **Naming the normative premise is where honest AI ethics starts.**
 
 Train your eye on the distinction in the detector below: for each statement, decide whether it is descriptive, normative, or a fallacious leap from is to ought, and check your reasoning against Hume's law.
 
@@ -111,22 +129,13 @@ The model embodies a clean **utilitarian** calculus: five lives outweigh one, so
 :::
 :::
 
-## Discourse ethics: how to justify norms
-
-Deontology tells us to act on universalisable maxims, but who decides *which* maxims are valid? The German tradition of **discourse ethics**, developed by Jürgen *Habermas* and Karl-Otto *Apel* from the 1970s, offers a *procedural* answer that fits a pluralistic society particularly well. Its core idea is that the validity of a norm cannot be decreed from a single armchair; it must be redeemable in a real argument among all those affected. A norm is valid only if all who are concerned could accept it as participants in a rational discourse (Habermas's *principle of universalisation*, U), and practical questions are to be settled in such discourses rather than by force or strategic manipulation (the *discourse principle*, D). What justifies a norm is thus the quality of the *procedure*: an inclusive, coercion-free exchange of reasons in which only the "unforced force of the better argument" prevails.
-
-For AI this school is unusually pertinent. It reframes questions of legitimacy, whose values a system encodes, as questions about *who was at the table* when those values were chosen. It underwrites the demand that affected stakeholders be included in the design of high-stakes systems, and it supplies the normative backdrop for a later unit on the public sphere and disinformation, where generative AI threatens the very conditions (authenticity, shared facts) that a functioning discourse presupposes. Where deontology asks "can this be universalised?", discourse ethics asks "could everyone affected agree to it, and were they even asked?"
-
-::: {.flip-card}
-#### Discourse ethics
-A norm is valid only if all those affected could accept it as participants in a rational, coercion-free discourse; validity is a property of the *procedure* of justification, not of a single thinker's insight.
-:::
+Deontology tells us to act on universalisable maxims, but who decides *which* maxims are valid? A later unit on the public sphere and disinformation takes up exactly this question through **discourse ethics**, the German tradition developed by Jürgen *Habermas* and Karl-Otto *Apel*, which answers it procedurally rather than from a single armchair.
 
 ## How moral judgement develops: Kohlberg
 
 The schools above concern the *justification* of norms. A different, empirical question is how the human capacity for moral judgement actually *develops*. The psychologist Lawrence **Kohlberg** studied this by presenting people with dilemmas (most famously the "Heinz dilemma", whether a man may steal an over-priced drug to save his dying wife) and analysing not the answer but the *reasoning* behind it. He found that moral reasoning matures through six stages grouped into three levels, from an orientation toward punishment and reward, through conformity to social rules and law, up to reasoning from self-chosen universal principles.
 
-![Kohlberg's stages of moral development: reasoning matures from the preconventional level (obedience and self-interest), through the conventional level (approval and law-and-order), to the postconventional level (social contract and universal ethical principles), illustrated with responses to the Heinz dilemma (source: adapted from Kohlberg / Em Griffin / cmglee, Wikimedia, CC BY-SA 4.0).](media/ethics-kohlberg-stages.png){fig-alt="A six-tier pyramid of Kohlberg's moral stages: bottom preconventional (stage 1 punishment/obedience, stage 2 instrumental-relativist), middle conventional (stage 3 good boy/nice girl, stage 4 law and order), top postconventional (stage 5 social contract, stage 6 universal ethical principles), each with a sample Heinz-dilemma justification." width="70%"}
+![Kohlberg's stages of moral development: reasoning matures from the preconventional level (obedience and self-interest), through the conventional level (approval and law-and-order), to the postconventional level (social contract and universal ethical principles), illustrated with responses to the Heinz dilemma (source: [Kohlberg Model of Moral Development](https://de.wikipedia.org/wiki/Datei:Kohlberg_Model_of_Moral_Development.svg), Lawrence Kohlberg / Em Griffin / cmglee, Wikimedia Commons, CC BY-SA 4.0).](media/ethics-kohlberg-stages.svg){fig-alt="A six-tier pyramid of Kohlberg's moral stages: bottom preconventional (stage 1 punishment/obedience, stage 2 instrumental-relativist), middle conventional (stage 3 good boy/nice girl, stage 4 law and order), top postconventional (stage 5 social contract, stage 6 universal ethical principles), each with a sample Heinz-dilemma justification." width="70%"}
 
 Two features of the model matter for AI ethics. First, higher stages reason from *principles* rather than from what is rewarded or merely customary, which mirrors the move from "the model is legal" or "everyone does it" to "is this defensible on universal grounds?". Second, and more provocatively, an AI system trained on human data absorbs the *distribution* of moral reasoning in that data, which sits mostly at the conventional level, not at the principled top. A model that simply reproduces prevailing conventions has no route to the postconventional critique that ethics ultimately demands, which is one reason automated moral judgement cannot be left to imitation alone.
 
@@ -152,7 +161,7 @@ If our choices are, as some neuroscientists argue, largely determined by genes, 
 
 ## From concepts to constellations
 
-With this toolkit in hand, values and norms, the is/ought gap, the three schools, discourse ethics, and the psychology of moral judgement, we can now ask the questions that make AI ethics distinctive. Chief among them is whether, and in what sense, an artificial system can be said to *act* at all, and how humans and machines share the moral stage. That is the subject of the next unit on agency and the human-AI relation.
+With this toolkit in hand, values and norms, the is/ought gap, the three schools, and the psychology of moral judgement, we can now ask the questions that make AI ethics distinctive. Chief among them is whether, and in what sense, an artificial system can be said to *act* at all, and how humans and machines share the moral stage. That is the subject of the next unit on agency and the human-AI relation.
 
 ## References
 
@@ -161,7 +170,6 @@ With this toolkit in hand, values and norms, the is/ought gap, the three schools
 - Aristotle (2009): *The Nicomachean Ethics* (translated by David Ross, revised by Lesley Brown). Oxford University Press, Oxford.
 - Bentham, J. (1789/1996): *An Introduction to the Principles of Morals and Legislation* (edited by J. H. Burns & H. L. A. Hart). Clarendon Press, Oxford.
 - Dignum, V. (2019): *Responsible Artificial Intelligence: How to Develop and Use AI in a Responsible Way*. Springer International Publishing, Cham. <https://doi.org/10.1007/978-3-030-30371-6>
-- Habermas, J. (1990): *Moral Consciousness and Communicative Action* (translated by Christian Lenhardt & Shierry Weber Nicholsen). MIT Press, Cambridge, MA.
 - Hume, D. (1739-40/2000): *A Treatise of Human Nature* (edited by David Fate Norton & Mary J. Norton). Oxford University Press, Oxford.
 - Kahneman, D. (2011): *Thinking, Fast and Slow*. Farrar, Straus and Giroux, New York.
 - Kant, I. (1785/1997): *Groundwork of the Metaphysics of Morals* (translated and edited by Mary Gregor). Cambridge University Press, Cambridge.

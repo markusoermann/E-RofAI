@@ -21,6 +21,24 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 In the previous unit we saw how bias and discrimination can creep into AI systems through the very data on which they are trained. That observation leads naturally to a harder question: on what legal terms may those data be collected and used in the first place? Data protection law is the first field of law in this course that translates an ethical value, informational self-determination, into duties that can be enforced with the power of the state. This unit lays the foundation. It clarifies *why* data protection exists, *what* it protects, *where* it applies and by which *principles* every act of processing must be judged, so that you can recognise when the General Data Protection Regulation (GDPR) governs an AI project and what standards it imposes.
 
 ## Why data protection, and what it protects
@@ -39,8 +57,6 @@ Data security protects the *data* against loss and misuse; data protection prote
 ### The Census judgment and informational self-determination
 
 The intellectual core of European data protection can be traced to a landmark decision of the German Federal Constitutional Court in 1983, the so-called Census judgment. A planned national census had provoked a broad protest movement: thousands feared comprehensive statistical registration and saw in it the beginnings of a surveillance state. From human dignity in conjunction with the general right of personality, the Court derived a new fundamental right to *informational self-determination*.
-
-![The 1980s census boycott in West Germany: protesters carry a banner reading "Do not count us, count your days!" The movement gave the Federal Constitutional Court the social backdrop for its 1983 Census judgment (source: picture-alliance).](media/census-boycott-protest-1980s.jpeg){fig-alt="A large street demonstration in the 1980s; a wide banner in the foreground reads 'ZÄHLT NICHT UNS ZÄHLT EURE TAGE'." width="80%"}
 
 The core idea is that each person may in principle decide themselves about the disclosure and use of their personal data, and thus who learns which facts about their life. The Court also held that under the conditions of automated processing there is no longer any "trivial datum": even an innocuous piece of information can, when linked with others, acquire real significance for the picture drawn of a person. This insight anticipates the logic of modern AI almost word for word, since machine-learning systems specialise precisely in recombining scattered fragments into revealing profiles.
 
@@ -61,7 +77,7 @@ The imagined prison in which the mere *possibility* of observation disciplines b
 
 ### From a national right to the GDPR
 
-Data protection also has a long statutory history, running from the world's first data-protection act (Hesse, 1970) through the European Data Protection Directive (1995) to the **General Data Protection Regulation (GDPR)**, adopted in 2016 and directly applicable in all EU Member States since 25 May 2018. As a regulation, the GDPR needs no national transposition; it replaced a patchwork of national laws with a largely uniform, directly applicable regime backed by severe sanctions, a model that has since radiated worldwide. In Germany it is supplemented by the Federal Data Protection Act (BDSG) through so-called opening clauses, but the substance that concerns an AI developer sits in the Regulation itself.
+Data protection also has a long statutory history, running from the world's first data-protection act in the German Federal State of Hessen in 1970, through the European Data Protection Directive (1995) to the **General Data Protection Regulation (GDPR)**, adopted in 2016 and directly applicable in all EU Member States since 25 May 2018. As a regulation, the GDPR needs no national transposition; it replaced a patchwork of national laws with a largely uniform, directly applicable regime backed by severe sanctions, a model that has since radiated worldwide. In Germany it is supplemented by the Federal Data Protection Act (BDSG) through so-called opening clauses, but the substance that concerns an AI developer sits in the Regulation itself.
 
 ::: {.quick-check}
 Which fundamental right did the German Federal Constitutional Court develop in the Census judgment (1983)?
@@ -81,7 +97,7 @@ Before the sharp sword of the GDPR can be drawn at all, two entry conditions mus
 The **territorial scope** follows the establishment and marketplace principles (Art. 3 GDPR). The Regulation applies whenever a controller or processor has an establishment in the EU and the processing occurs in the context of its activities (the establishment principle). It also applies, however, as soon as goods or services are offered to a person located in the EU, or that person's behaviour is monitored (the **marketplace principle**). It is therefore legally irrelevant on which server, in Silicon Valley or elsewhere, the data physically reside. An AI provider based abroad that offers a service to European users, or profiles their behaviour, is squarely within the Regulation's reach. Let us recapitulate the applicability test as a sequence of questions.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-06/widget-01-applicability-checker.html" width="100%" height="320px" frameborder="0" style="border:none;" title="GDPR applicability checker"></iframe>
+<iframe src="widgets/kapitel-06/widget-01-applicability-checker.html" width="100%" height="340px" frameborder="0" style="border:none;" title="GDPR applicability checker"></iframe>
 :::
 
 ::: {.case-study}
@@ -100,14 +116,16 @@ The pivotal criterion of every data-protection case is the presence of personal 
 The **concept of processing** in [Art. 4(2) GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"} is drawn as widely as possible. It captures virtually any operation performed on data, from collection and storage through alteration and transmission to erasure. For an AI pipeline this means that every stage counts as processing: assembling a training corpus, fine-tuning a model, running inference on a prompt and logging the output. Each stage needs its own justification, a point that becomes central in the next unit. Test in the following scenario checker which kinds of data qualify as personal.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-06/widget-03-data-classification.html" width="100%" height="480px" frameborder="0" style="border:none;" title="Data classification checker"></iframe>
+<iframe src="widgets/kapitel-06/widget-03-data-classification.html" width="100%" height="500px" frameborder="0" style="border:none;" title="Data classification checker"></iframe>
 :::
 
 ### Controller and processor
 
 Who must comply with the GDPR is no trivial preliminary question; it decides at whom duties and fines are directed. The Regulation distinguishes two central roles. The **controller** (Art. 4(7) GDPR) is the natural or legal person who, alone or jointly with others, determines the *purposes and means* of the processing. Put simply, whoever sets the "why" and the "how" of the processing is the controller and bears the main burden of data-protection duties. The **processor** (Art. 4(8) GDPR), by contrast, processes personal data *on behalf of* the controller without deciding on purposes and means itself; the classic example is a cloud-hosting provider or, in an AI context, an external firm that runs a training job strictly to the client's instructions.
 
-This division is secured contractually. Where several parties *jointly* decide on purposes and means, joint controllership arises (Art. 26 GDPR), and they must transparently agree who fulfils which duty, in particular towards the data subjects. Getting the role right is highly consequential in practice, because it determines who is liable, who must satisfy information duties and against whom data-subject rights are directed. In AI value chains this classification is rarely obvious: a company that fine-tunes a foundation model on its own customer data, choosing purposes and configuration, will typically act as controller even while relying on a third party's infrastructure.
+This division is secured contractually. Where several parties *jointly* decide on purposes and means, joint controllership arises (Art. 26 GDPR), and they must transparently agree who fulfils which duty, in particular towards the data subjects. 
+
+Getting the role right is highly consequential in practice, because it determines who is liable, who must satisfy information duties and against whom data-subject rights are directed. In AI value chains this classification is rarely obvious: a company that fine-tunes a foundation model on its own customer data, choosing purposes and configuration, will typically act as controller even while relying on a third party's infrastructure.
 
 ::: {.quick-check}
 An AI provider hosts a client's customer database on its cloud and processes the records only on the client's instructions. What role does the provider have?
@@ -124,7 +142,9 @@ Once the GDPR applies, every single processing activity must satisfy the demandi
 
 The most important principle is **lawfulness**. It holds that processing personal data is, in principle, prohibited unless consent or another permissive rule applies. This inverts the usual default of a liberal legal order, in which everything not otherwise regulated is allowed. The principles of **fairness** and **transparency** require that data subjects can understand what happens to their data and are not tricked by misleading practices or dark patterns. The strict principle of **purpose limitation** demands a specified, explicit and legitimate purpose for every processing and forbids repurposing data for incompatible new ends, a rule that sits uneasily with the appetite of AI development for reusing whatever data lie to hand.
 
-Two further principles curb the sheer volume of data. **Data minimisation** requires forgoing superfluous collection: only as much data may be gathered as is necessary to achieve the purpose. It is flanked by **storage limitation**, which orders erasure once the purpose has lapsed. Finally, data must be factually **accurate** and protected by appropriate technical and organisational measures against unauthorised access (**integrity and confidentiality**). Spanning all of this is **accountability**: the burden of proving compliance always rests with the controller, who must not only achieve conformity but document and demonstrate it. Explore the principles interactively below.
+Two further principles curb the sheer volume of data. **Data minimisation** requires forgoing superfluous collection: only as much data may be gathered as is necessary to achieve the purpose. It is flanked by **storage limitation**, which orders erasure once the purpose has lapsed. Finally, data must be factually **accurate** and protected by appropriate technical and organisational measures against unauthorised access (**integrity and confidentiality**). 
+
+Spanning all of this is **accountability**: the burden of proving compliance always rests with the controller, who must not only achieve conformity but document and demonstrate it. Explore the principles interactively below.
 
 ::: {.widget}
 <iframe src="widgets/kapitel-06/widget-02-principles.html" width="100%" height="480px" frameborder="0" style="border:none;" title="GDPR principles (Art. 5)"></iframe>

@@ -21,9 +21,27 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 In the previous unit we watched AI reshape the digital public sphere, flooding it with synthetic content and straining the conditions of honest discourse. This unit widens the lens from what AI does *to information* to what it does *to society and to the planet*, asking whether the current AI wave is a genuine transformation of how we work, and at what ecological cost it arrives. We proceed in two parts: first the transformation of work, read through modernization theory and its critics, then the sustainability of AI itself, read through the water and carbon it consumes and the rebound effects it triggers.
 
-## Part 1: AI and the transformation of work
+## AI and the transformation of work
 
 ### Transition, transformation and the language of revolution
 
@@ -51,7 +69,7 @@ Which pair best captures the core mechanisms of classical modernization theory?
 
 ### The critiques: alienation, postcolonial extraction, ecological limits
 
-Modernization was never a neutral success story, and four critiques matter for how we read AI. Marxist **historical materialism** argues that the modern subject, and above all the working class, becomes increasingly *alienated* (*entfremdet*) under the exploitative structures of capitalism, estranged from the product and the process of its own labour. **Critical Theory** adds that modernization brings a relentless acceleration that disrupts social ties and uproots people; Hartmut Rosa's diagnosis of the late-modern "society of acceleration" sharpens this point, since technical speed-up promises time yet empirically produces time scarcity, because the pace of life rises in step with efficiency, and digital technologies intensify all of it. The **postcolonial critique** insists that the modernization of the global North was enabled by slavery and the exploitation of colonies in the global South, and that those asymmetric power structures remain in force. The **ecological critique**, finally, points to the ongoing over-use of natural resources and the destruction of the biosphere on which modern growth rests. Each of these will return, unbidden, when we look at how AI transforms work and what it costs the planet.
+Modernization was never a neutral success story, and four critiques matter for how we read AI. Marxist **historical materialism** argues that the modern subject, and above all the working class, becomes increasingly *alienated* (*entfremdet*) under the exploitative structures of capitalism, estranged from the product and the process of its own labour. **Critical Theory** adds that modernization brings a relentless acceleration that disrupts social ties and uproots people; Hartmut Rosa's diagnosis of the late-modern "society of acceleration" (2005) sharpens this point, since technical speed-up promises time yet empirically produces time scarcity, because the pace of life rises in step with efficiency, and digital technologies intensify all of it. The **postcolonial critique** insists that the modernization of the global North was enabled by slavery and the exploitation of colonies in the global South, and that those asymmetric power structures remain in force. The **ecological critique**, finally, points to the ongoing over-use of natural resources and the destruction of the biosphere on which modern growth rests. Each of these will return, unbidden, when we look at how AI transforms work and what it costs the planet.
 
 ::: {.drag-exercise}
 The claim that the worker is estranged from the product of their labour is the charge of *alienation*; the claim that the North's prosperity rests on exploitation of the South is the *postcolonial* critique; the claim that growth over-uses nature is the *ecological* critique.
@@ -61,45 +79,17 @@ The claim that the worker is estranged from the product of their labour is the c
 
 Earlier waves of mechanization hit primarily **blue-collar** jobs. There were indeed mass layoffs in simple manual work, but new professions also arose, demanding different skills and educational profiles. The recurring claim about the current, AI-driven phase is that it will strike primarily **white-collar** office work, reaching the cognitive tasks that earlier automation left untouched. The empirical picture, however, resists both hype and panic. A literature review by Baudchon and Huynh (2025) frames the field around an **evidence paradox**: microeconometric studies routinely find sizeable productivity gains from AI, yet at the macro level those gains are so far barely visible in aggregate growth, echoing the older "productivity paradox" of information technology, which spread from the 1970s but showed up in the statistics only in the 1990s.
 
-Two paradigms structure the debate. The **substitution** view, associated with Acemoglu, distinguishes automation technologies that *replace* tasks from technologies that *reinstate* tasks in new fields, and warns that current AI investment leans heavily toward replacement without an equivalent creation effect, risking structural job loss. The **complementarity** view, associated with Brynjolfsson, holds that AI augments human work, raises productivity and opens new fields, with human-plus-AI "centaur" configurations outperforming either alone, and invokes the *lump-of-labour* fallacy, the observation that technological change has historically created new work despite painful transitions. The task-based literature refines this into a polarization thesis: routine cognitive and manual tasks are most automatable, hollowing out the middle, while high-skill analytical work is complemented and low-skill non-routine manual work resists automation. Generative AI complicates the old story, because it now exposes analytical knowledge work, drafting contracts, code and text, that used to sit safely at the top.
-
-![AI and productivity: the microeconomic evidence points to real gains, but they have not yet surfaced clearly in macroeconomic growth, the "evidence paradox" of the current AI wave (source: Baudchon & Huynh 2025, p. 3).](media/sustain-ilo-augmentation.png){fig-alt="Horizontal bar chart titled Augmentation Potential, showing global estimates of jobs with augmentation potential as a share of total employment, broken down by income group and by women and men; world figure 13% of employment, 427 million jobs." width="88%"}
-
-### The ILO exposure estimates
-
-The most cited attempt to *quantify* exposure comes from Gmyrek, Berg and Bescond (2023), one of the first substantial analyses of generative AI's effect on jobs, carried out under the auspices of the International Labour Organization. Their method is itself a sign of the times: they sent roughly 25,000 sequential API prompts to GPT-4 to estimate task-level and occupation-level automation scores for the technology, mapped onto the International Standard Classification of Occupations (ISCO-08), and then combined that score matrix with the ILO's global labour-market data. The crucial move is that they separate two kinds of exposure. Some tasks show **augmentation** potential, where AI assists a human who stays in the loop, and some show **automation** potential, where AI could perform the task outright.
-
-The distinction changes the tone of the whole debate. On the ILO's global estimates, the share of employment with high *automation* potential is far smaller than the share with *augmentation* potential, which points toward AI transforming *how* jobs are done more often than eliminating them wholesale. The exposure is also unevenly distributed, and the pattern inverts the usual story of technological disruption: clerical work, historically a route into the paid labour force for women and a large share of employment in richer countries, sits among the most exposed occupations, so the effects fall differently across gender and across income groups.
-
-![Automation vs. augmentation potential by country income group and gender (ILO). The share of employment with high *automation* potential (top) is markedly smaller than the share with *augmentation* potential, and clerical work, a female-dominated field, is among the most exposed (source: Gmyrek, Berg & Bescond 2023).](media/sustain-ilo-automation.png){fig-alt="Horizontal bar chart titled Automation Potential showing global estimates of jobs with high automation potential as a share of total employment by income group and gender; world figure 2.3% of employment, 75 million jobs, high income 5.1%." width="88%"}
-
-::: {.quick-check}
-What is the central finding of the ILO study by Gmyrek, Berg and Bescond (2023)?
-
-- Generative AI will automate a majority of jobs worldwide within a decade.
-- **For most jobs, augmentation potential exceeds outright automation potential, and clerical, female-dominated work is especially exposed.**
-- Only blue-collar manufacturing jobs are affected by generative AI.
-- Exposure to AI is spread perfectly evenly across countries and genders.
-:::
+Two paradigms structure the debate. The **substitution** view, associated with Acemoglu, distinguishes automation technologies that *replace* tasks from technologies that *reinstate* tasks in new fields, and warns that current AI investment leans heavily toward replacement without an equivalent creation effect, risking structural job loss. The **complementarity** view, associated with Brynjolfsson, holds that AI augments human work, raises productivity and opens new fields, with human-plus-AI "centaur" configurations outperforming either alone, and invokes the *lump-of-labour* fallacy, the observation that technological change has historically created new work despite painful transitions. The task-based literature refines this into a polarization thesis: routine cognitive and manual tasks are most automatable, hollowing out the middle, whilee high-skill analytical work is complemented and low-skill non-routine manual work resists automation. Generative AI complicates the old story, because it now exposes analytical knowledge work, drafting contracts, code and text, that used to sit safely at the top.
 
 The automation-versus-augmentation split is easier to grasp per occupation than in the aggregate. The explorer below lets you pick a job, see how its tasks divide between outright automation, human-in-the-loop augmentation and little exposure, and read the mix through the substitution and complementarity paradigms.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-09/widget-task-exposure-explorer.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Job task-exposure explorer: automation vs. augmentation by occupation"></iframe>
+<iframe src="widgets/kapitel-09/widget-task-exposure-explorer.html" width="100%" height="650px" frameborder="0" style="border:none;" title="Job task-exposure explorer: automation vs. augmentation by occupation"></iframe>
 :::
 
 ### The quality of work, not just its quantity
 
-Counting jobs is only half the ethical question. Even where employment survives, AI can change the *quality* of work, and Bankins and Formosa (2023) supply the framework. Work is meaningful along several dimensions, autonomy, task identity and significance, the use and development of competence, social embeddedness, and a sense of purpose, and AI threatens these along three paths. **Deskilling** occurs when AI absorbs the complex, developing parts of a job and leaves humans the residual, simpler tasks, producing the paradox that more advanced AI can create *simpler* jobs. **De-autonomization** occurs when algorithmic management dictates how, when and where work happens, draining the sense of agency. **Depersonalization** occurs when hiring, evaluation and even dismissal are mediated by systems, stripping work of its intersubjective recognition. The same technology can, in principle, remove tedious or dangerous tasks and augment human judgement, so the outcome is a design choice rather than a technological fate, which is why the constructive answer points back to the value-driven, participatory design we met in earlier units.
-
-::: {.case-study}
-#### Case: the AI-augmented paralegal
-A mid-size law firm rolls out an AI tool that drafts standard contracts and summarizes case files. Management promises "no layoffs": the paralegals keep their jobs but now mainly review and correct AI output. Junior staff complain that they no longer learn to draft from scratch. Read through the frameworks of this unit, what is happening?
-
-::: {.solution}
-On the ILO distinction this is **augmentation**, not automation: the humans stay in the loop, and the head-count is preserved, so a purely quantitative labour-market lens would record no harm. The Bankins and Formosa lens sees the cost the numbers miss. The paralegals face **deskilling**, because the developing part of the task, learning to draft, has migrated to the model, leaving the residual task of correction, which erodes both competence development and task identity. There is a hint of **de-autonomization** too, if the workflow now dictates that every document begins as machine output. The point is that "no layoffs" is not the same as "no harm to the quality of work". A responsible deployment would treat skill development as a design requirement, for instance by rotating juniors through unassisted drafting, rather than optimizing purely for throughput. This is exactly where the earlier units' value-driven design and human-oversight duties do concrete work.
-:::
-:::
+Counting jobs is only half the ethical question. Even where employment survives, AI can change the *quality* of work, and Bankins and Formosa (2023) supply the framework. Work is meaningful along several dimensions, autonomy, task identity and significance, the use and development of competence, social embeddedness, and a sense of purpose, and AI threatens these along three paths. **Deskilling** occurs when AI absorbs the complex, developing parts of a job and leaves humans the residual, simpler tasks, producing the paradox that more advanced AI can create *simpler* jobs. **De-autonomization** occurs when algorithmic management dictates how, when and where work happens, draining the sense of agency. **Depersonalization** occurs when hiring, evaluation and even dismissal are mediated by systems, stripping work of its intersubjective recognition. The same technology can, in principle, remove tedious or dangerous tasks and augment human judgement, so **the outcome is a design choice rather than a technological fate, which is why the constructive answer points back to the value-driven, participatory design we met in earlier units.**
 
 ### Ghost work: the human labour inside "automated" AI
 
@@ -110,11 +100,15 @@ The tidiest way to puncture the myth of fully automated AI is to look at who cle
 Ghost work is structurally invisible for three compounding reasons. First, it is *contractually distant*: the labour reaches the model developer through layers of subcontractors, so no single company appears to employ the workers directly, which also diffuses responsibility in the "many hands" sense we met earlier. Second, it is *geographically distant*, performed in jurisdictions with weaker labour protection and far from the users who benefit. Third, it is *rhetorically hidden*, because the marketing language of "automation" and "artificial intelligence" actively obscures the human effort inside the system. Naming the labour is therefore the first ethical step: an honest account of AI's transformation of work has to include the jobs the technology *creates* at its own margins, not only the jobs it augments or replaces at the centre.
 :::
 
-## Part 2: AI and sustainability
+## AI and sustainability
 
 ### Sustainability and the Sustainable Development Goals
 
-The word *sustainability* comes from forestry: a forest is managed sustainably if enough trees are replanted that the forest remains intact despite the harvest, which requires foresight, planning and a willingness to forgo short-term profit to preserve a long-term source of income. Generalized, sustainability means orienting all action so that the natural and social resources we need remain sufficiently available in the future. The central contemporary reference point is the United Nations' **Sustainable Development Goals**, the 17 SDGs adopted in 2016 as part of the 2030 Agenda, which bundle poverty, health, education, gender equality, clean energy, decent work, climate action and more into a shared framework with concrete indicators. The concept is not beyond criticism: some argue it is fundamentally anthropocentric, treating the biosphere as a resource to be exploited so long as continued existence is secured, and economists disputing whether growth and sustainability are compatible at all have proposed *post-growth* or *degrowth* alternatives. For our purposes the SDGs supply the yardstick against which AI's own footprint must be weighed.
+The word *sustainability* comes from forestry: a forest is managed sustainably if enough trees are replanted that the forest remains intact despite the harvest, which requires foresight, planning and a willingness to forgo short-term profit to preserve a long-term source of income. Generalized, sustainability means orienting all action so that the natural and social resources we need remain sufficiently available in the future. The central contemporary reference point is the United Nations' **Sustainable Development Goals**, the 17 SDGs adopted in 2016 as part of the 2030 Agenda, which bundle poverty, health, education, gender equality, clean energy, decent work, climate action and more into a shared framework with concrete indicators. 
+
+![The 17 UN Sustainable Development Goals, adopted in 2015 as part of the 2030 Agenda (source: United Nations, [Communications materials](https://www.un.org/sustainabledevelopment/news/communications-material/); used under the UN's permission for illustrative, non-commercial use. This publication has not been approved by the United Nations and does not reflect the views of the United Nations or its officials or Member States).](media/sustain-sdg-poster.png){fig-alt="Official United Nations poster displaying the icons and titles of all 17 Sustainable Development Goals, from No Poverty and Zero Hunger through Climate Action to Partnerships for the Goals." width="85%"}
+
+The concept is not beyond criticism: some argue it is fundamentally anthropocentric, treating the biosphere as a resource to be exploited so long as continued existence is secured, and economists disputing whether growth and sustainability are compatible at all have proposed *post-growth* or *degrowth* alternatives. For our purposes the SDGs supply the yardstick against which AI's own footprint must be weighed.
 
 ### The water footprint of AI
 
@@ -122,30 +116,17 @@ AI's environmental cost is easy to ignore because it is hidden in distant data c
 
 ### The carbon footprint of AI
 
-The carbon side is comparably stark. Researchers from Google and UC Berkeley (Patterson et al. 2021) estimated that training GPT-3 caused about **552 tonnes of CO2** and required roughly **1,287 megawatt-hours** of electricity, an amount comparable to the annual electricity consumption of around 320 four-person households. Inference, the everyday use of a trained model, adds its own steady load. A single large-model query is estimated to consume on the order of 0.001 to 0.01 kWh, against roughly 0.0003 kWh for a conventional web search, so an AI query can cost tens of times the energy of the search it often replaces. Multiply that per-query cost by the traffic of a popular service and the aggregate becomes significant. It is this scaling from a tiny per-query number to a very large total that the interactive tool below lets you explore directly.
+The carbon side is comparably stark. Researchers from Google and UC Berkeley (Patterson et al. 2021) estimated that training GPT-3 caused about **552 tonnes of CO2** and required roughly **1,287 megawatt-hours** of electricity, an amount comparable to the annual electricity consumption of around 320 four-person households. Inference, the everyday use of a trained model, adds its own steady load. A single large-model query is estimated to consume on the order of 0.001 to 0.01 kWh, against roughly 0.0003 kWh for a conventional web search, so an AI query can cost tens of times the energy of the search it often replaces. Multiply that per-query cost by the traffic of a popular service and the aggregate becomes significant. It is this scaling from a tiny per-query number to a very large total that the interactive tool below lets you explore directly. **Disclaimer: Due to the very limited body of research, the figures provided should be understood as tentative estimates rather than exact calculations.**
 
 ::: {.widget}
-<iframe src="widgets/kapitel-09/widget-footprint-rebound-explorer.html" width="100%" height="900px" frameborder="0" style="border:none;" title="AI footprint and rebound explorer"></iframe>
-:::
-
-The macro-trend is heading the wrong way. Modelling by McKinsey suggests that data-centre electricity demand in Europe could reach around **35 gigawatts by 2030**, rising at roughly 20 percent per year, with AI a principal driver. The concern is not any single query but the trajectory of demand at scale, running against exactly the climate targets that the green transformation and the SDGs are meant to secure.
-
-![Estimated data-centre electricity demand (IT load) in Europe could reach around 35 gigawatts by 2030, growing about 20 percent per year, with AI as a principal driver (source: McKinsey & Company data-centre demand model).](media/sustain-datacentre-demand.png){fig-alt="Line chart showing estimated European data-centre demand in gigawatts rising from about 10 GW in 2023 to about 35 GW in 2030, annotated with 20% growth per annum." width="90%"}
-
-::: {.quick-check}
-Roughly how does the energy cost of a single large-model AI query compare to a conventional web search?
-
-- They are essentially identical.
-- **The AI query costs on the order of tens of times more energy.**
-- The AI query costs less, because models are highly optimized.
-- The AI query costs thousands of times less.
+<iframe src="widgets/kapitel-09/widget-footprint-rebound-explorer.html" width="100%" height="700px" frameborder="0" style="border:none;" title="AI footprint and rebound explorer"></iframe>
 :::
 
 ### Jevons' paradox: why efficiency need not save the planet
 
 The obvious hope is that engineering will make models efficient enough to shrink the footprint. Here a nineteenth-century insight sounds a warning. In *The Coal Question* (1866), William Stanley Jevons observed that improvements which let a given amount of coal do more work did not reduce coal consumption but *increased* it, because cheaper, more effective use expanded demand faster than efficiency shrank it per unit. This is the **rebound effect**, or **Jevons' paradox**: efficiency gains lower the effective cost of using a resource, which invites more use, which can wipe out or even reverse the expected saving. Applied to AI, a model that is ten times more efficient per query makes AI cheaper and faster to use, which invites far more querying, more products with AI built in, and more ambitious uses, so the aggregate footprint can grow even as each query becomes greener. Efficiency is necessary but not sufficient; without limits on total demand, the "savings" can evaporate.
 
-![The rebound (Jevons) effect: an efficiency gain lowers the cost of using a resource, which raises demand, so total consumption can grow rather than fall. Cars that consume less petrol invite more driving; cheaper computing invites buying more of it (source: teaching diagram after Jevons 1866).](media/sustain-rebound-effect.png){fig-alt="Three-row diagram. Top row Innovations: cars that consume less, computer miniaturisation. Middle row Efficiency gains: less petrol costs, reduced costs. Bottom row Rebound: we drive further thanks to savings, we can buy more computers." width="78%"}
+![Jevons' original 1865 chart plotting the population of England and Wales, total imports and the coal vend from Newcastle against a projected "supposed consumption of coal in Britain", the exponential curve he used to argue that continued efficiency gains would drive demand, not curb it (source: William Stanley Jevons, [*The Coal Question*, 1865](https://www.econlib.org/library/YPDBooks/Jevons/jvnCQ.html), Library of Economics and Liberty; public domain).](media/jevons-rebound-effect.png){fig-alt="Jevons' 1865 chart with four stacked panels plotted against years 1550 to 2000: population of England and Wales, total imports, vend of coal from Newcastle, and supposed future consumption of coal in Britain, the last panel showing a steeply rising projected curve." width="55%"}
 
 ::: {.flip-card}
 #### Jevons' paradox (rebound effect)

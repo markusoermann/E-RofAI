@@ -21,6 +21,24 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 The previous unit laid the foundations of data-protection law: the concept of personal data, the principles of Art. 5 GDPR, the lawful bases of Art. 6, and the heightened regime for special categories under Art. 9. With that groundwork in place, this unit turns to the questions that matter most once artificial intelligence enters the picture. How does the law govern *decisions taken by machines about people*, and how does it govern the *models* themselves, whose appetite for training data collides head-on with the individual-rights architecture of the GDPR? We move from the transparency and control rights of the data subject, through automated decision-making and profiling, into the technical-organisational duties that harden a system, and finally into the frontier where classical data-protection law begins to run out of grip: the AI model.
 
 ## Transparency and the rights of the data subject
@@ -86,18 +104,34 @@ The ruling matters for AI ethics because so many machine-learning systems sit ex
 Under Art. 22 GDPR a person has the right not to be subject to a decision based *solely* on automated processing that has a *significant* effect. In the SCHUFA case the Court treated the *score* itself as the decision, because the bank gave it a *decisive* role.
 :::
 
-## Building protection in: Privacy by Design and DPIA
+## Building protection in: Records, Privacy by Design and DPIA
 
-Rights on paper mean little unless the controller can also *show* it complied. This is the accountability principle of [Art. 5(2) GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}: it is not enough to act lawfully, one must be able to prove it. Two instruments turn that burden into concrete engineering discipline, and both speak directly to how AI models are built.
+Rights on paper mean little unless the controller can also *show* it complied. This is the accountability principle of [Art. 5(2) GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}: it is not enough to act lawfully, one must be able to prove it. Three instruments turn that burden into concrete engineering discipline, and all three speak directly to how AI models are built.
 
-The first is **Privacy by Design and by Default** under [Art. 25 GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}. It moves protection forward into the design and default-setting phase, rather than bolting it on afterwards. Here the arc back to the ethics units closes: the demand, made with Collingridge and Dignum, that ethical and legal requirements be built in *from the start* becomes an enforceable legal duty. For an AI pipeline this means choosing data-minimising architectures, de-duplicating and filtering training corpora to reduce memorisation, and defaulting to the most privacy-friendly configuration rather than the most data-hungry one.
+The foundation is the **Records of Processing Activities (RoPA)** under [Art. 30 GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}. Every controller, and in a mirrored, thinner form every processor, must keep a written internal register of each processing operation it carries out: its purposes, the categories of data subjects and of personal data involved, the categories of recipients, any transfers to third countries and the safeguards relied on, the envisaged time limits for erasure, and a general description of the technical and organisational security measures in place. Art. 30(5) exempts organisations with fewer than 250 employees, but the exemption lapses the moment processing is not occasional, touches special categories of data, or is likely to result in a risk to the rights of data subjects, a description that fits almost any AI system that scores, profiles or classifies people. In practice, then, no AI deployer can rely on the small-enterprise carve-out. The register is not paperwork for its own sake: it is the inventory from which the controller works out *which* processing operations are high-risk enough to require a DPIA and *what* Art. 32 security measures they need, and it is the first document a supervisory authority asks to see when it tests whether the accountability principle has actually been discharged. Without an accurate RoPA, neither of the two instruments below has a reliable map of the processing it is supposed to govern.
+
+::: {.flip-card}
+#### Records of Processing Activities (Art. 30 GDPR)
+A mandatory written register of every processing operation, purposes, data categories, recipients, transfer safeguards, retention periods and a summary of TOMs, that the controller must be able to produce to a supervisory authority on request.
+:::
+
+The second instrument is **Privacy by Design and by Default** under [Art. 25 GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}. It moves protection forward into the design and default-setting phase, rather than bolting it on afterwards. Here the arc back to the ethics units closes: the demand, made with Collingridge and Dignum, that ethical and legal requirements be built in *from the start* becomes an enforceable legal duty. For an AI pipeline this means choosing data-minimising architectures, de-duplicating and filtering training corpora to reduce memorisation, and defaulting to the most privacy-friendly configuration rather than the most data-hungry one.
 
 ::: {.flip-card}
 #### Privacy by Design (Art. 25(1) GDPR)
 Data protection must be embedded from the outset of system design, for instance through strict access restrictions, pseudonymisation, and a data-minimising architecture, rather than added as an afterthought.
 :::
 
-The second instrument is the **Data Protection Impact Assessment (DPIA)** under [Art. 35 GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}. Where a form of processing is likely to result in a *high risk* to the rights of natural persons, in particular where new technologies are involved, the controller must run a structured prior risk assessment: describe the processing, judge its necessity and proportionality, estimate the risks, and set out mitigating measures. The GDPR names three standard triggers, and two of them describe AI systems almost verbatim: the systematic and extensive *evaluation of personal aspects* through profiling or scoring, and the *large-scale processing of special categories* of data. If a high residual risk cannot be tamed by mitigations, the controller must consult the supervisory authority before starting (Art. 36). The DPIA is thus the hinge between abstract risk assessment and concrete safeguards, and a clear forerunner of the risk-based logic that returns in the EU AI Act.
+The third instrument is the **Data Protection Impact Assessment (DPIA)** under [Art. 35 GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"}. Where a form of processing is likely to result in a *high risk* to the rights of natural persons, in particular where new technologies are involved, the controller must run a structured prior risk assessment: describe the processing, judge its necessity and proportionality, estimate the risks, and set out mitigating measures. The GDPR names three standard triggers, and two of them describe AI systems almost verbatim: the systematic and extensive *evaluation of personal aspects* through profiling or scoring, and the *large-scale processing of special categories* of data. If a high residual risk cannot be tamed by mitigations, the controller must consult the supervisory authority before starting (Art. 36). The DPIA is thus the hinge between abstract risk assessment and concrete safeguards, and a clear forerunner of the risk-based logic that returns in the EU AI Act.
+
+::: {.quick-check}
+A start-up with 40 employees runs an AI system that scores job applicants. It assumes Art. 30 GDPR does not apply because it has fewer than 250 employees. Is that correct?
+
+- Yes, the small-enterprise exemption in Art. 30(5) always applies below 250 employees
+- **No, because scoring applicants is a systematic evaluation of personal aspects likely to pose a risk to data subjects, so the Art. 30(5) exemption does not apply regardless of headcount**
+- No, because Art. 30 only applies to processors, not controllers
+- Yes, but only until the start-up has processed data on more than 5,000 applicants
+:::
 
 ::: {.quick-check}
 A company plans an AI system that automatically assesses the creditworthiness of customers (scoring). Which duty is the primary one to examine?
@@ -186,7 +220,7 @@ This unit tracked data-protection law from the transparency and control rights o
 
 ### Norms & Standards
 
-- Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (General Data Protection Regulation, GDPR), in particular Arts. 4, 5, 6, 9, 12-14, 15-21, 22, 25, 32, 35, 36, 37, 44-46. <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679>
+- Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (General Data Protection Regulation, GDPR), in particular Arts. 4, 5, 6, 9, 12-14, 15-21, 22, 25, 30, 32, 35, 36, 37, 44-46. <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679>
 - Regulation (EU) 2024/1689 of the European Parliament and of the Council of 13 June 2024 (Artificial Intelligence Act), in particular Arts. 10 and 14 (data governance and human oversight for high-risk systems). <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689>
 
 ### Case law

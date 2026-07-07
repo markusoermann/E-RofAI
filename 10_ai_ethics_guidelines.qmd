@@ -21,13 +21,31 @@ version: "1.0"
 format: moodle-html
 ---
 
-In the previous unit we watched AI reshape work and strain the planet's resources, and we asked who should steer a transformation of that scale. This unit turns to the first collective answer the world reached for: a wave of ethics guidelines issued by international organisations. Between roughly 2016 and 2021 governments, expert bodies and industry produced document after document promising "trustworthy", "responsible" or "human-centric" AI. The task of this unit is to read that wave critically. We will see where the guidelines converge, what they systematically leave out, why critics speak of "ethics washing", and, crucially, what these instruments are worth in legal terms. Along the way we build a working matrix of ethical principles that will serve us for the rest of the course.
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
+In the previous unit we watched AI reshape work and strain the planet's resources, and we asked who should steer a transformation of that scale. This unit turns to the first collective answer the world reached for: a wave of ethics guidelines issued by international organisations. Between roughly 2016 and 2021 governments, expert bodies and industry produced document after document promising "trustworthy", "responsible" or "human-centric" AI. The task of this unit is to read that wave critically. We will see where the guidelines converge, what they systematically leave out, why critics speak of "ethics washing", and, crucially, what these instruments are worth in legal terms. Along the way we build a working matrix of ethical principles that will serve us for this course.
 
 ## The wave of guidelines and its convergent canon
 
 ### From a flood of documents to a systematic reading
 
-The years after 2016 saw an extraordinary proliferation of AI ethics guidelines. Tech firms, national governments, civil-society organisations and international institutions all published their own charters in quick succession, so many that a comparative science of the field became necessary simply to see the wood for the trees. The first systematic scholarly evaluation came from Thilo Hagendorff, whose 2020 study *The Ethics of AI Ethics* analysed twenty-two guidelines drawn from across this landscape, from Google, Microsoft and IBM through the OECD, the European Commission and the G7 to the Future of Life Institute and the IEEE. His method was straightforward and revealing: which ethical themes appear, how often, with what degree of commitment, and, above all, whose interests do the chosen principles protect?
+The years after 2016 saw an extraordinary proliferation of AI ethics guidelines. Tech firms, national governments, civil-society organisations and international institutions all published their own charters in quick succession, so many that a comparative science of the field became necessary simply to see the wood for the trees. A early but sound systematic scholarly evaluation came from Thilo Hagendorff, whose 2020 study *The Ethics of AI Ethics* analysed twenty-two guidelines drawn from across this landscape, from Google, Microsoft and IBM through the OECD, the European Commission and the G7 to the Future of Life Institute and the IEEE. His method was straightforward and revealing: which ethical themes appear, how often, with what degree of commitment, and, above all, whose interests do the chosen principles protect?
 
 The first finding is convergence. Beneath the differences of wording, the guidelines cluster around a remarkably stable canon of principles. Transparency and explainability appear almost universally, closely followed by fairness and non-discrimination, privacy and data protection, safety and technical robustness, and accountability. Human oversight and an appeal to the common good round out the set. This overlap is genuinely useful: it gives us a shared vocabulary and suggests a rough international consensus about what "good" AI should respect. But convergence alone proves little, because a principle that everyone can sign is often a principle that binds no one.
 
@@ -57,7 +75,9 @@ According to Hagendorff (2020), which theme is systematically *underrepresented*
 
 The convergence of principles and the pattern of omissions point to a deeper structural problem, and it is here that Hagendorff makes his sharpest intervention. Nearly all the guidelines he studied share three features: they are voluntary, they are non-binding, and they come without any external mechanism of enforcement. There are typically no independent audits, no sanctions for breach, no external validation of how the principles are drafted, and no seat at the table for the groups most affected, users, workers and vulnerable populations. A firm can subscribe to a charter of admirable principles and change nothing about its conduct.
 
-Hagendorff names this pattern **ethics washing**, in deliberate analogy to greenwashing. Ethics guidelines perform a legitimation function towards the public, regulators and investors without producing any substantive change in behaviour or any binding commitment. The point is not that every guideline is cynical, but that the *form* itself, self-imposed, unaudited and unenforceable, invites the suspicion. The critique has since become mainstream, and it carries a clear regulatory implication: ethics guidelines can *complement* law but cannot *replace* it. Without binding rules, principles remain rhetoric. This is precisely the gap that the EU AI Act was later designed to close, hardening principles such as transparency, human oversight and robustness into enforceable obligations for high-risk systems, a bridge we will cross in a later unit.
+Hagendorff names this pattern **ethics washing**, in deliberate analogy to greenwashing. Ethics guidelines perform a legitimation function towards the public, regulators and investors without producing any substantive change in behaviour or any binding commitment. The point is not that every guideline is cynical, but that the *form* itself, self-imposed, unaudited and unenforceable, invites the suspicion. 
+
+The critique has since become mainstream, and it carries a clear regulatory implication: ethics guidelines can *complement* law but cannot *replace* it. Without binding rules, principles remain rhetoric. This is precisely the gap that the EU AI Act was later designed to close, hardening principles such as transparency, human oversight and robustness into enforceable obligations for high-risk systems, a bridge we will cross in a later unit.
 
 ::: {.flip-card}
 #### Ethics washing
@@ -96,15 +116,6 @@ The European Union is a supranational organisation with the power to legislate d
 
 Substantively the guidelines rest on four ethical principles: respect for human autonomy, prevention of harm, fairness, and explicability. From these they derive seven concrete requirements, among them human agency and oversight, technical robustness and safety, privacy and data governance, transparency, diversity and non-discrimination, societal and environmental well-being, and accountability. Because this framework supplies the human-oversight and traceability concepts we examine below, and because it seeds the AI Act, it repays closer attention than the others.
 
-::: {.quick-check}
-The EU Ethics Guidelines for Trustworthy AI (2019) are best described as:
-
-- A binding EU regulation
-- **Non-binding guidelines drafted by an expert group**
-- A directive requiring national transposition
-- An international treaty
-:::
-
 ### OECD: Recommendation on Artificial Intelligence (2019)
 
 The Organisation for Economic Co-operation and Development groups thirty-eight mostly industrialised economies and works chiefly through studies and recommendations. Its **Recommendation on Artificial Intelligence** (OECD/LEGAL/0449) was adopted in May 2019 and updated in 2023 and 2024. Its legal quality is that of an intergovernmental standard, a Council Recommendation that members are expected to reflect in national policy but that binds no one. It sets out five value-based principles: inclusive growth and well-being, human-centred values and fairness, transparency and explainability, robustness, security and safety, and accountability. Its most consequential legacy is definitional rather than principled: the OECD's definition of an AI system was adopted almost verbatim by the EU AI Act, which lends this piece of soft law an unusual measure of indirect legal force.
@@ -132,7 +143,15 @@ Two of the convergent principles deserve concrete treatment, because the EU guid
 
 ### Modes of human oversight
 
-The principle of respect for human autonomy demands that AI systems be designed with human oversight in mind, so that people can intervene to prevent harm and preserve accountability. The guidelines distinguish three modes by how tightly the human is coupled to the decision. In **human-in-the-loop (HITL)** the human is an active participant: every decision the system proposes is reviewed and approved by a person before it takes effect. In **human-on-the-loop (HOTL)** the human is not part of each decision but supervises the system in operation and can intervene when something goes wrong. In **human-in-command (HIC)** the human retains overall authority over the system, deciding whether, when and in what contexts it is deployed at all, and able to override or shut it down. The three modes trade immediacy of control against scalability, and the right choice depends on the stakes and the tempo of the decision. Where actions unfold on inhuman timescales, an oversight arrangement that cannot actually intervene in time is oversight in name only, which is why the choice of mode is itself an ethical decision.
+The principle of respect for human autonomy demands that AI systems be designed with human oversight in mind, so that people can intervene to prevent harm and preserve accountability. The guidelines distinguish three modes by how tightly the human is coupled to the decision. 
+
+In **human-in-the-loop (HITL)** the human is an active participant: every decision the system proposes is reviewed and approved by a person before it takes effect. 
+
+In **human-on-the-loop (HOTL)** the human is not part of each decision but supervises the system in operation and can intervene when something goes wrong. 
+
+In **human-in-command (HIC)** the human retains overall authority over the system, deciding whether, when and in what contexts it is deployed at all, and able to override or shut it down. 
+
+The three modes trade immediacy of control against scalability, and the right choice depends on the stakes and the tempo of the decision. Where actions unfold on inhuman timescales, an oversight arrangement that cannot actually intervene in time is oversight in name only, which is why the choice of mode is itself an ethical decision.
 
 ::: {.flip-card}
 #### HITL, HOTL, HIC
@@ -155,12 +174,18 @@ A bank's AI proposes loan decisions, and a caseworker must review and sign off o
 Choosing the right mode is not a matter of taste but of stakes and tempo, and every mode brings its own characteristic way of failing. Work through the use cases below to see which oversight mode fits each situation, what the human is actually expected to do, and the failure risks the mode invites, from rubber-stamping and automation bias to intervening too late to matter.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-10/widget-human-oversight-explorer.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Human oversight mode explorer"></iframe>
+<iframe src="widgets/kapitel-10/widget-human-oversight-explorer.html" width="100%" height="720px" frameborder="0" style="border:none;" title="Human oversight mode explorer"></iframe>
 :::
 
 ### Traceability, recognisability and explainability
 
-The principle of transparency likewise breaks down into practical requirements. **Traceability** asks that the datasets and the processes yielding a system's decisions, including data gathering, labelling and the algorithms used, be documented to the best possible standard, so that outcomes can be reconstructed after the fact. **Recognisability** holds that a system should not pass itself off as human: people have a right to know when they are interacting with an AI. **Explainability** requires that the reasons for a decision can be communicated to those affected, whether through technical methods of explainable AI or through plain-language account. These three are not the same. Traceability serves the internal ability to audit and reconstruct; explainability serves the external duty to answer to the people a decision touches. Together they operationalise the answerability we grounded in the unit on responsibility, and they resurface, as we will see, as concrete documentation, transparency and oversight duties in the AI Act.
+The principle of transparency likewise breaks down into practical requirements. **Traceability** asks that the datasets and the processes yielding a system's decisions, including data gathering, labelling and the algorithms used, be documented to the best possible standard, so that outcomes can be reconstructed after the fact. 
+
+**Recognisability** holds that a system should not pass itself off as human: people have a right to know when they are interacting with an AI. 
+
+**Explainability** requires that the reasons for a decision can be communicated to those affected, whether through technical methods of explainable AI or through plain-language account. 
+
+These three are not the same. Traceability serves the internal ability to audit and reconstruct; explainability serves the external duty to answer to the people a decision touches. Together they operationalise the answerability we grounded in the unit on responsibility, and they resurface, as we will see, as concrete documentation, transparency and oversight duties in the AI Act.
 
 ::: {.details}
 #### Deep dive: from a soft principle to a hard duty

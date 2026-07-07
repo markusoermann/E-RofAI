@@ -27,7 +27,11 @@ In the previous unit we saw that AI can act, and can even be described as an age
 
 ### The two conditions after Aristotle
 
-Long before anyone imagined a learning machine, Aristotle set out the conditions under which a person can be held morally responsible for an action and its consequences. Two conditions must be met together. The **control condition** is satisfied when the agent brings about the action, either by performing it directly or by exercising a sufficient degree of control over how it unfolds. The **epistemic condition** is satisfied when the agent is aware, or could reasonably have been aware, of what they are doing and of the alternatives open to them. Both conditions are tied to freedom of will and intent: the action must be *voluntary*, not forced and not carried out in self-inflicted ignorance. Aristotle already framed responsibility around two control questions, namely whether there was an alternative way of deciding or acting, and whether the agent was aware of that alternative, or at least could have been and chose to ignore it.
+Long before anyone imagined a learning machine, Aristotle set out the conditions under which a person can be held morally responsible for an action and its consequences. Two conditions must be met together. 
+1. The **control condition** is satisfied when the agent brings about the action, either by performing it directly or by exercising a sufficient degree of control over how it unfolds. 
+2. The **epistemic condition** is satisfied when the agent is aware, or could reasonably have been aware, of what they are doing and of the alternatives open to them. 
+
+Both conditions are tied to freedom of will and intent: the action must be *voluntary*, not forced and not carried out in self-inflicted ignorance. Aristotle already framed responsibility around two control questions, namely whether there was an alternative way of deciding or acting, and whether the agent was aware of that alternative, or at least could have been and chose to ignore it.
 
 ::: {.flip-card}
 #### The two conditions of responsibility
@@ -66,10 +70,6 @@ The second control problem is diffusion. In the development and deployment of AI
 
 The tool below turns this abstract analysis into a concrete judgement. Distribute responsibility across the parties in three scenarios and watch how quickly the responsibility gap opens, and where diffusion tempts you to leave harm unattributed.
 
-::: {.widget}
-<iframe src="widgets/kapitel-04/widget-many-hands-explorer.html" width="100%" height="820px" frameborder="0" style="border:none;" title="Many-hands responsibility explorer"></iframe>
-:::
-
 ### The knowledge problems
 
 The third family concerns not control but awareness, and so bears directly on Aristotle's epistemic condition. Developers and users are often unaware of the unintended consequences and the moral significance of an AI application, especially when a system is misused or carried into a context for which it was never built, as when a face-recognition tool designed for one purpose is redeployed for public-security surveillance. This raises a straightforward question: how can developers and users be *enabled* to acquire the relevant knowledge? The answer points to transparency and literacy measures. The problem is compounded by the **black-box** character of most modern AI systems, whose lack of technical transparency and functional explainability (how the system actually produces a given output) can lead to overreliance and, worse, to a quiet offloading of responsibility onto a machine that cannot carry it.
@@ -87,13 +87,13 @@ The harm here flows less from a loss of control than from a failure of knowledge
 
 ### A relational turn
 
-The classical account we have used so far focuses on the moral *agent* and on their control and knowledge. Coeckelbergh proposes a productive shift of focus toward the relation between the agent and the moral *patient*, the person affected by the action. On this relational view, transparency and explainability are not merely technical desiderata but themselves moral obligations, understood as the **answerability** of moral agents to moral patients. The patient has a moral right to demand an explanation from the responsible agent, and it follows that technical transparency and explainability of AI systems are morally required precisely in the service of the human agents who owe answers to the patients affected by their systems. This is where **Responsible Research and Innovation** enters: if agents owe answers, they must organise their development so that answers can in fact be given. Explainable AI (XAI) is the technical research programme that tries to supply the tools for exactly this.
+The classical account we have used so far focuses on the moral *agent* and on their control and knowledge. Coeckelbergh (2020) proposes a productive shift of focus toward the relation between the agent and the moral *patient*, the person affected by the action. On this relational view, transparency and explainability are not merely technical desiderata but themselves moral obligations, understood as the **answerability** of moral agents to moral patients. The patient has a moral right to demand an explanation from the responsible agent, and it follows that technical transparency and explainability of AI systems are morally required precisely in the service of the human agents who owe answers to the patients affected by their systems. This is where **Responsible Research and Innovation** enters: if agents owe answers, they must organise their development so that answers can in fact be given. Explainable AI (XAI) is the technical research programme that tries to supply the tools for exactly this.
 
 ### Three concepts that are easily confused
 
-The vocabulary of the field packs three distinct ideas into words that are often used interchangeably. Keeping them apart is one of the most useful things this unit can offer.
+The vocabulary of the field packs three distinct ideas into words that are often used interchangeably. **Keeping them apart is one of the most useful things this unit can offer.**
 
-**Accountability** arises when a task is delegated. The operator, the "agent" in the principal-agent sense, must be able to explain to the delegating "principal" how and why the task was carried out in a particular way; responsibility towards third parties, however, remains with the principal who delegated. This logic transfers directly to digital systems: an AI to which a task is delegated should be *accountable*, able to report how it did the task, while the human principal remains responsible. In Dignum's framing, accountability is essentially backward-looking, the ex-post capacity to explain what was done, whereas responsibility is forward-looking, the ex-ante duty to answer for actions.
+**Accountability** arises when a task is delegated. The operator, the "agent" in the principal-agent sense, must be able to explain to the delegating "principal" how and why the task was carried out in a particular way; responsibility towards third parties, however, remains with the principal who delegated. This logic transfers directly to digital systems: an AI to which a task is delegated should be *accountable*, able to report how it did the task, while the human principal remains responsible. In Virginia Dignum's framing, accountability is essentially backward-looking, the ex-post capacity to explain what was done, whereas responsibility is forward-looking, the ex-ante duty to answer for actions.
 
 **Explainability** is the ability of those responsible to explain their decisions and actions to those affected. It is patient-facing: it answers the moral patient's demand for reasons. Explainable AI is the effort to build technical instruments that make such explanation possible.
 
@@ -123,18 +123,7 @@ There is a subtle danger in the enthusiasm for XAI. If an organisation treats an
 
 If responsibility is hard to assign after harm, the natural move is to intervene earlier. But *how much* earlier is itself a dilemma, sharply stated by David Collingridge in 1980. Early in a technology's life, **design flexibility** is high: the system can still be shaped, redirected or abandoned at modest cost. Yet at that same early stage our **knowledge of the technology's effects** on society is low, because the effects have not yet materialised. Later, once a technology is embedded in social practice and infrastructure, we finally understand its effects, but by then flexibility has collapsed: we depend on the technology's functions, and it is locked into existing processes. The two curves run in opposite directions, so the moment when we know enough to steer wisely is the moment when steering has become most costly. This is precisely why purely *ex post* regulation is structurally too late, and why ethical assessment must begin during development rather than after deployment.
 
-| Development stage | Knowledge of effects | Design flexibility | Consequence |
-|---|---|---|---|
-| Early | low | high | We could change the technology, but do not yet know what to change. |
-| Late | high | low | We now know what to change, but the technology is locked in and costly to change. |
-
-: The Collingridge dilemma: the window for cheap, well-informed intervention never opens on its own. {tbl-colwidths="[22,20,20,38]"}
-
-The explorer below lets you trace both curves for yourself. Slide along a technology's lifecycle, or jump to a worked example, and watch the control gap widen as knowledge and flexibility pull apart.
-
-::: {.widget}
-<iframe src="widgets/kapitel-04/widget-collingridge-dilemma-explorer.html" width="100%" height="820px" frameborder="0" style="border:none;" title="Collingridge dilemma explorer"></iframe>
-:::
+![The Collingridge Dilemma: Design flexibility decreases over time, while knowledge of the effects increases—the two curves move in opposite directions and with increasing steepness, so that the dilemma does not come to a head until late in the development process.](media/collingridge-dilemma.png)
 
 ### Responsible Research and Innovation
 
@@ -153,9 +142,7 @@ What does the Collingridge dilemma imply for the governance of AI?
 
 ### The ART principles
 
-Virginia Dignum brings these threads into a workable framework. Her starting point is that AI systems must be treated, even at early stages of development, as **sociotechnical systems** whose relevant stakeholders and societal actors should be integrated as far as possible into an RRI process of *open development*. Development and deployment should then follow the **ART principles**: **A**ccountability of the AI system, distributed **R**esponsibility of all the stakeholders involved (secured through an explicit distribution agreement), and **T**ransparency of the AI system. The three are not arbitrary; Dignum pairs each with one of the defining characteristics of AI, so that accountability answers to autonomy, responsibility to interaction, and transparency to adaptivity. Read this way, ART is a set of counterweights, one for each property that makes AI ethically demanding.
-
-![Virginia Dignum, whose *Responsible Artificial Intelligence* (2019) frames the ART principles and value-driven design used throughout this unit (source: ITU Pictures, CC BY 2.0, via Wikimedia Commons).](media/responsibility-dignum-portrait.jpg){fig-alt="Photograph of Virginia Dignum speaking at a conference panel, seated behind microphones." width="55%"}
+Virginia Dignum (2019) brings these threads into a workable framework. Her starting point is that AI systems must be treated, even at early stages of development, as **sociotechnical systems** whose relevant stakeholders and societal actors should be integrated as far as possible into an RRI process of *open development*. Development and deployment should then follow the **ART principles**: **A**ccountability of the AI system, distributed **R**esponsibility of all the stakeholders involved (secured through an explicit distribution agreement), and **T**ransparency of the AI system. The three are not arbitrary; Dignum pairs each with one of the defining characteristics of AI, so that accountability answers to autonomy, responsibility to interaction, and transparency to adaptivity. Read this way, ART is a set of counterweights, one for each property that makes AI ethically demanding.
 
 ::: {.flip-card}
 #### The ART principles (Dignum 2019)
@@ -171,24 +158,19 @@ ART would remain a slogan without a method to carry values into code, and this i
 The method is embedded in a repeatable **process structure** that turns the abstract ladder into concrete project steps. The whole is a continuous loop rather than a one-off checklist, so that the system can be readjusted as values and perceptions shift over time.
 
 1. Identify the relevant stakeholders.
-2. Elicit the values and requirements of all parties, for instance in workshops.
-3. Aggregate the values and their competing interpretations.
+2. Elicit the values and requirements of all parties, for instance in workshops. -> Aggregate the values and their competing interpretations.
+3. Derive the values into norms and functionalities.
 4. Record the formal links between values, norms and system functionalities, so the system stays adjustable.
 5. Support everyone in the R&D process in choosing components in light of the underlying societal and ethical commitments.
 
-::: {.case-study}
-#### Case: designing a CV-screening tool responsibly
-A company wants to build an AI tool that ranks job applications. Rather than optimising for prediction accuracy alone, the team is asked to apply value-driven design. Sketch how they would proceed under the ART principles.
+### Dignum's process structure
 
-::: {.solution}
-The team begins with **stakeholder identification** (applicants, hiring managers, works council, legal, affected demographic groups) and **elicits values**, among which fairness and non-discrimination are central. Applying value-driven design, they refuse to treat "fairness" as self-explanatory: they interpret it into a **norm**, deciding, and documenting, whether they mean equal selection rates across groups or equal treatment of equally qualified individuals, since these can conflict. That norm is then concretised into **functionalities**, such as excluding proxy features, monitoring error rates per group, and routing every rejection through human review. **ART** now does visible work: the tool must be *accountable* (able to report why a candidate was ranked as they were), *responsibility* is distributed by an explicit agreement fixing who owns data quality, who owns oversight and who owns the final decision, and *transparency* is maintained across data, design and stakeholders. Because the whole loop is documented, a later value conflict can be traced back and readjusted, which is exactly what the Collingridge dilemma demands while flexibility still exists.
-:::
-:::
+![Dignum's process structure as a continuous loop: stakeholder identification feeds the elicitation of values and requirements, which are derived into functionalities, then aggregated, linked and stored as values, norms and functionalities, and finally used to support everyone involved in the R&D process, whose work in turn refines stakeholder identification (source: Dignum 2019).](media/dignum_process-structure.png){fig-alt="Circular diagram with five stages connected by arrows: Stakeholder Identification, Elicitation of Values AND Requirements, Derivation of Functionalities, Aggregation, Linking and Storing of Values, Norms and Functionalities, and Providing Support for all People involved in the R&D process, looping back to Stakeholder Identification." width="80%"}
 
-::: {.details}
-#### Deep dive: from ART to codified standards
-Value-driven design is no longer only an academic proposal; it has been translated into industry standards that turn abstract principles into auditable process requirements. The IEEE 7000 series is the clearest example. IEEE 7000-2021 defines a model process for addressing ethical concerns during system design, IEEE 7001 addresses the transparency of autonomous systems, IEEE 7002 specifies a data-privacy process, and IEEE 2089 sets out age-appropriate digital services. These standards matter because they convert the "ought" of ethics into checkable steps that an organisation can adopt, audit and be held to, forming a bridge from the voluntary ethics of this unit to the binding compliance duties of the regulatory units that follow.
-:::
+### From ART to codified standards
+Value-driven design is no longer only an academic proposal; it has been translated into industry standards that turn abstract principles into auditable process requirements. 
+
+The IEEE 7000 series is the clearest example. IEEE 7000-2021 defines a model process for addressing ethical concerns during system design, IEEE 7001 addresses the transparency of autonomous systems, IEEE 7002 specifies a data-privacy process, and IEEE 2089 sets out age-appropriate digital services. These standards matter because they convert the "ought" of ethics into checkable steps that an organisation can adopt, audit and be held to, forming a bridge from the voluntary ethics of this unit to the binding compliance duties of the regulatory units that follow.
 
 ## From responsibility to fairness
 

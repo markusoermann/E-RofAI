@@ -21,6 +21,24 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 Building on the previous unit, where we weighed self-regulation and internal codes of ethics against their limits, we now turn to the hardest instrument in the toolbox: binding EU law. Voluntary commitments can shape a corporate culture, but they cannot be enforced against a firm that decides to ignore them. The EU AI Act is the European legislator's answer to exactly that gap. It regulates a foundational technology of the digital society and its applications, and it does so with an eye on safety, health and fundamental rights.
 
 ## Background and legislative history
@@ -129,7 +147,7 @@ For high-risk systems a dense catalogue of obligations applies across the whole 
 
 Before a high-risk system may reach the market, it goes through **conformity assessment** ([Art. 43-49 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}): checking against the requirements, registering stand-alone Annex III systems in an EU database, signing a declaration of conformity and, finally, the **CE marking**. Substantial changes trigger the procedure afresh.
 
-![The path of a high-risk AI system to market: from development through conformity assessment, registration in the EU database and the declaration of conformity to placement on the market with the CE marking. Substantial changes lead back to step 2 (source: EU Commission).](media/ai-act-conformity-assessment.jpg){fig-alt="Four-step diagram: 1 system developed, 2 conformity assessment, 3 registration in EU database, 4 declaration of conformity and CE marking; substantial changes send the process back to step 2." width="90%"}
+![The path of a high-risk AI system to market: from development through conformity assessment, registration in the EU database and the declaration of conformity to placement on the market with the CE marking. Substantial changes lead back to step 2 (source: [EU Commission (2025)](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai), CC BY 4.0).](media/ai-act-conformity-assessment.jpg){fig-alt="Four-step diagram: 1 system developed, 2 conformity assessment, 3 registration in EU database, 4 declaration of conformity and CE marking; substantial changes send the process back to step 2." width="90%"}
 
 After market entry, national market-surveillance authorities take over supervision. **Deployers** must ensure use in line with the instructions, keep logs ([Art. 26 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}) and, as public bodies and certain private deployers of Annex III systems, carry out a **fundamental-rights impact assessment** before putting the system into use ([Art. 27 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"}). **Providers** set up post-market monitoring; both report serious incidents to the authorities.
 
@@ -144,7 +162,7 @@ Applicant management in hiring is an intended purpose listed in **Annex III** (e
 
 ## Limited risk: transparency duties (Art. 50 AI Act)
 
-One tier lower on the pyramid, the AI Act regulates not the *whether* but only the *disclosure*. [Art. 50 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"} requires **transparency** wherever people might otherwise be deceived about the nature of an interaction or a piece of content. The content itself is not governed; what is regulated is solely its recognisability.
+One tier lower on the pyramid, the AI Act regulates not the *whether* but only the *disclosure*. [Art. 50 AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689){target="_blank"} requires **transparency** wherever people might otherwise be deceived about the nature of an interaction or a piece of content. The content itself is not governed; what is regulated is solely its recognisability. Providers of large generative systems had already reacted to synthetic content with ad hoc technical restrictions, especially before elections, and platforms such as YouTube and Meta had introduced their own labelling requirements; the European legislator's structural answer is instead a binding, harmonised duty that stops short of an outright ban, which would collide with communication freedoms.
 
 | Paragraph | Who | Duty |
 |---|---|---|
@@ -152,6 +170,33 @@ One tier lower on the pyramid, the AI Act regulates not the *whether* but only t
 | Art. 50(2) | Provider | Mark **synthetic content** in a machine-readable way (watermarking). |
 | Art. 50(3) | Deployer | Inform affected persons of **emotion recognition** or **biometric categorisation**. |
 | Art. 50(4) | Deployer | Label **deepfakes** and AI-generated text on matters of public interest as artificial. |
+| Art. 50(5) | Both | Mark clearly and at first exposure; techniques effective, interoperable, robust, reliable. |
+
+Across all of this, the marking must be clear, distinguishable and applied at the latest at the first interaction or exposure, and the technical solutions must be effective, interoperable, robust and reliable so far as technically feasible (Art. 50(5)). Narrow exceptions cover, among others, law-enforcement uses and manifestly artistic, satirical or fictional works. The decisive move in Art. 50 is that the duty attaches to a *role* in the value chain, provider or deployer, rather than to the content alone. Work through the scenarios below to see who owes which disclosure, under which paragraph, and where a narrow exception lets the obligation fall away.
+
+::: {.widget}
+<iframe src="widgets/kapitel-12/widget-art50-transparency-mapper.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Art. 50 transparency-obligation mapper"></iframe>
+:::
+
+::: {.quick-check}
+Under Art. 50 AI Act, an AI-generated deep-fake video published by a company must be:
+
+- removed from the platform within 24 hours
+- **labelled by the deployer as artificially generated**
+- submitted to a conformity assessment before publication
+- banned outright as a prohibited practice
+:::
+
+### Operationalising Art. 50: the Code of Practice
+
+Art. 50 states obligations but not techniques, and the gap is filled by the **Code of Practice on Transparency of AI-Generated Content** (Bontcheva, Bechmann et al. 2026), drawn up under the Commission's AI Office as a soft-law interpretive aid. It works on two levels. On the **provider** side it requires two layers of marking: digitally signed provenance metadata following the C2PA standard, and imperceptible **watermarking**, together with a detection tool made available free of charge to regulators, media and researchers, with an interoperability deadline of 2 February 2027. On the **deployer** side it introduces a visible EU icon reading "AI GENERATED" or "AI MODIFIED", to be applied for deep fakes and published AI text at the latest on first exposure, with carve-outs for law enforcement, genuine editorial control in journalism, and art or satire.
+
+The Code is a real step toward closing the **provenance gap**, the absence of a reliable chain of custody for digital media discussed in the unit on discourse and disinformation, but it remains structurally limited. Watermarks can be fragile under compression, re-encoding and cross-model remixing; the "analog hole" (re-recording a screen) defeats embedded signals; and there is as yet no settled interoperability standard across providers. Transparency, in short, mitigates the harm of synthetic reality without dissolving it.
+
+::: {.details}
+#### Deep dive: is Art. 50 a genuine "risk category"?
+It is common to draw the AI Act as a four-level pyramid and to slot Art. 50 in as the "limited-risk" tier. That picture can mislead. Art. 50 does not turn on the *size* of a risk at all; it turns on a *capability* of the system, namely its use in communication with people, and high-risk duties continue to apply alongside it (Art. 50(6)). Commentary has also criticised Art. 50(4) for text as poorly drafted: tying the duty to content that "informs the public" on "matters of public interest" produces a paradox in which precisely the contributions most strongly protected by communication freedom are regulated, while gossip is not, and the legislator seems to have had algorithmic journalism in mind rather than the wider field of non-journalistic information. The point for this course is that even a transparency-only instrument raises hard questions of scope and fit, which the AI Office's practice guidelines under Art. 50(7) will have to resolve.
+:::
 
 ## General-purpose AI and AI literacy
 
@@ -226,6 +271,7 @@ With this, a large arc of the course closes. In the units on ethics we grounded 
 
 ### Literature
 
+- Bontcheva, K., Bechmann, A., Pedreschi, D., De Gregorio, G., Riess, C. & Botan, M. (2026): *Code of Practice on Transparency of AI-Generated Content*. AI Office / European Commission.
 - Novelli, C., Hacker, P., Morley, J., Trondal, J. & Floridi, L. (2024): *A Robust Governance for the AI Act: AI Office, AI Board, Scientific Panel, and National Authorities*. Digital Society 3, 13. <https://doi.org/10.1007/s44206-024-00107-0>
 
 ### Norms & Standards
