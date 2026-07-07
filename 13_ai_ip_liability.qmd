@@ -21,6 +21,24 @@ version: "1.0"
 format: moodle-html
 ---
 
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
+
+
 The previous unit closed on a deliberate silence. The EU AI Act, for all its ambition, says nothing about who owns what an AI produces and nothing about who pays when an AI causes harm. It is product-safety and fundamental-rights law, not property law and not civil liability law. This final unit fills those two gaps. We first ask whether the output of a generative model can be owned at all, and on what terms models may be trained on protected material (intellectual property). We then ask who bears the loss when an AI-driven product injures someone (liability). Both questions expose the same underlying tension: a legal order built around human authors and human wrongdoers now has to accommodate systems that generate content and take decisions on their own.
 
 ## Copyright and the human author
@@ -46,7 +64,7 @@ From the first requirement follows the whole AI-authorship debate. Copyright pre
 
 ![The "monkey selfie": a crested macaque triggered the camera itself. Because no human made the creative choices, no copyright arises. The same reasoning bars an AI from authorship (source: Wikimedia Commons, public domain).](media/ip-monkey-selfie.png){fig-alt="Close-up self-portrait photograph of a smiling crested black macaque that triggered the camera shutter itself." width="45%"}
 
-Europe's first court ruling on generative AI made the transfer explicit. In April 2024 the Municipal Court of Prague held that an image a claimant had generated with DALL-E enjoyed no copyright, because the author must be a natural person and the image was not the product of human creation (Municipal Court of Prague 2024). The output was therefore free for anyone to use, including the law firm that had copied it. A German court reached the same result in 2026 for AI-generated logos, treating prompting as a general technical instruction rather than a creative act.
+Europe's first court ruling on generative AI made the transfer explicit. In April 2024 the Municipal Court of Prague held that an image a claimant had generated with DALL-E enjoyed no copyright, because the author must be a natural person and the image was not the product of human creation (Municipal Court of Prague 2024). The output was therefore free for anyone to use, including the law firm that had copied it. A German court (AG München, 13.02.2026 – Az. 142 C 9786/25) reached the same result for AI-generated logos, treating prompting as a general technical instruction rather than a creative act.
 
 ### Prompts and the limits of prompt-based creativity
 
@@ -54,10 +72,10 @@ Consider a concrete output. A user prompts DALL-E 3: "Create a Ninjago comic wit
 
 ![Output of DALL-E 3 from a single descriptive prompt. Under the Prague ruling, such output is not protected by copyright, because entering a prompt is treated as a general instruction, not a personal creative act shaping the concrete form (image generated with OpenAI DALL-E 3, used for teaching).](media/ip-dalle-ninjago-output.jpg){fig-alt="AI-generated comic-style image of a green-clad Lego-like ninja riding a motorbike while other ninjas attack, in the visual style of the Ninjago franchise." width="55%"}
 
-On the dominant view, and on the Prague reasoning, entering a prompt is a general instruction: it sets the parameters, but the creative act of giving concrete form lies with the model. Iterative corrections (adjusting colours, fonts, proportions) are treated as craft rather than creation. The interesting frontier is whether *sufficiently* detailed, structured and repeated human choices could eventually cross into protectable authorship. The Prague court did not slam that door entirely, hinting that more targeted, evidenced human instruction might have changed the outcome, and a parallel Beijing decision has gone further in that direction. For now, though, the practical lesson stands: for a routine prompt, no one holds copyright in the output.
+On the dominant view, and on the Prague reasoning, entering a prompt is a general instruction: it sets the parameters, but the creative act of giving concrete form lies with the model. Iterative corrections (adjusting colours, fonts, proportions) are treated as craft rather than creation. The interesting frontier is whether *sufficiently* detailed, structured and repeated human choices could eventually cross into protectable authorship. The Prague court did not slam that door entirely, hinting that more targeted, evidenced human instruction might have changed the outcome. For now, though, the practical lesson stands: for a routine prompt, no one holds copyright in the output.
 
 ::: {.drag-exercise}
-Copyright requires a *personal creation* by a human; a purely AI-generated image is therefore *not protected* and falls into the *public domain*. Entering a *prompt* counts as a general instruction, not a creative act that shapes the concrete form.
+Copyright requires a *personal creation* by a human; a purely AI-generated image is therefore *not protected* and falls into the *public domain*. Entering a general, non-creative *prompt* counts as a general instruction, not a creative act that shapes the concrete form.
 :::
 
 ::: {.widget}
@@ -66,18 +84,12 @@ Copyright requires a *personal creation* by a human; a purely AI-generated image
 
 ## Personality rights: the person behind the output
 
-Even where copyright is silent, the *person* depicted or imitated is not without protection. Copyright asks whether an output is a protected work; personality rights ask whether it uses a real person's identity without consent. A voice, for instance, is usually not a "work" (it is not a personal creation in the copyright sense), yet imitating a recognisable voice can still violate the speaker's personality rights.
+Even where copyright is silent, the *person* depicted or imitated is not without protection. Copyright asks whether an output is a protected work; personality rights ask whether it uses a real person's identity without consent. A voice, for instance, is usually not a "work" (it is not a personal creation in the copyright sense), yet imitating a recognisable voice can still violate the speaker's personality rights - at least in Germany with its broad, constitutional based version of a general personality right.
 
-The point crystallised in 2024, when Scarlett Johansson objected that OpenAI's "Sky" voice assistant sounded uncannily like her, after she had declined an offer to lend her voice. OpenAI withdrew the voice. Whatever the copyright analysis, using a recognisable voice or likeness to evoke a specific person can infringe that person's personality rights independently of copyright.
-
-![News coverage of the OpenAI "Sky" voice controversy. A voice is generally not a copyright work, but imitating a recognisable voice can still infringe the speaker's personality rights (source: Engadget, 21 May 2024).](media/ip-johansson-openai-voice.png){fig-alt="Screenshot of an Engadget article headlined 'Scarlett Johansson says OpenAI used her likeness without permission for its Sky voice assistant'." width="60%"}
-
-The same concern drives the film and games industries, where actors fear being replaced by AI-made digital replicas, and where the likeness of deceased performers (the estate of Carrie Fisher, whose image continued to appear in the Star Wars franchise, is a much-cited example) can be reconstructed synthetically. Legislators have begun to respond directly. In September 2024 California passed statutes requiring an actor's permission for AI-generated digital replicas of their likeness and the consent of the estates of deceased performers.
-
-![California's 2024 statutes require performers' consent for AI-generated digital replicas and extend that consent requirement to the estates of deceased performers (source: Engadget, 17 September 2024).](media/liability-california-ai-likeness-law.png){fig-alt="Screenshot of an Engadget article headlined 'California passes landmark law requiring actors' permission for AI likenesses'." width="60%"}
+The point crystallised in 2024, when Scarlett Johansson objected that OpenAI's "Sky" voice assistant sounded uncannily like her, after she had declined an offer to lend her voice. OpenAI withdrew the voice. The same concern drives the film and games industries, where actors fear being replaced by AI-made digital replicas, and where the likeness of deceased performers (the estate of Carrie Fisher, whose image continued to appear in the Star Wars franchise, is a much-cited example) can be reconstructed synthetically. Legislators have begun to respond directly. In September 2024 California passed statutes requiring an actor's permission for AI-generated digital replicas of their likeness and the consent of the estates of deceased performers.
 
 ::: {.quick-check}
-An AI voice assistant is trained to sound recognisably like a famous actor who declined to license her voice. On what basis can she object, even though a voice is not a copyright "work"?
+An AI voice assistant is trained to sound recognisably like a famous German actor who declined to license her voice. On what basis could she object in Germany, even though a voice is not a copyright "work"?
 
 - Copyright authorship, because she inspired the output
 - **Personality rights, which protect a recognisable voice or likeness independently of copyright**
@@ -104,24 +116,11 @@ The Article 4 opt-out (the "reservation of rights") is the pivot of the entire d
 For commercial purposes, including AI training, mining lawfully accessible works is permitted unless the rightholder has reserved the use; for online works that reservation must be machine-readable. This reverses the copyright default from opt-in to opt-out.
 :::
 
-::: {.widget}
-<iframe src="widgets/kapitel-13/widget-limitations-check.html" width="100%" height="400px" frameborder="0" style="border:none;" title="Copyright limitations and the TDM exception"></iframe>
-:::
-
 ## Closed catalogue versus fair use
 
 Behind the TDM question lies a deeper structural difference between the two great copyright traditions, and it directly shapes how AI training is judged on either side of the Atlantic. EU copyright works with a **closed catalogue** of specific, enumerated exceptions (the limitations doctrine). Anything not expressly permitted stays forbidden; there is no general escape clause. Whether AI training is lawful therefore turns on whether it fits one of the listed exceptions, above all the Article 4 TDM exception and its opt-out.
 
 The United States takes the opposite route. There is no closed list but a single open standard, the **fair use** doctrine of [17 U.S.C. §107](https://www.copyright.gov/title17/92chap1.html#107){target="_blank"}, under which courts weigh four factors case by case: the purpose and character of the use (including whether it is "transformative"), the nature of the work, the amount used, and the effect on the market for the original. Whether training a model on protected works is fair use is being litigated across a wave of US cases and is far from settled. The comparison is instructive: the EU offers more *ex ante* certainty (a defined exception with a defined opt-out) at the price of rigidity, while the US offers flexibility at the price of unpredictability. For an AI developer, the EU asks "does an exception cover this?"; the US asks "would a court find this fair?".
-
-::: {.case-study}
-#### Case: Training a music model on the European catalogue
-A start-up trains a generative music model on millions of tracks scraped from publicly accessible sites, then markets it commercially in the EU. Several rightholders had placed machine-readable "no TDM" reservations in their sites' metadata; others had not. Is the training lawful?
-
-::: {.solution}
-The relevant basis is the general TDM exception of [Art. 4 DSM Directive](https://eur-lex.europa.eu/eli/dir/2019/790/oj){target="_blank"}, transposed in [§44b UrhG](https://www.gesetze-im-internet.de/urhg/__44b.html){target="_blank"}. For the tracks with **no reservation**, and assuming lawful access, commercial TDM is in principle permitted: the copies made to build the training corpus fall under the exception. For the tracks carrying a valid **machine-readable reservation**, the exception does not apply, so training on them needs a licence; using them anyway is an infringement of the reproduction right. Two caveats remain open. First, the research exception of [Art. 3](https://eur-lex.europa.eu/eli/dir/2019/790/oj){target="_blank"} would not help a commercial builder. Second, the Munich GEMA/OpenAI reasoning suggests the exception may cover only the dataset-building phase and not reproductions embedded in the model, so the safest course is licensing where reservations exist. Had the same model been trained and deployed in the US, the question would instead be whether the use is transformative fair use under [§107](https://www.copyright.gov/title17/92chap1.html#107){target="_blank"}, a case-by-case judgment rather than a catalogue check.
-:::
-:::
 
 ::: {.details}
 #### Practical takeaway for AI-generated content
@@ -138,7 +137,7 @@ Return to the silence we started with. Suppose an autonomously navigating wareho
 
 The centrepiece of the EU's answer is the reformed **Product Liability Directive**, [Directive (EU) 2024/2853](https://eur-lex.europa.eu/eli/dir/2024/2853/oj){target="_blank"}. Classic damages law struggles with "black box" AI: how do you prove a programming error caused the harm when the system learns on its own? Strict product liability sidesteps that. It does not attach to blameworthy conduct but to the source of danger the producer created. The injured party need not prove fault, only the defect and the resulting damage.
 
-The decisive reform is one of scope: the Directive makes explicit that **software, and therefore AI, counts as a product**. A producer who puts defective AI software into circulation is liable, regardless of fault, for personal injury and property damage. The Directive must be transposed into national law by 9 December 2026. Its limits matter as much as its reach: it covers personal injury and property damage, not pure economic loss and not, in the ordinary case, discrimination, which is exactly where the second, fault-based track and its proof problems come back into play.
+The decisive reform is one of scope: the Directive makes explicit that **software, and therefore AI systems, counts as a product**. A producer who puts defective AI software into circulation is liable, regardless of fault, for personal injury and property damage. The Directive must be transposed into national law by 9 December 2026. Its limits matter as much as its reach: it covers personal injury and property damage, not pure economic loss and not, in the ordinary case, discrimination, which is exactly where the second, fault-based track and its proof problems come back into play.
 
 ::: {.flip-card}
 #### Strict liability (Product Liability Directive)
@@ -148,19 +147,6 @@ Liability that attaches not to fault but to the danger created by placing a defe
 ## The withdrawn AI Liability Directive and the remaining gap
 
 Alongside the product-liability reform, the Commission had proposed a second instrument on the same day in September 2022: the **AI Liability Directive (AILD)**. It targeted the proof gap that strict liability leaves untouched, namely fault-based claims for harms such as discrimination or pure economic loss. It would have eased the claimant's burden through a right to disclosure of the information documented under the AI Act and a rebuttable presumption of causation once an AI Act duty was shown to have been breached. That proposal was **withdrawn in early 2025**. The consequence is a lopsided landscape: strict liability for defective AI products is now firmly in place, but for fault-based claims outside the product-liability track, the injured party carries a demanding burden of proof, with no harmonised relief.
-
-::: {.widget}
-<iframe src="widgets/kapitel-13/widget-liability-flow.html" width="100%" height="560px" frameborder="0" style="border:none;" title="AI liability decision flow"></iframe>
-:::
-
-::: {.case-study}
-#### Case: The warehouse robot that injures a worker
-An autonomously navigating warehouse robot with built-in AI misjudges a path and injures an employee. She wants compensation. Where does she find her claim, and how strong is her position?
-
-::: {.solution}
-Not in the AI Act, which grants no damages claim. Her primary route is the reformed [Product Liability Directive (EU) 2024/2853](https://eur-lex.europa.eu/eli/dir/2024/2853/oj){target="_blank"}: because software and AI now count as products, the producer is **strictly liable** for the personal injury caused by a defect, and she need not prove fault, only the defect and the damage. This is her strongest position, since the harm is personal injury, squarely within the Directive's scope. Alongside it, national fault-based tort law remains available against, for example, a negligent deployer. Here the picture is weaker: the **withdrawn AI Liability Directive** would have given her a disclosure right and a rebuttable presumption of causation, but without it she must shoulder the full burden of proving fault and causation against a "black box" system. The AI Act operates only in the background: if the producer breached its duties (say on data governance or human oversight), that can help establish the product's defect.
-:::
-:::
 
 ::: {.quick-check}
 Which statement about civil liability for AI harm in the EU is correct?
@@ -181,7 +167,7 @@ The recurring lesson is that neither ethics nor law alone is sufficient. Ethical
 
 ### Literature
 
-- Fechner, F. (2026): *Medienrecht*. Textbook, Chapter 5 (Copyright), on the human-authorship requirement, the TDM exceptions and the protection term.
+- Fechner, F. (2026): *Medienrecht*. UTB.
 - Oster, J. & Busch, C. (2026): *Integration von KI-Anwendungen in Suchmaschinen*. die medienanstalten / ALM, June 2026, on the TDM opt-out and the reform debate around AI training.
 
 ### Norms & Standards
@@ -197,3 +183,4 @@ The recurring lesson is that neither ethics nor law alone is sufficient. Ethical
 ### Case law
 
 - Municipal Court of Prague, judgment of 11 October 2023 (published April 2024), the first ruling by an EU court on the copyright status of AI-generated output (DALL-E image; no copyright absent human creation).
+- AG München, 13.02.2026 – Az. 142 C 9786/25 - No copyright for AI generated Logos.

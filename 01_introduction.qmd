@@ -21,9 +21,27 @@ version: "1.0"
 format: moodle-html
 ---
 
-Welcome to *Introduction to the Ethics and Regulation of AI*. Over the coming weeks we will pursue a single, practical ambition: to make you able to recognise the ethical stakes of artificial intelligence, to build an ethical assessment into your own professional and development workflows, and to navigate the legal requirements that now bind anyone who builds or deploys AI in Europe. The course does not assume that you are a philosopher or a lawyer, and it will not ask you to solve legal cases. It does assume that, as computer scientists, you will spend your careers shipping systems whose effects on people are neither neutral nor obvious, and that you would rather anticipate those effects than be surprised by them.
+```{=html}
+<script>
+window.addEventListener('message', function (e) {
+  if (e.data && typeof e.data.iframeHeight === 'number') {
+    var frames = document.querySelectorAll('iframe');
+    frames.forEach(function (f) {
+      try {
+        if (f.contentWindow === e.source) {
+          f.style.height = Math.ceil(e.data.iframeHeight * 1.05) + 'px';
+        }
+      } catch (err) {}
+    });
+  }
+});
+</script>
+```
 
-This first unit lays the groundwork. Before we can argue about whether an AI system is *right* to deploy, we need to agree on what we are even talking about when we say "AI", a term that is at once everywhere and strangely empty. We will fix a working definition, sketch the history that gave the field its rhythm of hope and disappointment, correct two persistent flaws in the public debate, and finally motivate why a technology like this calls for ethics *and* law rather than either alone.
+
+Welcome to *Introduction to the Ethics and Regulation of AI*. Over the coming weeks we will pursue a single, practical ambition: to make you able to recognise the ethical stakes of artificial intelligence, to build an ethical assessment into your own professional and development workflows, and to navigate the legal requirements that now bind anyone who builds or deploys AI in the European Union. The course does not assume that you are a philosopher or a lawyer, and it will not ask you to solve legal cases. It does assume that, as computer scientists, you will spend your careers shipping systems whose effects on people are neither neutral nor obvious, and that you would rather anticipate those effects than be surprised by them.
+
+This first unit lays the groundwork. Before we can argue about whether an AI system is *right* to deploy, we need to agree on what we are even talking about when we say "AI", a term that is at once everywhere and strangely empty. We will fix a working definition, sketch the history that gave the field its rhythm of hope and disappointment, correct frequent misunderstandings in the public debate, and finally motivate why a technology like this calls for ethics *and* law rather than either alone.
 
 ## AI, a dazzling concept
 
@@ -38,7 +56,9 @@ The first comes from the **OECD**, whose *Recommendation of the Council on Artif
 A machine-based system that, for explicit or implicit objectives, infers from its input how to generate outputs such as predictions, content, recommendations or decisions that can influence physical or virtual environments, with varying levels of autonomy and adaptiveness after deployment.
 :::
 
-The second is the legally binding definition in **Art. 3(1) of the EU AI Act**, Regulation (EU) 2024/1689. An AI system there is a *machine-based system* designed to operate with *varying levels of autonomy*, that *may exhibit adaptiveness* after deployment, and that, for *explicit or implicit objectives*, *infers* from the input it receives how to generate outputs such as predictions, content, recommendations or decisions that can influence physical or virtual environments. Three features carry the definition: **autonomy**, **adaptiveness** and, decisively, the **inference of outputs** from inputs. The consequence is that classic, deterministically programmed software falls *outside* the concept: a program that only executes explicitly coded if-then rules does not "infer" in the required sense, however complex it may be. Note also that adaptiveness is only optional ("may exhibit"), so a system need not learn after deployment to count as AI. Test this boundary yourself in the widget below by running everyday systems through the three criteria.
+The second is the legally binding definition in **Art. 3(1) of the EU AI Act**, Regulation (EU) 2024/1689. An AI system there is a *machine-based system* designed to operate with *varying levels of autonomy*, that *may exhibit adaptiveness* after deployment, and that, for *explicit or implicit objectives*, *infers* from the input it receives how to generate outputs such as predictions, content, recommendations or decisions that can influence physical or virtual environments. Three features carry the definition: **autonomy**, **adaptiveness** and, decisively, the **inference of outputs** from inputs. 
+
+The consequence is that classic, deterministically programmed software falls *outside* the concept: a program that only executes explicitly coded if-then rules does not "infer" in the required sense, however complex it may be. Note also that adaptiveness is only optional ("may exhibit"), so a system need not learn after deployment to count as AI. Test this boundary yourself in the widget below by running everyday systems through criteria.
 
 ::: {.widget}
 <iframe src="widgets/kapitel-01/widget-is-it-an-ai-system.html" width="100%" height="620px" frameborder="0" style="border:none;" title="Is it an AI system? Art. 3(1) tester"></iframe>
@@ -57,17 +77,15 @@ A company runs a payroll program that multiplies hours worked by a fixed hourly 
 
 ## A short history: from Dartmouth to the eternal summer?
 
-The term itself has a birthday. The **Dartmouth Summer Research Project on Artificial Intelligence**, convened by John McCarthy, Marvin Minsky, Nathaniel Rochester of IBM and Claude Shannon over the summer of 1956 at Dartmouth College, is usually named as the moment the phrase "artificial intelligence" was coined. Its 1955 proposal set an audacious conjecture that still frames the field: that every aspect of learning, or any other feature of intelligence, could in principle be described so precisely that a machine could be made to simulate it. Almost every debate we will have this term is, in some form, an argument about whether, and at what cost, that conjecture holds.
+The term itself has a birthday. The **Dartmouth Summer Research Project on Artificial Intelligence**, convened by John McCarthy, Marvin Minsky, Nathaniel Rochester and Claude Shannon over the summer of 1956 at Dartmouth College, is usually named as the moment the phrase "artificial intelligence" was coined. Its 1955 proposal set an audacious conjecture that still frames the field: that every aspect of learning, or any other feature of intelligence, could in principle be described so precisely that a machine could be made to simulate it. Almost every debate we will have this term is, in some form, an argument about whether, and at what cost, that conjecture holds.
 
 The decades since have not been a smooth ascent. The field has moved in waves, alternating "summers" of funding and optimism with "winters" of disappointment when systems failed to meet inflated promises. A first boom around symbolic, rule-based "good old-fashioned AI" (GOFAI) in the 1950s and 1960s gave way to a first winter; a second boom around expert systems in the 1980s to a second winter; and the current, third boom around machine learning, powered by cheap computation and the vast training data of the "web 2.0" era, has produced deep learning, game-playing systems that beat human champions, and today's large language models. The figure below traces this rhythm.
 
 Walk through the eras yourself in the interactive timeline. Click each summer and winter to see its key events, the people who drove it, and the mechanism that turned hype into disappointment or, this time, into compounding capability.
 
 ::: {.widget}
-<iframe src="widgets/kapitel-01/widget-ai-history-timeline.html" width="100%" height="600px" frameborder="0" style="border:none;" title="Interactive AI history timeline: booms and winters from Dartmouth to generative AI"></iframe>
+<iframe src="widgets/kapitel-01/widget-ai-history-timeline.html" width="100%" height="630px" frameborder="0" style="border:none;" title="Interactive AI history timeline: booms and winters from Dartmouth to generative AI"></iframe>
 :::
-
-![The history of AI as an alternation of "booms" and "winters": a first boom around symbolic AI ("GOFAI") in the 1950s-60s, a second around expert systems in the 1980s, and a third, current boom around machine learning, deep learning and general-purpose models. Each summer of optimism has so far been followed, or is expected to be followed, by a period of recalibrated expectations (source: Jay Latta, "History of AI, from winter to winter").](media/intro-ai-winters-summers-timeline.png){fig-alt="A timeline from the 1960s to the 2010s showing three peaks labelled Boom 1 GOFAI, Boom 2 Expert Systems and Boom 3 Machine Learning, separated by two troughs labelled Winter 1 and Winter 2, with the third curve rising steeply toward labels such as Deep Learning, Autonomous Vehicles and social excitement and concern." width="90%"}
 
 The obvious question is whether the current boom is different in kind, an "eternal summer" that will not end, or whether it too rests on expectations that a further winter will correct. That question is not idle: the ethical and regulatory urgency of AI depends in part on whether its capabilities will keep compounding. We do not need to settle it here. What the history teaches is a habit of mind, namely to separate what a system *demonstrably does* from what its promoters *promise it will do*, a distinction that also structures the flaws in the public debate we turn to next.
 
@@ -82,7 +100,7 @@ Which event is conventionally cited as the moment the term "artificial intellige
 
 ## AI as a sociotechnical system
 
-Two flaws recur in the public discourse on AI, and both matter because they distort where we look for ethical and legal responsibility. Correcting them is one of the core aims of this unit.
+Some flaws recur in the public discourse on AI, and they matter because they distort where we look for ethical and legal responsibility. Correcting them is one of the core aims of this unit.
 
 The first flaw is to treat AI as a **thing over there**, a device or an autonomous "other" that acts upon us from the outside. In this picture the user stands apart from the system, receiving its outputs but not shaping them. This misses that users are, in a precise sense, *part of* the system. They activate it, they supply the prompts and the clicks and the corrections, and above all they feed it the data on which it was trained and is refined. Rainer Mühlhoff's work makes this point sharply: modern AI is best understood not as a stand-alone machine intelligence but as a **sociotechnical system**, in which human cognitive labour is tacitly enrolled as a component of the algorithmic procedure. The photographs we tag, the queries we type, the choices we make, all become the raw material from which the system's competence is assembled. On this view the neat line between "the AI" and "its users" dissolves, and with it the temptation to locate all agency in the machine.
 
@@ -92,24 +110,17 @@ This reframing has direct ethical bite, and we will return to it repeatedly. If 
 Understood as a *sociotechnical* system, an AI is not a stand-alone machine but an assemblage in which the *users* are components who supply the *data* and the interactions from which the system's competence is assembled.
 :::
 
-The second flaw is **anthropomorphism**, the pull to speak and think about AI as if it were a person. Users routinely say "Siri is doing this" or "the model understands me", attributing intention, feeling and agency to what is, technically, a statistical process. This is not a mistake made only by the naive. Anthropomorphism is a robust, automatic feature of human perception. The classic demonstration is the 1944 study by Fritz Heider and Marianne Simmel, in which viewers watched a short film of moving geometric shapes, two triangles and a circle, and almost unanimously described a social drama of chasing, bullying and fear. Mere contingent, responsive motion was enough to trigger the attribution of intentions to abstract forms. Generative chatbots produce exactly such fluent, contingent, dialogic signals, and so activate the same machinery far more powerfully.
+The next flaw is **anthropomorphism**, the pull to speak and think about AI as if it were a person. Users routinely say "Siri is doing this" or "the model understands me", attributing intention, feeling and agency to what is, technically, a statistical process. This is not a mistake made only by the naive. Anthropomorphism is a robust, automatic feature of human perception.
 
-The trap is that anthropomorphism reshapes trust and responsibility in dangerous ways. Perceiving a system as a quasi-agent invites **over-reliance** (the sense that "it understands", that "it knows"), and it quietly shifts felt responsibility away from the providers and deployers who actually built and fielded the system and onto the "agent" itself. It is, in that sense, the psychological counterpart to the responsibility gap we will study in a later unit. A related distortion, worth naming once and setting aside, is the fixation of much popular debate on an all-powerful "general" or "strong" AI poised to take over humanity. Whatever one thinks of long-term risk, that framing tends to direct attention away from the concrete, present harms, biased decisions, opaque scoring, manipulative interfaces, that this course is built to address.
+The trap is that anthropomorphism reshapes trust and responsibility in dangerous ways. Perceiving a system as a quasi-human invites **over-reliance** (the sense that "it understands", that "it knows"), and it quietly shifts felt responsibility away from the providers and deployers who actually built and fielded the system and onto the "agent" itself. It is, in that sense, the psychological counterpart to the responsibility gap we will study in a later unit. 
 
-::: {.quick-check}
-In the 1944 Heider and Simmel experiment, what did most viewers report when shown moving geometric shapes?
-
-- Random, meaningless motion
-- A physics demonstration of collisions
-- **A social drama, attributing intentions and feelings to the shapes**
-- Nothing until they were told what to look for
-:::
+A related distortion, worth naming once and setting aside, is the fixation of much popular debate on an all-powerful "general" or "strong" AI poised to take over humanity. Whatever one thinks of long-term risk, that framing tends to direct attention away from the concrete, present harms, biased decisions, opaque scoring, manipulative interfaces, that this course is built to address.
 
 ## Why AI needs ethics *and* regulation
 
 Ask a room to name an ethical issue raised by AI and, more often than not, the first example is the **trolley problem** in its self-driving guise: a car whose brakes have failed must "choose" whether to stay its course and strike several pedestrians or swerve and kill one. The scenario is a useful hook because it makes vivid that a machine's behaviour can encode a moral choice, and that someone must decide, in advance and in code, how that choice is made. But it is also a trap if taken too literally. Real autonomous systems rarely face such clean, binary dilemmas; their genuine ethical problems, biased training data, opaque decision-making, the erosion of meaningful human oversight, are messier and more mundane. The lesson of the trolley problem is not that we must program answers to contrived dilemmas, but that value choices are unavoidable in the design of any consequential system, so we had better make them deliberately and defensibly.
 
-That is precisely the work of **ethics**. As Mark Coeckelbergh and Virginia Dignum, whose books accompany much of this course, both insist, the ethics of AI is not a matter of bolting a moral veneer onto a finished product. It is the systematic reflection on the values a system embodies and on how we ought to act when we build and deploy it, undertaken *while* the system is being designed, not after it has caused harm. Whether a model is accurate is a question engineering can answer; whether its deployment is *justified* is not, and confusing the two is the first error a responsible practitioner learns to avoid.
+That is precisely the work of **ethics**. As Mark Coeckelbergh and Virginia Dignum, whose books in addition to Rainer Mühlhoff's *The Ethics of AI* are central to this course, both insist, the ethics of AI is not a matter of bolting a moral veneer onto a finished product. It is the systematic reflection on the values a system embodies and on how we ought to act when we build and deploy it, undertaken *while* the system is being designed, not after it has caused harm. Whether a model is accurate is a question engineering can answer; whether its deployment is *justified* is not, and confusing the two is the first error a responsible practitioner learns to avoid.
 
 Yet ethics alone is not enough, for a simple structural reason. Ethical commitments, however sincere, are voluntary, and voluntary commitments cannot be enforced against an actor who decides to ignore them. This is where **regulation** enters. Binding law translates abstract values such as fairness, transparency and human oversight into enforceable obligations, with consequences for those who breach them. The EU AI Act, the subject of a dedicated later unit, is the European legislator's attempt to do exactly this, grading its requirements by the risk a system poses to safety, health and fundamental rights. Ethics and law are therefore not rivals but partners: ethics identifies and justifies what matters and reaches into the countless situations no rule anticipates, while regulation gives the most important of those judgements teeth. This course deliberately treats them together.
 
@@ -139,7 +150,6 @@ With a shared vocabulary for what "AI" is and why it demands scrutiny, we can no
 
 - Coeckelbergh, M. (2020): *AI Ethics*. MIT Press, Cambridge, MA.
 - Dignum, V. (2019): *Responsible Artificial Intelligence: How to Develop and Use AI in a Responsible Way*. Springer International Publishing, Cham. <https://doi.org/10.1007/978-3-030-30371-6>
-- Heider, F. & Simmel, M. (1944): An Experimental Study of Apparent Behavior. *The American Journal of Psychology* 57(2), 243-259. <https://doi.org/10.2307/1416950>
 - McCarthy, J., Minsky, M. L., Rochester, N. & Shannon, C. E. (1955): *A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence*. (Reprinted 2006 in *AI Magazine* 27(4), 12-14.) <https://doi.org/10.1609/aimag.v27i4.1904>
 - Mühlhoff, R. (2025): *The Ethics of AI: Power, Critique, Responsibility*. Bristol University Press, Bristol.
 
