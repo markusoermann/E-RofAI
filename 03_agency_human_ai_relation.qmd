@@ -94,7 +94,12 @@ On Floridi and Sanders' account, in what sense can an artificial agent be "moral
 
 First, watch the video. Continue reading afterwards!
 
-[![Heider-Simmel-Experiment](https://img.youtube.com/vi/VTNmLt7QX8E/maxresdefault.jpg)](https://www.youtube.com/watch?v=VTNmLt7QX8E)
+::: {.widget}
+<iframe id="heider-simmel-video" width="100%" height="420px" frameborder="0" title="Heider-Simmel-Experiment"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen></iframe>
+<script>document.getElementById("heider-simmel-video").src = "https://www.youtube.com/embed/VTNmLt7QX8E";</script>
+:::
 
 What did you see here? Probably a chase, children playing, or a family argument. The fascinating thing about it is that, in reality, only geometric shapes were moving here. Long before there were chatbots, psychology had already shown how eagerly humans attribute agency to things that have none. In a classic 1944 experiment, Fritz Heider and Marianne Simmel showed viewers a short animation of a large triangle, a small triangle and a circle moving around a rectangle with an opening. Asked what they saw, almost no one described geometric shapes in motion. They described a bully chasing a couple, a hero rescuing a victim, a jealous quarrel: full stories of intention, fear and desire projected onto three abstract forms. The finding is robust and cross-cultural, and it names a deep human disposition to read minds into motion.
 
