@@ -18,7 +18,9 @@ course: "Introduction to the Ethics and Regulation of AI"
 version: "1.0"
 
 # --- Output formats ---
-format: moodle-html
+format:
+  moodle-html: default
+  reader-typst: default
 ---
 
 The previous unit closed with Hagendorff's warning that ethics guidelines issued from the outside can slide into public relations, so this unit turns inward and asks whether firms writing their own rules can do any better. Before we can judge internal codes of ethics, however, we need a map of the regulatory landscape as a whole. Why does a liberal state so often prefer that companies regulate themselves? What exactly does a corporate code of ethics achieve, and for whom? And what stands between a lofty principle and an engineer's actual workflow? This unit answers those questions in three moves: it lays out the forms of regulation and the logic of regulatory choice, it dissects internal codes and OpenAI's Preparedness Framework as a live specimen, and it introduces the technical standards that try to turn ethics into repeatable process.

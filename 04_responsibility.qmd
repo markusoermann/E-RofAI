@@ -18,7 +18,9 @@ course: "Introduction to the Ethics and Regulation of AI"
 version: "1.0"
 
 # --- Output formats ---
-format: moodle-html
+format:
+  moodle-html: default
+  reader-typst: default
 ---
 
 In the previous unit we saw that AI can act, and can even be described as an agent in an actor-network, without being a moral agent in the full sense. This unit takes the next step and asks who, then, must answer when an AI system causes harm. Responsibility is the hinge between the ethics of the earlier units and the enforceable duties of the legal units to come, because law can only assign liability once ethics has clarified who could plausibly be held to account in the first place. We begin with the classical conditions of responsibility, expose the distinctive ways in which AI strains them, and end with the constructive answer: building responsibility into the development process from the very start.
