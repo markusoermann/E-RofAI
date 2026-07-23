@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDPR Applicability Checker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #333333;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .question-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #ff6a00;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        #result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: none;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .result-yes {
+            background: #e6fced;
+            color: #0d822a;
+            border: 1px solid #b3eac3;
+        }
+        .result-no {
+            background: #fcebeb;
+            color: #c91a1a;
+            border: 1px solid #f1caca;
+        }
+        .reset-btn {
+            background: #555;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="step-container">
+            <div class="question-box" id="question-text">
+                Are personal data processed wholly or partly by automated means? (Or stored in a structured filing system?)
+            </div>
+
+            <div class="button-group" id="action-buttons">
+                <button onclick="answer(true)">Yes</button>
+                <button onclick="answer(false)">No</button>
+            </div>
+        </div>
+
+        <div id="result"></div>
+        <button class="reset-btn" id="reset-btn" onclick="reset()" style="display: none;">Start over</button>
+    </div>
+
+    <script>
+        const steps = [
+            {
+                // Step 0
+                q: "Are personal data processed wholly or partly by automated means? (Or stored non-automatically in a structured filing system?)",
+                yes: 1,
+                no: "NO_MATERIAL"
+            },
+            {
+                // Step 1
+                q: "Does the processing entity have an establishment in the EU?",
+                yes: "YES_ESTABLISHMENT",
+                no: 2
+            },
+            {
+                // Step 2
+                q: "Are goods or services offered to people in the EU, or is their behaviour in the EU monitored?",
+                yes: "YES_MARKETPLACE",
+                no: "NO_TERRITORIAL"
+            }
+        ];
+
+        let currentStep = 0;
+
+        const questionText = document.getElementById("question-text");
+        const actionButtons = document.getElementById("action-buttons");
+        const resultBox = document.getElementById("result");
+        const resetBtn = document.getElementById("reset-btn");
+
+        function answer(isYes) {
+            const stepData = steps[currentStep];
+            const nextNode = isYes ? stepData.yes : stepData.no;
+
+            if (typeof nextNode === "number") {
+                currentStep = nextNode;
+                questionText.textContent = steps[currentStep].q;
+            } else {
+                showResult(nextNode);
+            }
+        }
+
+        function showResult(code) {
+            questionText.style.display = "none";
+            actionButtons.style.display = "none";
+            resultBox.style.display = "block";
+            resetBtn.style.display = "inline-block";
+
+            if (code === "NO_MATERIAL") {
+                resultBox.className = "result-no";
+                resultBox.innerHTML = "GDPR does not apply!<br><span style='font-size: 1rem; font-weight: normal'>The material conditions (Art. 2 GDPR) are not met.</span>";
+            } else if (code === "NO_TERRITORIAL") {
+                resultBox.className = "result-no";
+                resultBox.innerHTML = "GDPR does not apply!<br><span style='font-size: 1rem; font-weight: normal'>The territorial conditions (Art. 3 GDPR) are missing.</span>";
+            } else if (code === "YES_ESTABLISHMENT") {
+                resultBox.className = "result-yes";
+                resultBox.innerHTML = "GDPR applies!<br><span style='font-size: 1rem; font-weight: normal'>The establishment principle (Art. 3(1) GDPR) is satisfied.</span>";
+            } else if (code === "YES_MARKETPLACE") {
+                resultBox.className = "result-yes";
+                resultBox.innerHTML = "GDPR applies!<br><span style='font-size: 1rem; font-weight: normal'>The marketplace principle (Art. 3(2) GDPR) is triggered.</span>";
+            }
+        }
+
+        function reset() {
+            currentStep = 0;
+            questionText.style.display = "flex";
+            actionButtons.style.display = "flex";
+            resultBox.style.display = "none";
+            resetBtn.style.display = "none";
+            questionText.textContent = steps[currentStep].q;
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

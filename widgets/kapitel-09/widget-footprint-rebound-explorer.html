@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Footprint &amp; Rebound Explorer</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 16px;color:#555;}
+  .controls{border:1px solid #e3e3e3;border-radius:8px;background:#fff;padding:16px 18px;margin-bottom:16px;}
+  .row{margin-bottom:16px;}
+  .row:last-child{margin-bottom:0;}
+  .row label{display:block;font-size:.82rem;font-weight:600;color:#444;margin-bottom:6px;}
+  .row .val{color:#ff6a00;font-weight:700;}
+  input[type=range]{width:100%;accent-color:#ff6a00;height:4px;cursor:pointer;}
+  .scale{display:flex;justify-content:space-between;font-size:.68rem;color:#999;margin-top:2px;}
+  .eff-buttons{display:flex;gap:8px;flex-wrap:wrap;}
+  .eff-buttons button{flex:1;min-width:120px;background:#eee;color:#333;border:none;padding:9px 10px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:.15s;}
+  .eff-buttons button:hover{background:#e0e0e0;}
+  .eff-buttons button.active{background:#ff6a00;color:#fff;}
+  .out{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+  .card{border:1px solid #e3e3e3;border-radius:8px;background:#fff;padding:14px 16px;}
+  .card .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:#999;font-weight:600;}
+  .card .v{font-size:1.5rem;font-weight:800;color:#222;margin:4px 0 2px;}
+  .card .u{font-size:.75rem;color:#777;}
+  .card .cmp{font-size:.76rem;color:#555;margin-top:8px;line-height:1.45;}
+  .rebound{border:1px solid #ffd9b8;border-radius:8px;background:#fff7f0;padding:14px 16px;font-size:.85rem;line-height:1.55;color:#5a3a1a;}
+  .rebound b{color:#c0392b;}
+  .rebound .good{color:#1a8a3c;}
+  .note{font-size:.72rem;color:#999;margin-top:14px;line-height:1.5;}
+  @media(max-width:560px){.out{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Set how many AI queries you run per day and pick an efficiency scenario. The explorer scales the per-query energy and water footprint to a yearly total, then shows what the Jevons (rebound) effect does to the "savings" that efficiency was supposed to deliver.</p>
+
+  <div class="controls">
+    <div class="row">
+      <label>Queries per day: <span class="val" id="qval">50</span></label>
+      <input type="range" id="q" min="1" max="1000" value="50">
+      <div class="scale"><span>1</span><span>a heavy daily user</span><span>1000</span></div>
+    </div>
+    <div class="row">
+      <label>Users in the population: <span class="val" id="uval">1 million</span></label>
+      <input type="range" id="u" min="0" max="9" value="6">
+      <div class="scale"><span>1</span><span>×10 steps</span><span>1 billion</span></div>
+    </div>
+    <div class="row">
+      <label>Efficiency scenario (energy per query)</label>
+      <div class="eff-buttons" id="eff">
+        <button data-e="0.01" data-l="Today, large model">Today (0.01 kWh)</button>
+        <button data-e="0.003" data-l="3&times; more efficient">3&times; efficient</button>
+        <button data-e="0.001" data-l="10&times; more efficient">10&times; efficient</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="out">
+    <div class="card">
+      <div class="k">Electricity per year</div>
+      <div class="v" id="kwh">-</div>
+      <div class="u">kWh across the whole population</div>
+      <div class="cmp" id="kwhcmp"></div>
+    </div>
+    <div class="card">
+      <div class="k">Water per year</div>
+      <div class="v" id="water">-</div>
+      <div class="u">litres for cooling and power</div>
+      <div class="cmp" id="watercmp"></div>
+    </div>
+  </div>
+
+  <div class="rebound" id="rebound"></div>
+
+  <p class="note">Illustrative model. Per-query energy uses the order-of-magnitude range reported for a large-model query (roughly 0.001&ndash;0.01 kWh), about 25&ndash;60&times; a web search. Water intensity is set at roughly 0.5 litres per kWh of consumption, in the range discussed for data-centre cooling and power generation. The rebound assumption (a 10&times; efficiency gain triggers a 20&times; rise in demand) is a teaching figure, not a forecast, chosen to make Jevons' paradox visible. Sources: Li et al. 2023; Patterson et al. 2021; Jevons 1866.</p>
+</div>
+
+<script>
+const qEl=document.getElementById('q'), uEl=document.getElementById('u'), effEl=document.getElementById('eff');
+let perQ=0.01, effLabel="Today, large model", effIdx=0;
+const WATER_PER_KWH=0.5; // litres
+
+function fmt(n){
+  if(n>=1e9) return (n/1e9).toFixed(1)+" billion";
+  if(n>=1e6) return (n/1e6).toFixed(1)+" million";
+  if(n>=1e3) return (n/1e3).toFixed(1)+" thousand";
+  return Math.round(n).toString();
+}
+function usersFromSlider(v){return Math.pow(10, +v);}
+
+function render(){
+  const qpd=+qEl.value;
+  const users=usersFromSlider(uEl.value);
+  document.getElementById('qval').textContent=qpd;
+  document.getElementById('uval').textContent=fmt(users);
+
+  const queriesYr = qpd*365*users;
+  const kwh = queriesYr*perQ;
+  const water = kwh*WATER_PER_KWH;
+
+  document.getElementById('kwh').textContent=fmt(kwh);
+  document.getElementById('water').textContent=fmt(water);
+
+  // comparisons: avg EU household ~3500 kWh/yr; Olympic pool ~2.5 million litres
+  const homes=kwh/3500;
+  const pools=water/2500000;
+  document.getElementById('kwhcmp').textContent="≈ the yearly electricity of "+fmt(homes)+" average households.";
+  document.getElementById('watercmp').textContent="≈ "+fmt(pools)+" Olympic swimming pools.";
+
+  // rebound narrative: compare to today's baseline (0.01) at CURRENT usage
+  const baseKwh = qpd*365*users*0.01;
+  if(effIdx===0){
+    document.getElementById('rebound').innerHTML="You are on today's footprint. Now imagine engineers make the model <b>10&times; more efficient</b>. Naive expectation: energy drops to one tenth. Try the 10&times; button and watch what happens once demand responds.";
+  } else {
+    const naive = baseKwh*(perQ/0.01); // what efficiency alone would save
+    // rebound: efficiency gain g -> demand multiplier. g=3.33 (3x) -> ~2.5x demand; g=10 -> 20x demand
+    const gain = 0.01/perQ;
+    const demandMult = gain>=10 ? 20 : (gain>=3 ? 2.5 : 1);
+    const rebounded = naive*demandMult;
+    const net = rebounded/baseKwh;
+    let verdict;
+    if(net<1) verdict="Net effect: total energy still falls to <span class='good'>"+(net*100).toFixed(0)+"%</span> of the baseline. Efficiency wins this round.";
+    else verdict="Net effect: total energy <b>rises to "+net.toFixed(1)+"&times;</b> the baseline. The efficiency gain was more than eaten by extra demand: this is <b>Jevons' paradox</b>.";
+    document.getElementById('rebound').innerHTML="A "+gain.toFixed(0)+"&times; efficiency gain <i>alone</i> would cut energy to "+(perQ/0.01*100).toFixed(0)+"% of the baseline. But cheaper, faster AI invites more use. Assuming demand grows about "+demandMult+"&times; in response, "+verdict;
+  }
+}
+
+qEl.oninput=render; uEl.oninput=render;
+[...effEl.children].forEach((b,i)=>{
+  b.onclick=()=>{
+    [...effEl.children].forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    perQ=+b.dataset.e; effIdx=i;
+    render();
+  };
+});
+effEl.children[0].classList.add('active');
+render();
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

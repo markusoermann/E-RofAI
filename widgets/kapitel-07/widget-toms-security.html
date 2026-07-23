@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security of processing: measures and protection goals</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: 'Inter', sans-serif; background: #fff; color: #333; }
+        .container { max-width: 750px; margin: 0 auto; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .card { background: #fdfdfd; border: 2px solid #eee; border-radius: 8px; padding: 15px; text-align: left; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+        .card:hover { border-color: #ff6a00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .card.active { border-color: #ff6a00; background: #fff0e6; }
+        .card-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; color: #ff6a00; }
+        .card-desc { font-size: 0.9rem; color: #555; }
+
+        .measure-panel { margin-top: 30px; background: #333; color: white; border-radius: 8px; padding: 20px; text-align: left; min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
+        .measure-title { font-size: 1.2rem; font-weight: bold; color: #ff6a00; margin-bottom: 10px; }
+        .measure-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .tag { background: rgba(255,106,0,0.2); border: 1px solid #ff6a00; color: #ffca99; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+        .placeholder { text-align: center; color: #999; font-style: italic; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p style="color: #666; font-size: 1.1rem; margin-bottom: 5px;">Security of processing (Art. 32 GDPR)</p>
+        <h2 style="margin-top: 0;">Which measure serves which protection goal?</h2>
+        <p style="font-size: 0.95rem; margin-bottom: 25px;">Click a protection goal to see typical technical and organisational measures (TOMs) for an AI-model pipeline.</p>
+
+        <div class="grid">
+            <div class="card" onclick="show('confidentiality', this)">
+                <div class="card-title">Confidentiality</div>
+                <div class="card-desc">No unauthorised access to data.</div>
+            </div>
+            <div class="card" onclick="show('integrity', this)">
+                <div class="card-title">Integrity</div>
+                <div class="card-desc">Data must stay intact and correct.</div>
+            </div>
+            <div class="card" onclick="show('availability', this)">
+                <div class="card-title">Availability</div>
+                <div class="card-desc">Data must be retrievable when needed.</div>
+            </div>
+            <div class="card" onclick="show('unlinkability', this)">
+                <div class="card-title">Unlinkability</div>
+                <div class="card-desc">Data must not be joined across purposes.</div>
+            </div>
+        </div>
+
+        <div class="measure-panel">
+            <div id="placeholder" class="placeholder">Please select a protection goal.</div>
+            <div id="content" style="display: none;">
+                <div id="m-title" class="measure-title"></div>
+                <div id="m-tags" class="measure-tags"></div>
+                <div id="m-desc" style="line-height: 1.5;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            'confidentiality': {
+                title: 'Measures for confidentiality',
+                tags: ['Encryption', 'Access control', 'Need-to-know', 'Output filtering'],
+                desc: 'Encrypt training corpora at rest and in transit and lock them behind strict, role-based access. On the model side, output filters and safeguards against memorisation reduce the risk that verbatim personal data resurfaces at inference time.'
+            },
+            'integrity': {
+                title: 'Measures for integrity',
+                tags: ['Data lineage', 'Checksums', 'Versioning', 'Logging'],
+                desc: 'Document the provenance of every dataset and record training runs so that changes remain traceable (audit trails). Data-poisoning defences and input validation keep the training corpus from being silently corrupted.'
+            },
+            'availability': {
+                title: 'Measures for availability',
+                tags: ['Backups', 'Redundancy', 'Rate limiting', 'Incident recovery'],
+                desc: 'Redundant infrastructure and a strict backup regime protect training data and model checkpoints against ransomware, hardware failure and outages. Rate limiting on the inference API blunts extraction and denial-of-service attacks.'
+            },
+            'unlinkability': {
+                title: 'Measures for unlinkability',
+                tags: ['Pseudonymisation', 'Purpose binding', 'De-duplication', 'Differential privacy'],
+                desc: 'Data collected for different purposes must be kept technically separate. Pseudonymisation, aggressive de-duplication and techniques such as differential privacy make it harder for the model to memorise, and later reveal, an individual record.'
+            }
+        };
+
+        function show(key, btn) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.getElementById('placeholder').style.display = 'none';
+            const content = document.getElementById('content');
+            content.style.display = 'block';
+            content.style.animation = 'none';
+            content.offsetHeight; // trigger reflow
+            content.style.animation = 'fadeIn 0.3s';
+
+            document.getElementById('m-title').innerText = data[key].title;
+            document.getElementById('m-desc').innerText = data[key].desc;
+
+            const tagsHtml = data[key].tags.map(t => `<span class="tag">${t}</span>`).join('');
+            document.getElementById('m-tags').innerHTML = tagsHtml;
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

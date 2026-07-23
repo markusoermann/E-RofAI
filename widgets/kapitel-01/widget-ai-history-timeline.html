@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI History Timeline</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .track{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+  .track button{flex:1;min-width:96px;border:none;padding:9px 8px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.78rem;color:#fff;transition:.15s;text-align:center;line-height:1.25;opacity:.55;}
+  .track button:hover{opacity:.8;}
+  .track button.active{opacity:1;box-shadow:0 0 0 2px #333 inset;}
+  .track .yr{display:block;font-size:.66rem;font-weight:600;letter-spacing:.03em;opacity:.9;margin-top:2px;}
+  .ph-boom{background:#1a8a3c;}
+  .ph-winter{background:#1a5a8a;}
+  .curve{font-size:.68rem;color:#999;text-align:center;margin:0 0 16px;letter-spacing:.03em;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .lvl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.9;}
+  .body{padding:14px 16px;}
+  .summary{font-size:.9rem;line-height:1.55;margin:0 0 4px;color:#333;}
+  .body h4{margin:14px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#999;}
+  .body ul{margin:0;padding-left:18px;}
+  .body li{font-size:.85rem;line-height:1.5;margin-bottom:3px;color:#444;}
+  .people{font-size:.85rem;line-height:1.5;margin:0;color:#444;}
+  .why{display:block;margin-top:12px;font-size:.82rem;line-height:1.5;color:#7a3d00;background:#fff7f0;border:1px solid #ffd9b8;border-left:3px solid #ff6a00;border-radius:4px;padding:8px 10px;}
+  .why b{color:#ff6a00;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Click an era to see its key events, the people behind it, and why the hype rose or the funding froze. The green blocks are "summers" of optimism, the blue blocks the "winters" that corrected them.</p>
+  <div class="track" id="track"></div>
+  <p class="curve">Early optimism, two winters, then a compounding third boom. Booms in green, winters in blue.</p>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bannertext"></span><span class="lvl" id="bannerlvl"></span></div>
+    <div class="body">
+      <p class="summary" id="summary"></p>
+      <h4>Key events</h4>
+      <ul id="events"></ul>
+      <h4>People</h4>
+      <p class="people" id="people"></p>
+      <span class="why" id="why"></span>
+    </div>
+  </div>
+</div>
+<script>
+const E=[
+ {label:"Dartmouth &amp; early optimism",yr:"1956-1969",phase:"boom",banner:"Boom 1: symbolic AI (GOFAI)",lvl:"summer",
+  summary:"The field is named at Dartmouth and rides a wave of confidence that human-level reasoning is only a decade or two away.",
+  events:["1956 Dartmouth Summer Research Project coins the term \"artificial intelligence\".","Early programs prove theorems, play checkers and solve logic puzzles.","The Perceptron sparks excitement about learning machines.","Bold public predictions of imminent general intelligence."],
+  people:"John McCarthy, Marvin Minsky, Nathaniel Rochester, Claude Shannon, Allen Newell, Herbert Simon, Frank Rosenblatt.",
+  why:"<b>Why the hype:</b> Striking early demos on toy problems were extrapolated to the real world, and generous government funding assumed the same steep progress would simply continue."},
+ {label:"First AI winter",yr:"1970s",phase:"winter",banner:"Winter 1",lvl:"winter",
+  summary:"Systems that dazzled on toy problems failed to scale to real ones, and the promised general intelligence never arrived.",
+  events:["Machine translation and general reasoning fall far short of promises.","Combinatorial explosion makes search-based methods intractable at real scale.","The 1973 Lighthill report criticises the field in the UK.","Major funders cut AI budgets sharply."],
+  people:"James Lighthill (critic), and the funding agencies (DARPA, UK research councils) that pulled back.",
+  why:"<b>Why the winter:</b> Capabilities were oversold, so when results did not match the promises, disappointed funders withdrew support and confidence collapsed."},
+ {label:"Expert systems",yr:"1980s",phase:"boom",banner:"Boom 2: expert systems",lvl:"summer",
+  summary:"A commercial boom around rule-based systems that encode the knowledge of human experts for narrow domains.",
+  events:["Expert systems such as MYCIN and XCON reach industrial use.","Companies invest heavily in specialised AI hardware (Lisp machines).","Japan's Fifth Generation Computer project fuels global competition.","Knowledge engineering becomes a marketable discipline."],
+  people:"Edward Feigenbaum, the knowledge-engineering community, and the vendors of Lisp machines.",
+  why:"<b>Why the hype:</b> Narrow rule-based systems delivered real business value in limited domains, which was again read as proof that broader intelligence was within reach."},
+ {label:"Second AI winter",yr:"late 1980s-1990s",phase:"winter",banner:"Winter 2",lvl:"winter",
+  summary:"Expert systems proved brittle and costly to maintain, and the specialised hardware market collapsed.",
+  events:["Rule bases grow expensive to update and fail outside their narrow domain.","The Lisp-machine market collapses as general hardware catches up.","Corporate AI budgets are cut and the label \"AI\" becomes unfashionable.","Quiet, steady progress continues under other names."],
+  people:"Practitioners who rebranded their work as \"machine learning\" or \"informatics\" to avoid the tarnished AI label.",
+  why:"<b>Why the winter:</b> Hand-coded rules could not adapt or scale, maintenance costs ballooned, and cheaper general-purpose computers wiped out the dedicated hardware business."},
+ {label:"Deep-learning boom",yr:"2006-2016",phase:"boom",banner:"Boom 3: machine learning",lvl:"summer",
+  summary:"Cheap computation and the vast data of the web 2.0 era turn neural networks into the dominant, and highly capable, approach.",
+  events:["2012 AlexNet wins ImageNet and ignites the deep-learning surge.","GPUs and massive labelled datasets make large networks trainable.","2016 AlphaGo beats a world champion at Go.","Speech, vision and translation reach practical, deployed quality."],
+  people:"Geoffrey Hinton, Yann LeCun, Yoshua Bengio, Fei-Fei Li (ImageNet), the DeepMind team.",
+  why:"<b>Why the boom:</b> This time the fuel was structural, abundant data and cheap parallel compute let learning replace hand-coded rules, so gains were demonstrable rather than merely promised."},
+ {label:"Generative AI",yr:"2017-today",phase:"boom",banner:"Boom 3 continues: generative AI",lvl:"summer",
+  summary:"Large models trained at scale generate fluent text, images and code, bringing AI into everyday public use.",
+  events:["2017 the Transformer architecture (\"Attention is all you need\").","Large language models scale to broad, general capabilities.","November 2022 ChatGPT triggers the public \"iPhone moment\" of AI.","General-purpose models are integrated into countless downstream products."],
+  people:"The Transformer authors (Vaswani et al.), and the labs (OpenAI, Google, Anthropic, Meta) racing to scale models.",
+  why:"<b>Open question:</b> Is this an \"eternal summer\" of compounding capability, or a fresh cycle of inflated expectation that a further winter will correct? The honest habit is to separate what a system demonstrably does from what its promoters promise."}
+];
+const tk=document.getElementById('track');
+E.forEach((e,i)=>{
+ const b=document.createElement('button');
+ b.className='ph-'+e.phase;
+ b.innerHTML=e.label+'<span class="yr">'+e.yr+'</span>';
+ b.onclick=()=>pick(i);
+ tk.appendChild(b);
+});
+function pick(i){
+ [...tk.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const e=E[i];
+ const r=document.getElementById('result');r.classList.add('show');
+ const banner=document.getElementById('banner');
+ banner.className='banner ph-'+e.phase;
+ document.getElementById('bannertext').textContent=e.banner;
+ document.getElementById('bannerlvl').textContent=e.lvl;
+ document.getElementById('summary').textContent=e.summary;
+ const ul=document.getElementById('events');ul.innerHTML='';
+ e.events.forEach(ev=>{const li=document.createElement('li');li.textContent=ev;ul.appendChild(li);});
+ document.getElementById('people').textContent=e.people;
+ document.getElementById('why').innerHTML=e.why;
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

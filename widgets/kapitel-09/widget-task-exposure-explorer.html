@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Task-Exposure Explorer</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 16px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;padding:16px 18px;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .occ{font-size:1.05rem;font-weight:700;color:#222;margin:0 0 2px;}
+  .occ .isco{font-size:.72rem;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.05em;margin-left:6px;}
+  .subtitle{font-size:.82rem;color:#777;margin:0 0 14px;}
+  .barwrap{margin-bottom:14px;}
+  .barlabel{display:flex;justify-content:space-between;font-size:.78rem;font-weight:600;color:#444;margin-bottom:5px;}
+  .barlabel .pct{color:#ff6a00;font-weight:800;}
+  .track{position:relative;height:26px;background:#f0f0f0;border-radius:6px;overflow:hidden;display:flex;}
+  .seg{height:100%;transition:width .4s ease;}
+  .seg-aug{background:#1a8a3c;}
+  .seg-aut{background:#c0392b;}
+  .legend{display:flex;gap:16px;margin:10px 0 0;font-size:.74rem;color:#555;flex-wrap:wrap;}
+  .legend span{display:flex;align-items:center;gap:6px;}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .dot-aug{background:#1a8a3c;}
+  .dot-aut{background:#c0392b;}
+  .dot-safe{background:#f0f0f0;border:1px solid #ddd;}
+  .verdict{border:1px solid #e3e3e3;border-radius:8px;background:#fafafa;padding:13px 15px;margin-top:16px;font-size:.85rem;line-height:1.55;color:#444;}
+  .verdict b{color:#222;}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:4px;margin-bottom:8px;}
+  .tag-sub{background:#fdecea;color:#c0392b;}
+  .tag-comp{background:#e8f5ec;color:#1a8a3c;}
+  .tag-mix{background:#fff7f0;color:#ff6a00;}
+  .note{font-size:.72rem;color:#999;margin-top:16px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick an occupation. The explorer splits its tasks into three shares: tasks with <b>automation</b> potential (AI could do them outright), tasks with <b>augmentation</b> potential (AI assists a human who stays in the loop), and tasks that resist AI for now. It then reads the mix through the substitution vs. complementarity debate.</p>
+
+  <div class="cases" id="cases"></div>
+
+  <div class="result" id="result">
+    <p class="occ" id="occ"><span id="occname"></span><span class="isco" id="isco"></span></p>
+    <p class="subtitle" id="subtitle"></p>
+
+    <div class="barwrap">
+      <div class="barlabel"><span>Share of tasks exposed to AI</span><span class="pct" id="exposedpct"></span></div>
+      <div class="track">
+        <div class="seg seg-aut" id="segaut"></div>
+        <div class="seg seg-aug" id="segaug"></div>
+      </div>
+      <div class="legend">
+        <span><i class="dot dot-aut"></i>Automation potential <b id="autpct" style="margin-left:3px;"></b></span>
+        <span><i class="dot dot-aug"></i>Augmentation potential <b id="augpct" style="margin-left:3px;"></b></span>
+        <span><i class="dot dot-safe"></i>Little exposure <b id="safepct" style="margin-left:3px;"></b></span>
+      </div>
+    </div>
+
+    <div class="verdict" id="verdict"></div>
+  </div>
+
+  <p class="note">Illustrative figures for teaching, not precise measurements. The three-way split (automation vs. augmentation vs. low exposure) follows the task-based method of Gmyrek, Berg &amp; Bescond (2023, ILO), who separate tasks AI could perform outright from tasks where AI assists a human in the loop. The clerical occupation shows the ILO pattern of high exposure concentrated in a female-dominated, higher-income field. Sources: Gmyrek, Berg &amp; Bescond 2023; Acemoglu &amp; Restrepo 2022; Baudchon &amp; Huynh 2025.</p>
+</div>
+
+<script>
+const OCC=[
+ {label:"Clerical / office support",isco:"ISCO 4",
+  sub:"Data entry, correspondence, record-keeping, scheduling.",
+  aut:24,aug:57,
+  type:"mix",tag:"Highest exposure",
+  text:"Clerical work is the single most exposed occupational group in the ILO analysis. Much of it is routine cognitive work, exactly what the polarization thesis predicts gets hollowed out, yet even here <b>augmentation</b> outweighs outright <b>automation</b>. Note the distributional twist: clerical jobs are female-dominated and concentrated in higher-income countries, so the exposure falls unevenly across gender and geography."},
+ {label:"Paralegal / legal support",isco:"ISCO 3",
+  sub:"Drafting standard contracts, summarizing case files, research.",
+  aut:18,aug:55,
+  type:"mix",tag:"Reshaped, not removed",
+  text:"Generative AI newly exposes analytical knowledge work that used to sit safely near the top. The dominant effect is <b>augmentation</b>: the human stays in the loop to review and correct. Head-count can survive while the <b>quality</b> of work changes, the deskilling risk from the paralegal case study, so this is complementarity on paper but not automatically benign."},
+ {label:"Software developer",isco:"ISCO 2",
+  sub:"Writing, testing and maintaining code; system design.",
+  aut:12,aug:52,
+  type:"comp",tag:"Complementarity",
+  text:"High-skill analytical work leans strongly toward <b>complementarity</b>. AI code assistants raise productivity, the human-plus-AI 'centaur' configuration, while design judgement and accountability stay human. This is the Brynjolfsson reading: AI augments rather than replaces, and can open new fields of work."},
+ {label:"Accountant / bookkeeper",isco:"ISCO 2/3",
+  sub:"Reconciling accounts, preparing statements, compliance checks.",
+  aut:21,aug:48,
+  type:"mix",tag:"Mixed",
+  text:"A classic middle-skill mix. Routine reconciliation carries real <b>automation</b> potential, pulling toward the Acemoglu substitution warning, while judgement-heavy advisory and compliance tasks are <b>augmented</b>. Whether the net effect displaces or complements depends on how the role is redesigned, not on the technology alone."},
+ {label:"Nurse / care worker",isco:"ISCO 3",
+  sub:"Patient care, monitoring, physical assistance, documentation.",
+  aut:5,aug:22,
+  type:"comp",tag:"Resists automation",
+  text:"Non-routine work combining manual dexterity, empathy and physical presence resists automation. AI mostly <b>augments</b> at the edges, easing documentation, so the large majority of tasks show little exposure. This is the low-exposure pole of the polarization thesis."},
+ {label:"Construction worker",isco:"ISCO 7/8",
+  sub:"Manual on-site building, installation, physical labour.",
+  aut:4,aug:14,
+  type:"comp",tag:"Resists automation",
+  text:"Low-skill non-routine <b>manual</b> work is hard for current AI to touch, the opposite end from clerical work. Exposure is minimal, which is why the AI wave inverts the old story: it reaches the office before the building site."}
+];
+
+const cc=document.getElementById('cases');
+OCC.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+
+function pick(i){
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const o=OCC[i];
+ const safe=100-o.aut-o.aug;
+ const r=document.getElementById('result');r.classList.add('show');
+ document.getElementById('occname').textContent=o.label;
+ document.getElementById('isco').textContent=o.isco;
+ document.getElementById('subtitle').textContent=o.sub;
+ document.getElementById('segaut').style.width=o.aut+'%';
+ document.getElementById('segaug').style.width=o.aug+'%';
+ document.getElementById('exposedpct').textContent=(o.aut+o.aug)+'% exposed';
+ document.getElementById('autpct').textContent=o.aut+'%';
+ document.getElementById('augpct').textContent=o.aug+'%';
+ document.getElementById('safepct').textContent=safe+'%';
+ const tagClass=o.type==='sub'?'tag-sub':(o.type==='comp'?'tag-comp':'tag-mix');
+ document.getElementById('verdict').innerHTML='<span class="tag '+tagClass+'">'+o.tag+'</span><br>'+o.text;
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

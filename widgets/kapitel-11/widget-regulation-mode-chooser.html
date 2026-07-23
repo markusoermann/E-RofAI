@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regulation-Mode Chooser</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .modes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .modes button{flex:1;min-width:160px;background:#eee;color:#333;border:none;padding:11px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:center;}
+  .modes button:hover{background:#e0e0e0;}
+  .modes button.active{background:#ff6a00;color:#fff;}
+  .scale{display:flex;align-items:center;gap:8px;margin:14px 0 16px;font-size:.72rem;color:#888;}
+  .scale .bar{flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,#c9e3d1,#f2c94c,#d98a8a);position:relative;}
+  .scale .marker{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:#ff6a00;border:2px solid #fff;box-shadow:0 0 3px rgba(0,0,0,.3);transform:translateX(-50%);transition:left .25s;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;background:#1a5a8a;}
+  .banner .sub{display:block;font-size:.75rem;font-weight:500;opacity:.9;margin-top:2px;}
+  .body{padding:14px 16px;}
+  .body p.desc{font-size:.87rem;line-height:1.55;margin:0 0 14px;color:#444;}
+  .crit{display:grid;grid-template-columns:1fr;gap:9px;}
+  .crit .row{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;}
+  .crit .name{font-size:.78rem;font-weight:600;color:#555;}
+  .crit .meter{background:#f0f0f0;border-radius:4px;height:20px;position:relative;overflow:hidden;}
+  .crit .fill{height:100%;border-radius:4px;transition:width .3s;}
+  .crit .lab{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.68rem;font-weight:700;color:#333;}
+  .f-hi{background:#8fc9a3;}.f-mid{background:#f2c94c;}.f-lo{background:#e0a3a3;}
+  h4{margin:16px 0 5px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#999;}
+  .body ul{margin:0;padding-left:18px;}
+  .body li{font-size:.85rem;line-height:1.5;margin-bottom:3px;color:#444;}
+  .norm{display:inline-block;margin-top:12px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick a mode of regulation. The chooser rates it on the four trade-offs a regulator weighs, and places it on the scale of regulatory intensity (Ogus 2004).</p>
+  <div class="modes" id="modes"></div>
+  <div class="scale">
+    <span>low intensity</span>
+    <div class="bar"><div class="marker" id="marker"></div></div>
+    <span>high intensity</span>
+  </div>
+  <div class="result" id="result">
+    <div class="banner"><span id="bannertext"></span><span class="sub" id="bannersub"></span></div>
+    <div class="body">
+      <p class="desc" id="desc"></p>
+      <div class="crit" id="crit"></div>
+      <h4>Typical instruments</h4>
+      <ul id="instruments"></ul>
+      <span class="norm" id="norm"></span>
+    </div>
+  </div>
+</div>
+<script>
+const rate={hi:{c:"f-hi",t:"high"},mid:{c:"f-mid",t:"medium"},lo:{c:"f-lo",t:"low"}};
+const M=[
+ {label:"State regulation",pos:88,
+  banner:"State regulation",sub:"The state binds private actors to reach public-interest goals",
+  desc:"The classic command-and-control mode: the legislator or an authority sets binding prohibitions and requirements that addressees must obey, backed by the coercive power of the state and enforced through courts and sanctions.",
+  crit:[["Speed of adaptation","lo"],["Technical expertise","lo"],["Enforceability","hi"],["Democratic legitimacy","hi"]],
+  instruments:["Statutes and regulations","Directives from authorities","Prior approval and licensing","Fines and criminal sanctions"],
+  norm:"Command-and-control · highest regulatory intensity"},
+ {label:"Self-regulation",pos:12,
+  banner:"Self-regulation",sub:"Private actors regulate themselves to reach public-interest goals",
+  desc:"The state stays out, trusting that societal or market processes will deliver the steering goals on their own. Firms adopt their own codes of conduct or professional standards, enforced (if at all) only by private mechanisms such as reputation or membership rules.",
+  crit:[["Speed of adaptation","hi"],["Technical expertise","hi"],["Enforceability","lo"],["Democratic legitimacy","lo"]],
+  instruments:["Corporate codes of ethics","Professional standards","Industry guidelines","Quality-management systems"],
+  norm:"Codes of conduct · lowest regulatory intensity"},
+ {label:"Regulated self-regulation",pos:50,
+  banner:"Regulated self-regulation",sub:"The state sets the frame and delegates the detail, keeping backup powers",
+  desc:"The hybrid third way (Schulz & Held 2002): the state fixes the goals and the procedural frame, delegates the concrete rule-making to private bodies, supervises the process and its results, and retains backup powers to step in if the outcome falls short. It aims to combine private expertise and speed with public accountability.",
+  crit:[["Speed of adaptation","mid"],["Technical expertise","hi"],["Enforceability","mid"],["Democratic legitimacy","mid"]],
+  instruments:["Statutory frame plus delegated rule-making","Approved codes and harmonised standards","State-supervised oversight bodies","Backup powers and sanction threats"],
+  norm:"Co-regulation · intermediate intensity"}
+];
+const mm=document.getElementById('modes');
+M.forEach((m,i)=>{const b=document.createElement('button');b.textContent=m.label;b.onclick=()=>pick(i);mm.appendChild(b);});
+function pick(i){
+ [...mm.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const m=M[i];
+ document.getElementById('result').classList.add('show');
+ document.getElementById('marker').style.left=m.pos+'%';
+ document.getElementById('bannertext').textContent=m.banner;
+ document.getElementById('bannersub').textContent=m.sub;
+ document.getElementById('desc').textContent=m.desc;
+ const cr=document.getElementById('crit');cr.innerHTML='';
+ m.crit.forEach(([name,lvl])=>{
+  const r=rate[lvl];const w=lvl==='hi'?90:lvl==='mid'?55:25;
+  const row=document.createElement('div');row.className='row';
+  row.innerHTML='<div class="name">'+name+'</div><div class="meter"><div class="fill '+r.c+'" style="width:'+w+'%"></div><span class="lab">'+r.t+'</span></div>';
+  cr.appendChild(row);
+ });
+ const ul=document.getElementById('instruments');ul.innerHTML='';
+ m.instruments.forEach(p=>{const li=document.createElement('li');li.textContent=p;ul.appendChild(li);});
+ document.getElementById('norm').textContent=m.norm;
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

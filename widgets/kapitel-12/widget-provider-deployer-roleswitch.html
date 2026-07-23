@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Act: Role-Switch Simulator</title>
+    <style>
+        :root {
+            --thws-orange: #ff6a00;
+            --text-dark: #333333;
+            --provider-color: #0056b3;
+            --deployer-color: #28a745;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-dark);
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+
+        .lead {
+            font-size: .95rem;
+            margin: 0 0 14px;
+            color: #555;
+            text-align: left;
+        }
+
+        .actor-box {
+            display: inline-block;
+            width: 250px;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 10px;
+            border: 3px solid #eee;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .actor-box.active-deployer {
+            border-color: var(--deployer-color);
+            background: #e9f7ef;
+        }
+
+        .actor-box.active-provider {
+            border-color: var(--provider-color);
+            background: #e7f1ff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .actor-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .actor-role {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #ccc;
+            margin: 20px 0;
+            transition: color 0.3s;
+        }
+
+        .trigger-list {
+            text-align: left;
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .trigger-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .trigger-item:hover {
+            background: #eee;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--thws-orange);
+            border-radius: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .checked .checkbox::after {
+            content: '✓';
+            color: var(--thws-orange);
+            font-weight: bold;
+        }
+
+        .info-panel {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 80px;
+            text-align: left;
+        }
+
+        .provider-label {
+            color: var(--provider-color);
+            font-weight: bold;
+        }
+
+        .deployer-label {
+            color: var(--deployer-color);
+            font-weight: bold;
+        }
+
+        .norm {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: .78rem;
+            color: var(--thws-orange);
+            font-weight: 600;
+            background: #fff7f0;
+            border: 1px solid #ffd9b8;
+            border-radius: 4px;
+            padding: 3px 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <p class="lead">Company X first uses an AI system only as a deployer. Toggle the circumstances of <b>Art. 25 AI Act</b> below and watch when a deployer legally becomes a provider.</p>
+
+        <div id="deployer-box" class="actor-box active-deployer">
+            <div class="actor-title">Company X</div>
+            <div class="actor-role">Deployer</div>
+            <div style="font-size: 0.85rem">Uses the AI system for its own purposes</div>
+        </div>
+
+        <div id="arrow" class="arrow">↓</div>
+
+        <div id="provider-box" class="actor-box">
+            <div class="actor-title">Company X</div>
+            <div class="actor-role">Provider</div>
+            <div style="font-size: 0.85rem">Bears the full provider obligations (Art. 8-15 AI Act)</div>
+        </div>
+
+        <div class="trigger-list">
+            <div class="trigger-item" onclick="toggleTrigger(this, 't1')">
+                <div class="checkbox"></div>
+                <div><b>Own name:</b> the AI system is placed on the market under its own brand.</div>
+            </div>
+            <div class="trigger-item" onclick="toggleTrigger(this, 't2')">
+                <div class="checkbox"></div>
+                <div><b>Substantial modification:</b> the system is substantially modified.</div>
+            </div>
+            <div class="trigger-item" onclick="toggleTrigger(this, 't3')">
+                <div class="checkbox"></div>
+                <div><b>Change of intended purpose:</b> use for a high-risk purpose that was not originally intended.</div>
+            </div>
+        </div>
+
+        <div id="info-text" class="info-panel">
+            Company X is currently a <span class="deployer-label">deployer</span>. It must use the system in line with the instructions and ensure human oversight.
+        </div>
+        <span class="norm">Art. 25 AI Act - reassignment rule</span>
+    </div>
+
+    <script>
+        const activeTriggers = new Set();
+
+        function toggleTrigger(element, id) {
+            element.classList.toggle('checked');
+            if (activeTriggers.has(id)) {
+                activeTriggers.delete(id);
+            } else {
+                activeTriggers.add(id);
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            const isProvider = activeTriggers.size > 0;
+            const deployerBox = document.getElementById('deployer-box');
+            const providerBox = document.getElementById('provider-box');
+            const arrow = document.getElementById('arrow');
+            const infoText = document.getElementById('info-text');
+
+            if (isProvider) {
+                deployerBox.classList.remove('active-deployer');
+                providerBox.classList.add('active-provider');
+                arrow.style.color = 'var(--thws-orange)';
+                infoText.innerHTML = `⚠️ <b>Role switch!</b> Through this act, Company X legally steps into the position of the <span class="provider-label">provider</span> under Art. 25 AI Act and takes on its full obligations (including conformity assessment, technical documentation, CE marking).`;
+                infoText.style.background = '#fff5ed';
+            } else {
+                deployerBox.classList.add('active-deployer');
+                providerBox.classList.remove('active-provider');
+                arrow.style.color = '#ccc';
+                infoText.innerHTML = `Company X is currently a <span class="deployer-label">deployer</span>. It must use the system in line with the instructions and ensure human oversight.`;
+                infoText.style.background = '#f9f9f9';
+            }
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+
+</html>

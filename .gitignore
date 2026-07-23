@@ -2,8 +2,6 @@
 .DS_Store
 
 # Quarto render output
-*.html
-*_files/
 .quarto/
 
 # Freeze cache
@@ -11,3 +9,6 @@
 
 # Local lecture games (large)
 *_lernspiel.html
+lawman.html
+legal_kong.html
+the_legal_run.html

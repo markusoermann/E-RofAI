@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Oversight Mode Explorer</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .lvl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.9;}
+  .lvl-hitl{background:#1a5a8a;}
+  .lvl-hotl{background:#7a4fb5;}
+  .lvl-hic{background:#b8860b;}
+  .body{padding:14px 16px;}
+  .casename{font-size:.95rem;font-weight:600;margin:0 0 4px;color:#222;}
+  .tempo{font-size:.82rem;color:#666;margin:0 0 10px;}
+  .body h4{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#999;}
+  .body p.line{font-size:.85rem;line-height:1.5;margin:0 0 6px;color:#444;}
+  .body ul{margin:0;padding-left:18px;}
+  .body li{font-size:.85rem;line-height:1.5;margin-bottom:3px;color:#444;}
+  .risk{color:#b21f1f;}
+  .norm{display:inline-block;margin-top:10px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+  .scale{display:flex;gap:6px;margin:0 0 16px;}
+  .scale span{flex:1;text-align:center;font-size:.68rem;font-weight:600;color:#fff;padding:5px 2px;border-radius:4px;opacity:.45;transition:.15s;}
+  .scale span.on{opacity:1;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick a use case. The explorer names the oversight mode that fits, what the human actually does, and the failure risk that mode invites (automation bias, rubber-stamping, or being too slow to intervene).</p>
+  <div class="scale">
+    <span class="lvl-hitl" data-l="hitl">Human-in-the-loop</span>
+    <span class="lvl-hotl" data-l="hotl">Human-on-the-loop</span>
+    <span class="lvl-hic" data-l="hic">Human-in-command</span>
+  </div>
+  <div class="cases" id="cases"></div>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bannertext"></span><span class="lvl" id="bannerlvl"></span></div>
+    <div class="body">
+      <p class="casename" id="casename"></p>
+      <p class="tempo" id="tempo"></p>
+      <h4>What the human actually does</h4>
+      <p class="line" id="role"></p>
+      <h4>Why this mode fits</h4>
+      <p class="line" id="why"></p>
+      <h4>Failure risks to watch</h4>
+      <ul id="risks"></ul>
+      <span class="norm" id="norm"></span>
+    </div>
+  </div>
+</div>
+<script>
+const C=[
+ {label:"Loan approval",
+  name:"An AI proposes loan decisions; a caseworker reviews and signs off on each one before it reaches the customer.",
+  tempo:"Low tempo, high individual stakes, moderate volume.",
+  level:"hitl",banner:"Human-in-the-loop (HITL)",
+  role:"The person approves every single proposed decision before it takes effect. Nothing is communicated to the customer without an explicit human sign-off.",
+  why:"Each decision is consequential for one individual and there is time to review, so tight coupling of the human to every output is both feasible and warranted.",
+  risks:["Rubber-stamping: signing off wholesale without genuine scrutiny.","Automation bias: over-trusting the score and deferring to the machine even when the file suggests otherwise.","Volume pressure that quietly erodes review into a formality."],
+  norm:"HITL · approve each decision · cf. EU HLEG (2019)"},
+ {label:"Medical diagnosis support",
+  name:"A system flags suspected tumours on scans; a radiologist confirms or rejects each finding before it enters the report.",
+  tempo:"Low tempo, very high stakes, expert reviewer.",
+  level:"hitl",banner:"Human-in-the-loop (HITL)",
+  role:"The clinician remains the decision-maker on every case and treats the AI output as one input among several, not as a verdict.",
+  why:"Errors are life-affecting and irreversible, and a trained expert is already in the loop, so per-decision human approval is the appropriate design.",
+  risks:["Automation bias: dismissing one's own judgement when the AI disagrees.","Deskilling over time if the AI is trusted by default.","Alert fatigue from too many low-value flags."],
+  norm:"HITL · expert confirms each finding"},
+ {label:"Content moderation at scale",
+  name:"A platform's AI removes or down-ranks millions of posts automatically; a human team monitors dashboards and steps in on errors and appeals.",
+  tempo:"High volume, high tempo, impossible to review each item.",
+  level:"hotl",banner:"Human-on-the-loop (HOTL)",
+  role:"People do not approve each removal. They supervise the system in operation, watch error rates and appeals, and intervene when something goes wrong.",
+  why:"The sheer volume makes per-item approval impossible, so oversight shifts to monitoring the system and correcting it, not gating every action.",
+  risks:["Errors reach users before any human sees them.","Monitoring becomes passive: dashboards watched but rarely acted on.","Systematic bias hidden in the aggregate escapes case-by-case attention."],
+  norm:"HOTL · supervise and intervene"},
+ {label:"Fraud detection monitoring",
+  name:"A bank's system scores transactions in real time and blocks suspicious ones; an analyst team monitors alerts and overrides false positives.",
+  tempo:"High tempo, high volume, seconds-level decisions.",
+  level:"hotl",banner:"Human-on-the-loop (HOTL)",
+  role:"The system acts autonomously within set thresholds; humans supervise the stream of alerts and correct or release wrongly blocked transactions.",
+  why:"Decisions happen too fast and too often for per-transaction approval, but a supervising human can catch and reverse the mistakes that matter.",
+  risks:["Legitimate customers blocked before a human reviews the case.","Threshold drift: the model changes behaviour without the monitors noticing.","Over-reliance on the alert queue as a proxy for real oversight."],
+  norm:"HOTL · monitor within thresholds"},
+ {label:"Autonomous weapon deployment",
+  name:"A defence organisation decides whether to field a system that selects and engages targets faster than any human could react in the moment.",
+  tempo:"Sub-human timescale in operation; the real decision is whether to deploy at all.",
+  level:"hic",banner:"Human-in-command (HIC)",
+  role:"A person retains overall authority over the system: whether, when and in what contexts it is deployed, with the ability to override or shut it down.",
+  why:"Because the action tempo defeats real-time intervention, meaningful control can only be exercised at the level of deployment and authority, not per decision.",
+  risks:["Oversight in name only: an override that cannot act in time is no oversight.","Responsibility diffusion once the system is running.","Escalation dynamics between autonomous systems that no operator can arrest."],
+  norm:"HIC · retain overall authority"},
+ {label:"City-wide traffic control AI",
+  name:"An organisation decides whether to hand a self-optimising AI overall control of a city's traffic signals, with authority to reconfigure the network.",
+  tempo:"Continuous autonomous operation; strategic human decision to deploy.",
+  level:"hic",banner:"Human-in-command (HIC)",
+  role:"Humans decide whether the system is deployed at all, in which districts, under what constraints, and keep the authority to switch it off or roll it back.",
+  why:"No operator can approve each signal change, so the decisive human control is command-level: the choice to deploy, bound and, if needed, retire the system.",
+  risks:["Lock-in: the system becomes too embedded to switch off in practice.","Loss of the manual fallback skills needed to run without it.","Command authority that exists on paper but has no working kill switch."],
+  norm:"HIC · deploy, bound, override"}
+];
+const cc=document.getElementById('cases');
+C.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+const sc=[...document.querySelectorAll('.scale span')];
+function pick(i){
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const c=C[i];
+ const r=document.getElementById('result');r.classList.add('show');
+ const banner=document.getElementById('banner');
+ banner.className='banner lvl-'+c.level;
+ document.getElementById('bannertext').textContent=c.banner;
+ document.getElementById('bannerlvl').textContent=c.level.toUpperCase();
+ document.getElementById('casename').textContent=c.name;
+ document.getElementById('tempo').textContent=c.tempo;
+ document.getElementById('role').textContent=c.role;
+ document.getElementById('why').textContent=c.why;
+ const ul=document.getElementById('risks');ul.innerHTML='';
+ c.risks.forEach(d=>{const li=document.createElement('li');li.className='risk';li.textContent=d;ul.appendChild(li);});
+ document.getElementById('norm').textContent=c.norm;
+ sc.forEach(s=>s.classList.toggle('on',s.dataset.l===c.level));
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

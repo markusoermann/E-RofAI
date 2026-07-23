@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Schools of Ethics Compared</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 12px;color:#555;}
+  .dilemmas{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .dilemmas button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;}
+  .dilemmas button:hover{background:#e0e0e0;}
+  .dilemmas button.active{background:#ff6a00;color:#fff;}
+  .scenario{font-size:.95rem;font-weight:600;background:#fff7f0;border-left:4px solid #ff6a00;padding:12px 14px;border-radius:4px;margin-bottom:18px;}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .card{border:1px solid #e3e3e3;border-radius:8px;padding:14px;background:#fff;}
+  .card h3{margin:0 0 4px;font-size:.95rem;color:#ff6a00;}
+  .card .crit{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:#999;margin-bottom:8px;}
+  .verdict{font-weight:700;font-size:.9rem;margin-bottom:6px;}
+  .yes{color:#1a8a3c;}.no{color:#c0392b;}.dep{color:#b8860b;}
+  .card p{margin:0;font-size:.82rem;line-height:1.4;color:#444;}
+  @media(max-width:640px){.cols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick an AI-ethics dilemma, and see how the three schools of thought judge it.</p>
+  <div class="dilemmas" id="dilemmas"></div>
+  <div class="scenario" id="scenario"></div>
+  <div class="cols">
+    <div class="card"><h3>Virtue ethics</h3><div class="crit">Yardstick: intention / character</div><div class="verdict" id="v0"></div><p id="t0"></p></div>
+    <div class="card"><h3>Utilitarianism</h3><div class="crit">Yardstick: consequences / utility</div><div class="verdict" id="v1"></div><p id="t1"></p></div>
+    <div class="card"><h3>Deontology (Kant)</h3><div class="crit">Yardstick: universalisable duty</div><div class="verdict" id="v2"></div><p id="t2"></p></div>
+  </div>
+</div>
+<script>
+const D=[
+ {label:"Data for a free service",
+  scn:"An AI provider offers a powerful assistant for free, but harvests every user prompt to train its next model. Roll it out?",
+  s:[["dep","Depends on the attitude","The virtuous question is whether the firm treats users as ends: hidden extraction betrays a self-serving character, whereas honest, opt-in data use can be a mark of integrity."],
+     ["yes","Often yes (on balance)","If the aggregate benefit of a better model for millions clearly outweighs the marginal privacy cost, the calculus can come out positive, provided harms stay small and dispersed."],
+     ["no","Not without consent","Using people merely as a means to an end, without their informed agreement, cannot be willed as a universal law: it treats persons as raw material, not as ends in themselves."]]},
+ {label:"Publish an ethics charter",
+  scn:"A lab drafts a binding AI ethics code with clear duties for every developer. Adopt it as company law?",
+  s:[["dep","Good, but not sufficient","A written code helps, yet virtue asks for practised character, not box-ticking: rules without a cultivated disposition risk becoming ethics washing."],
+     ["dep","Yes if it changes outcomes","Worthwhile only insofar as the charter actually reduces harm and increases benefit; a purely symbolic document that changes nothing has little utility."],
+     ["yes","Yes, this is its home","Codifying values as universalisable duties for all developers is exactly the procedural, rule-giving move that deontology recommends."]]},
+ {label:"Deploy a lethal calculus",
+  scn:"An emergency-triage AI would let one patient die to save five, maximising lives saved on average. Deploy it?",
+  s:[["dep","Depends on how it decides","A virtuous clinician weighs care, humility and the dignity of each patient; a cold optimiser risks eroding the character that medicine depends on."],
+     ["yes","Yes, more lives saved","The greatest number is served: five lives outweigh one, so the aggregate outcome is better and the rule is defensible on consequentialist grounds."],
+     ["no","No, persons are not means","Sacrificing one person as a mere instrument to save others violates the duty never to treat a human being merely as a means, whatever the sum."]]}
+];
+const dc=document.getElementById('dilemmas');
+D.forEach((d,i)=>{const b=document.createElement('button');b.textContent=d.label;b.onclick=()=>pick(i);dc.appendChild(b);});
+function pick(i){
+ [...dc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const d=D[i];document.getElementById('scenario').textContent=d.scn;
+ d.s.forEach((row,k)=>{const v=document.getElementById('v'+k);v.textContent=row[1];v.className='verdict '+row[0];document.getElementById('t'+k).textContent=row[2];});
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

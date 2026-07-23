@@ -1,0 +1,95 @@
+---
+title: "Introduction to the Ethics and Regulation of AI"
+subtitle: "Course home & table of contents"
+date: last-modified
+lang: en
+toc: false
+number-sections: false
+
+# Author
+author:
+  - name: Prof. Dr. Markus Oermann
+    email: markus.oermann@thws.de
+    role: Instructor
+    affiliation: THWS FIW
+
+# Course data
+semester: "WS 26/27"
+course: "Introduction to the Ethics and Regulation of AI"
+version: "1.0"
+
+# --- Output formats ---
+format: moodle-html
+---
+
+Welcome to **Introduction to the Ethics and Regulation of AI (E&RofAI)**, a module of the M.Sc. Artificial Intelligence (MAI) programme at THWS. Over 13 sessions we build up the ability to recognise the ethical stakes of AI systems, to build ethical assessment into your own professional and development workflows, and to navigate the legal requirements that now bind anyone who builds or deploys AI in the European Union. No prior background in philosophy or law is assumed; what is assumed is that, as computer scientists, you will spend your careers shipping systems whose effects on people are neither neutral nor obvious, and that you would rather anticipate those effects than be surprised by them.
+
+Each unit below is a self-contained, interactive script: read it in the browser, work through the embedded quick-checks, case studies and widgets, and use the full reference list at the end for further reading.
+
+## Course facts
+
+| | |
+|---|---|
+| **Programme** | M.Sc. Artificial Intelligence (MAI), THWS FIW |
+| **Module no.** | 5173080 |
+| **Semester** | Winter term 2026/27 |
+| **Instructor** | Prof. Dr. iur. Markus Oermann, M.A. (THWS FIW) |
+| **Format** | 13 sessions, single-source publishing (interactive script + PDF) |
+| **Language** | English |
+
+## How to use this site
+
+- **13 chronological units** (below), each a stand-alone Quarto script that follows the course of the semester.
+- **Interactive elements** are embedded directly in the text: flip-cards for definitions, quick-checks to test yourself, case studies, drag exercises, and hands-on HTML widgets that let you explore trade-offs and legal mechanisms yourself.
+- **Sources.** Every unit closes with a full reference list (literature, norms & standards, case law) for every citation used in the text.
+
+## Table of contents
+
+### Part I · Foundations of AI ethics
+
+What AI is, how the field got here, who or what can be a moral agent, and who can be held responsible when things go wrong.
+
+| No | Unit | What you'll learn | Reader |
+|----|------|------|:------:|
+| 1 | [Introduction: What is AI, What is AI Ethics?](01_introduction.html) | AI definitions (OECD, AI Act Art. 3), a short history of AI "summers and winters", sociotechnical systems, anthropomorphism, why AI needs both ethics and regulation | [PDF](01_introduction.pdf) |
+| 2 | [Ethics 101: Foundations of Moral Philosophy](02_ethics_101.html) | Values and norms, virtue ethics (Aristotle), utilitarianism (Bentham/Mill), deontology (Kant), moral development (Kohlberg), fast and slow moral judgement (Kahneman) | [PDF](02_ethics_101.pdf) |
+| 3 | [Agency & the Human-AI Relation](03_agency_human_ai_relation.html) | Moral status, moral agents vs. moral patients, machine ethics, why we anthropomorphise objects (Heider & Simmel), Actor-Network Theory (Latour), nudges and choice architecture | [PDF](03_agency_human_ai_relation.pdf) |
+| 4 | [Responsibility & the Responsibility Gap](04_responsibility.html) | Conditions of responsibility, the responsibility gap (Matthias), problem of many hands, transparency/explainability/accountability, the Collingridge dilemma, value-driven design (Dignum) | [PDF](04_responsibility.pdf) |
+
+### Part II · Bias, data protection & public discourse
+
+How AI systems can discriminate, what the GDPR requires of anyone processing personal data or training AI models, and how AI reshapes public discourse.
+
+| No | Unit | What you'll learn | Reader |
+|----|------|------|:------:|
+| 5 | [Bias & Discrimination](05_bias_discrimination.html) | A typology of bias (Friedman/Nissenbaum), algorithmic discrimination in practice (Apple Card, Gender Shades, COMPAS), intersectionality (Crenshaw), feedback loops | [PDF](05_bias_discrimination.pdf) |
+| 6 | [Data Protection I: Foundations & GDPR](06_data_protection_foundations.html) | Informational self-determination, GDPR principles (Art. 5), lawful bases for processing (Art. 6), personal data / controller / processor (Art. 4), special category data (Art. 9) | [PDF](06_data_protection_foundations.pdf) |
+| 7 | [Data Protection II: Profiling, ADM & AI Models](07_data_protection_ai.html) | Profiling and automated decision-making (Art. 22, *SCHUFA*), accountability and records of processing (Art. 30), privacy by design and DPIAs (Art. 25, 35), data protection for AI training data | [PDF](07_data_protection_ai.pdf) |
+| 8 | [Discourse, Public Sphere & Disinformation](08_discourse_disinformation.html) | The public sphere and discourse ethics (Habermas), filter bubbles and echo chambers, mis-/dis-/malinformation, deep fakes | [PDF](08_discourse_disinformation.pdf) |
+
+### Part III · Transformation, sustainability & soft-law governance
+
+The societal and environmental costs of AI, and the guidelines and internal codes organisations use to govern it before hard law applies.
+
+| No | Unit | What you'll learn | Reader |
+|----|------|------|:------:|
+| 9 | [Transformation & Sustainability](09_transformation_sustainability.html) | Modernization theory and its critiques, AI and the future of work (ILO), the UN SDGs, AI's water and CO2 footprint, the Jevons paradox, ghost work | [PDF](09_transformation_sustainability.pdf) |
+| 10 | [AI Ethics Guidelines](10_ai_ethics_guidelines.html) | EU / OECD / UNESCO / G7 / CoE guideline landscape, the EU's Trustworthy AI principles, human oversight (HITL/HOTL/HIC), ethics washing, the legal quality of soft law | [PDF](10_ai_ethics_guidelines.pdf) |
+| 11 | [Internal Codes & Self-Regulation](11_internal_codes_self_regulation.html) | State regulation vs. self-regulation vs. regulated self-regulation (Ogus), the OpenAI Preparedness Framework, IEEE 7000 series, NIST AI RMF, ISO/IEC 42001 | [PDF](11_internal_codes_self_regulation.pdf) |
+
+### Part IV · Hard law: the EU AI Act, IP & liability
+
+The binding legal framework: the EU AI Act's risk-based approach, and how AI intersects with copyright and civil liability.
+
+| No | Unit | What you'll learn | Reader |
+|----|------|------|:------:|
+| 12 | [The EU AI Act](12_eu_ai_act.html) | The risk-based approach, prohibited practices (Art. 5), high-risk systems (Art. 6, Annex III), providers vs. deployers, general-purpose AI, transparency duties (Art. 50), governance and sanctions | [PDF](12_eu_ai_act.pdf) |
+| 13 | [AI, Intellectual Property & Liability](13_ai_ip_liability.html) | Copyright and AI-generated output, the TDM exception, civil liability for AI harms, the Product Liability Directive, and why the AI Liability Directive was withdrawn | [PDF](13_ai_ip_liability.pdf) |
+
+## Lecturer
+
+**Prof. Dr. Markus Oermann**
+Professor of Digital Ethics and Media Law
+Faculty of Computer Science and Business Information Systems
+Technical University of Applied Sciences Würzburg-Schweinfurt (THWS)
+[markus.oermann@thws.de](mailto:markus.oermann@thws.de)

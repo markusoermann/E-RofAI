@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDPR Principles (Art. 5)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            box-sizing: border-box;
+            background: #ffffff;
+            color: #333333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .principle-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid transparent;
+            padding: 15px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s;
+            height: 100%;
+        }
+        .principle-btn:hover {
+            background: #e0e0e0;
+        }
+        .principle-btn.active {
+            background: #fff;
+            color: #ff6a00;
+            border-color: #ff6a00;
+            box-shadow: 0 4px 6px rgba(255,106,0,0.1);
+        }
+        .info-panel {
+            background: #fcfcfc;
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            border-radius: 4px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .placeholder-text {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+        }
+        .principle-title {
+            color: #ff6a00;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid" id="button-grid">
+            <button class="principle-btn" onclick="showInfo(0)">Lawfulness</button>
+            <button class="principle-btn" onclick="showInfo(1)">Fairness</button>
+            <button class="principle-btn" onclick="showInfo(2)">Transparency</button>
+            <button class="principle-btn" onclick="showInfo(3)">Purpose limitation</button>
+            <button class="principle-btn" onclick="showInfo(4)">Data minimisation</button>
+            <button class="principle-btn" onclick="showInfo(5)">Accuracy</button>
+            <button class="principle-btn" onclick="showInfo(6)">Storage limitation</button>
+            <button class="principle-btn" onclick="showInfo(7)">Integrity &amp; confidentiality</button>
+            <button class="principle-btn" onclick="showInfo(8)">Accountability</button>
+        </div>
+
+        <div class="info-panel" id="info-display">
+            <div class="placeholder-text">Click a principle to see the details.</div>
+        </div>
+    </div>
+
+    <script>
+        const details = [
+            { t: "Lawfulness", c: "Every processing of personal data needs a legal basis, such as consent, contract or legitimate interest under Art. 6 GDPR. Without such permission, the processing is always unlawful." },
+            { t: "Fairness", c: "Processing must be fair and match the reasonable expectations of the data subject. It must not be deceptive or unduly detrimental, for instance through exploitative defaults or hidden purposes." },
+            { t: "Transparency", c: "Data subjects must be informed in clear and plain language about who processes their data and for what purpose. Hidden intentions or manipulation through dark patterns are impermissible." },
+            { t: "Purpose limitation", c: "Data may only be collected for specified, explicit and legitimate purposes. Further processing for incompatible purposes is in principle prohibited." },
+            { t: "Data minimisation", c: "Only as much data may be collected as is adequate and strictly necessary for the purpose (“not as much as possible”)." },
+            { t: "Accuracy", c: "Data must be factually correct and kept up to date. Inaccurate data must be erased or rectified without delay." },
+            { t: "Storage limitation", c: "Personal data may be kept in an identifiable form only for as long as the purpose requires." },
+            { t: "Integrity and confidentiality", c: "Data must be processed in a way that ensures appropriate security, protecting against unauthorised access, loss and similar risks." },
+            { t: "Accountability", c: "The controller is responsible for complying with all the principles and must be able to demonstrate that compliance at any time." }
+        ];
+
+        const buttons = document.querySelectorAll('.principle-btn');
+        const display = document.getElementById('info-display');
+
+        function showInfo(index) {
+            buttons.forEach(b => b.classList.remove('active'));
+            buttons[index].classList.add('active');
+
+            const item = details[index];
+            display.innerHTML = `<div><span class="principle-title">${item.t}</span>${item.c}</div>`;
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>
