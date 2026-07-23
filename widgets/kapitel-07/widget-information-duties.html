@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information duties (Art. 13 vs. 14 GDPR)</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: 'Inter', -apple-system, sans-serif; background: #fff; color: #333; }
+        .container { max-width: 700px; margin: 0 auto; text-align: center; }
+        .question { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; }
+        .btn-group { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
+        button { background: #ff6a00; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        .result-panel { display: none; background: #f9f9f9; padding: 20px; border-radius: 8px; border: 2px solid #eee; text-align: left; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .norm-badge { display: inline-block; background: #333; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 15px; }
+        ul { padding-left: 20px; margin-bottom: 0; }
+        li { margin-bottom: 8px; }
+        .highlight { color: #ff6a00; font-weight: bold; }
+        .time-badge { background: #e0e0e0; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; margin-left: 10px; }
+        .example { font-size: 0.85rem; color: #666; font-style: italic; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question">Where does the training data for the AI model come from?</div>
+        <div class="btn-group">
+            <button onclick="show(13)">Collected directly from the person</button>
+            <button onclick="show(14)">Scraped from other sources</button>
+        </div>
+
+        <div id="res-13" class="result-panel">
+            <div class="norm-badge">Art. 13 GDPR (direct collection)</div>
+            <span class="time-badge">Timing: at the moment of collection</span>
+            <p><strong>Mandatory information:</strong></p>
+            <ul>
+                <li>Name and contact details of the controller</li>
+                <li>Purposes and legal basis of the processing</li>
+                <li>Storage period (or the criteria for it)</li>
+                <li>Recipients of the data / third-country transfers</li>
+                <li>Data-subject rights and the right to lodge a complaint</li>
+            </ul>
+            <p class="example">Example: a platform trains its own model on posts its users submit through the service.</p>
+        </div>
+
+        <div id="res-14" class="result-panel">
+            <div class="norm-badge">Art. 14 GDPR (indirect collection)</div>
+            <span class="time-badge">Timing: reasonable period (max. 1 month)</span>
+            <p><strong>Mandatory information:</strong></p>
+            <ul>
+                <li>All information required under Art. 13 GDPR</li>
+                <li class="highlight">IN ADDITION: which categories of data are processed?</li>
+                <li class="highlight">IN ADDITION: from which source do the data originate?</li>
+            </ul>
+            <p class="example">Example: a model provider scrapes the open web for training data. Because the data are not obtained from the people themselves, the source and the categories must be disclosed, and the practical impossibility exception of Art. 14(5) is read narrowly.</p>
+        </div>
+    </div>
+
+    <script>
+        function show(art) {
+            document.getElementById('res-13').style.display = 'none';
+            document.getElementById('res-14').style.display = 'none';
+            document.getElementById('res-' + art).style.display = 'block';
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

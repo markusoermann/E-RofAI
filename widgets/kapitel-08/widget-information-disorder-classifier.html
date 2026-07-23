@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Disorder Classifier</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .scenario{border:1px solid #e3e3e3;border-radius:8px;background:#fafafa;padding:12px 16px;margin-bottom:14px;font-size:.9rem;line-height:1.5;color:#444;min-height:20px;}
+  .scenario em{color:#222;font-style:normal;font-weight:600;}
+  .axes{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;}
+  .axis{flex:1;min-width:220px;}
+  .axis p{margin:0 0 6px;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:#999;font-weight:600;}
+  .opt{display:flex;gap:8px;}
+  .opt button{flex:1;border:2px solid #ddd;background:#fff;padding:9px 6px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem;color:#555;transition:.15s;}
+  .opt button:hover{border-color:#ff6a00;}
+  .opt button.sel{border-color:#ff6a00;background:#fff7f0;color:#ff6a00;}
+  .checkbtn{width:100%;background:#ff6a00;color:#fff;border:none;padding:11px;border-radius:6px;font-weight:700;font-size:.9rem;cursor:pointer;margin-bottom:14px;}
+  .checkbtn:disabled{background:#ccc;cursor:not-allowed;}
+  .result{border-radius:8px;overflow:hidden;opacity:0;transition:opacity .2s;border:1px solid #e3e3e3;}
+  .result.show{opacity:1;}
+  .banner{padding:11px 16px;color:#fff;font-weight:700;font-size:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;opacity:.9;}
+  .ok{background:#1a8a3c;}
+  .no{background:#b21f1f;}
+  .rbody{padding:13px 16px;background:#fff;font-size:.86rem;line-height:1.55;color:#444;}
+  .rbody strong{color:#222;}
+  .verdict{display:inline-block;margin-top:8px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+  .matrix{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px;margin-bottom:16px;font-size:.72rem;}
+  .matrix div{padding:6px 8px;border-radius:4px;text-align:center;font-weight:600;}
+  .mh{background:#f2f2f2;color:#777;display:flex;align-items:center;justify-content:center;}
+  .m1{background:#fdecec;color:#b21f1f;}
+  .m2{background:#fff3e0;color:#b8860b;}
+  .m3{background:#e8f5ec;color:#1a8a3c;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Every scenario below sits on two axes: is the statement <strong>false</strong>, and is it spread with an <strong>intent to harm</strong>? Read a scenario, judge both axes, then check where it lands in the mis/dis/malinformation grid.</p>
+  <div class="matrix">
+    <div class="mh"></div><div class="mh">no intent to harm</div><div class="mh">intent to harm</div>
+    <div class="mh">false</div><div class="m1">Misinformation</div><div class="m1">Disinformation</div>
+    <div class="mh">true</div><div class="m3">(ordinary speech)</div><div class="m2">Malinformation</div>
+  </div>
+  <div class="cases" id="cases"></div>
+  <div class="scenario" id="scenario">Pick a scenario above.</div>
+  <div class="axes">
+    <div class="axis">
+      <p>Is the statement false?</p>
+      <div class="opt" id="axF"><button data-v="false">False</button><button data-v="true">True</button></div>
+    </div>
+    <div class="axis">
+      <p>Spread with intent to harm?</p>
+      <div class="opt" id="axH"><button data-v="harm">Intent to harm</button><button data-v="noharm">No intent</button></div>
+    </div>
+  </div>
+  <button class="checkbtn" id="check" disabled>Classify</button>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bt"></span><span class="tag" id="btag"></span></div>
+    <div class="rbody"><span id="rtext"></span><br><span class="verdict" id="verdict"></span></div>
+  </div>
+</div>
+<script>
+const C=[
+ {label:"Hallucinated citation",
+  text:"A student asks a chatbot for sources; it confidently invents a journal article that does not exist. The student copies it in good faith.",
+  falsehood:"false",harm:"noharm",type:"Misinformation",
+  why:"The statement is untrue, but there is no intent to deceive or harm: the model produced a stochastic error and the student passed it on unwittingly. False content spread without malice is <strong>misinformation</strong>. Generative models produce this routinely through hallucination."},
+ {label:"Election robocall",
+  text:"Before a primary, an AI-cloned voice of a well-known politician calls voters and tells them to stay home on election day.",
+  falsehood:"false",harm:"harm",type:"Disinformation",
+  why:"The content is false and it is spread deliberately to suppress turnout. False content spread with intent to harm is <strong>disinformation</strong>. The synthetic voice makes the deception cheap and scalable."},
+ {label:"Leaked private messages",
+  text:"An activist publishes a public figure's genuine private emails, accurately quoted, timed to inflict maximum reputational damage.",
+  falsehood:"true",harm:"harm",type:"Malinformation",
+  why:"The information is true, yet it is weaponised to harm. True content deployed to cause harm (leaks, doxxing, decontextualised facts) is <strong>malinformation</strong>. Truthfulness does not make the act harmless."},
+ {label:"Deepfake arrest image",
+  text:"A user generates a photorealistic but fabricated image of a head of state being arrested and posts it as if real.",
+  falsehood:"false",harm:"harm",type:"Disinformation",
+  why:"A fabricated event, published to deceive, is <strong>disinformation</strong> in the form of a deep fake. Under Art. 50(4) AI Act deployers must label such synthetic media as artificially generated."},
+ {label:"Misremembered statistic",
+  text:"A well-meaning blogger writes that a vaccine is '90% effective' when the real figure is 70%, having simply misremembered the study.",
+  falsehood:"false",harm:"noharm",type:"Misinformation",
+  why:"False, but shared without malicious intent: an honest mistake. This is <strong>misinformation</strong>. It can still cause harm downstream, which is why the intent axis alone does not settle whether a correction is needed."},
+ {label:"Hate propaganda",
+  text:"A synthetic image factory mass-produces violent, dehumanising content targeting a minority group to incite hostility.",
+  falsehood:"true",harm:"harm",type:"Malinformation",
+  why:"Here the category is <strong>malinformation</strong>: harmful content (incitement, hate, abuse material) whose damage does not turn on whether any single proposition is factually false. It is the paradigm of AI-enabled malinformation the deck flags."}
+];
+let cur=-1,selF=null,selH=null;
+const cc=document.getElementById('cases');
+C.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+function pick(i){
+ cur=i;selF=null;selH=null;
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ document.getElementById('scenario').innerHTML='<em>'+C[i].label+'.</em> '+C[i].text;
+ [...document.querySelectorAll('.opt button')].forEach(b=>b.classList.remove('sel'));
+ document.getElementById('result').classList.remove('show');
+ upd();
+}
+document.querySelectorAll('#axF button').forEach(b=>b.onclick=()=>{selF=b.dataset.v;[...b.parentNode.children].forEach(x=>x.classList.toggle('sel',x===b));upd();});
+document.querySelectorAll('#axH button').forEach(b=>b.onclick=()=>{selH=b.dataset.v;[...b.parentNode.children].forEach(x=>x.classList.toggle('sel',x===b));upd();});
+function upd(){document.getElementById('check').disabled=!(cur>=0&&selF&&selH);}
+document.getElementById('check').onclick=()=>{
+ const c=C[cur];
+ const correct=(selF===c.falsehood&&selH===c.harm);
+ const r=document.getElementById('result');r.classList.add('show');
+ document.getElementById('banner').className='banner '+(correct?'ok':'no');
+ document.getElementById('bt').textContent=correct?'Correct':'Not quite';
+ document.getElementById('btag').textContent=c.type;
+ document.getElementById('rtext').innerHTML=c.why;
+ document.getElementById('verdict').textContent='Category: '+c.type;
+};
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

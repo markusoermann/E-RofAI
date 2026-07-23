@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligation to designate a Data Protection Officer</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: 'Inter', sans-serif; background: #fff; color: #333; }
+        .container { max-width: 650px; margin: 0 auto; }
+        h3 { text-align: center; margin-top: 0; color: #444; }
+
+        .flow-container { background: #f9f9f9; border: 2px solid #eee; border-radius: 8px; padding: 20px; min-height: 250px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .step { display: none; text-align: center; animation: slideIn 0.3s ease-out; }
+        .step.active { display: block; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .question { font-size: 1.2rem; font-weight: bold; margin-bottom: 25px; line-height: 1.4; }
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+
+        button { background: #fff; border: 2px solid #ff6a00; color: #ff6a00; padding: 12px 25px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+        button:hover { background: #ff6a00; color: white; }
+
+        .result { text-align: center; padding: 20px; border-radius: 8px; font-size: 1.3rem; font-weight: bold; display: none; margin-top: 15px; }
+        .result.yes { background: #fff0e6; color: #e65100; border: 2px solid #ffb74d; }
+        .result.no { background: #e8f5e9; color: #2e7d32; border: 2px solid #81c784; }
+
+        .context-note { font-size: 0.85rem; color: #777; margin-top: 15px; text-align: center; }
+        .restart { background: #555; border-color: #555; color: white; margin-top: 20px; font-size: 0.9rem; padding: 8px 16px; }
+        .restart:hover { background: #333; border-color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Decision tree: is a DPO mandatory?</h3>
+
+        <div class="flow-container">
+            <!-- Step 1 -->
+            <div id="step-1" class="step active">
+                <div class="question">Is the organisation a public authority or public body?</div>
+                <div class="context-note">(e.g. a ministry, a public university, a tax office)</div>
+                <div class="btn-group" style="margin-top:20px;">
+                    <button onclick="showResult('yes', 'Art. 37(1)(a) GDPR: every public body must designate a DPO, without exception.')">Yes</button>
+                    <button onclick="nextStep(2)">No</button>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step-2" class="step">
+                <div class="question">Does the <strong>core activity</strong> consist of regular and systematic monitoring of data subjects on a large scale, OR the large-scale processing of special categories of data (Art. 9 GDPR)?</div>
+                <div class="context-note">(e.g. a provider that trains models on large-scale behavioural profiles, or on health or biometric data)</div>
+                <div class="btn-group" style="margin-top:20px;">
+                    <button onclick="showResult('yes', 'Art. 37(1)(b), (c) GDPR: with such a core activity a DPO is mandatory across the EU, regardless of headcount.')">Yes</button>
+                    <button onclick="nextStep(3)">No</button>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step-3" class="step">
+                <div class="question">Does national law impose a stricter threshold that the organisation crosses?</div>
+                <div class="context-note">(Several Member States add lower headcount thresholds; the GDPR itself sets none for private controllers below the core-activity test.)</div>
+                <div class="btn-group" style="margin-top:20px;">
+                    <button onclick="showResult('yes', 'A stricter national threshold applies: a DPO must be designated on that basis.')">Yes</button>
+                    <button onclick="showResult('no', 'Neither the GDPR core-activity test nor a stricter national rule is triggered. A DPO is not mandatory (but may be appointed voluntarily).')">No</button>
+                </div>
+            </div>
+
+            <!-- Result Container -->
+            <div id="result-container" class="step">
+                <div id="result-box" class="result"></div>
+                <div id="result-reason" style="margin-top: 15px; font-size: 0.95rem; line-height: 1.5; color: #444;"></div>
+                <button class="restart" onclick="reset()">Restart the check</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(num) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-' + num).classList.add('active');
+        }
+
+        function showResult(type, reasonText) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('result-container').classList.add('active');
+
+            const rbox = document.getElementById('result-box');
+            rbox.style.display = 'block';
+
+            if(type === 'yes') {
+                rbox.className = 'result yes';
+                rbox.innerText = 'DPO obligation!';
+            } else {
+                rbox.className = 'result no';
+                rbox.innerText = 'No DPO obligation';
+            }
+
+            document.getElementById('result-reason').innerText = reasonText;
+        }
+
+        function reset() {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('result-box').style.display = 'none';
+            document.getElementById('step-1').classList.add('active');
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

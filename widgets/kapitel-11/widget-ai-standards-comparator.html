@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Standards Comparator</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .lvl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.9;}
+  .lvl-process{background:#7a4fb5;}
+  .lvl-framework{background:#b8860b;}
+  .lvl-management{background:#1a5a8a;}
+  .body{padding:14px 16px;}
+  .instrument{font-size:.95rem;font-weight:600;margin:0 0 4px;color:#222;}
+  .issuer{font-size:.82rem;color:#666;margin:0 0 10px;}
+  .body h4{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#999;}
+  .body p.line{font-size:.85rem;line-height:1.5;margin:0 0 6px;color:#444;}
+  .body ul{margin:0;padding-left:18px;}
+  .body li{font-size:.85rem;line-height:1.5;margin-bottom:3px;color:#444;}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px;}
+  .badge{font-size:.72rem;font-weight:600;border-radius:4px;padding:4px 9px;border:1px solid transparent;}
+  .badge.yes{color:#1a7a3c;background:#eefaf1;border-color:#bfe6cc;}
+  .badge.no{color:#a33;background:#fdeeee;border-color:#f0c6c6;}
+  .norm{display:inline-block;margin-top:10px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+  .scale{display:flex;gap:6px;margin:0 0 16px;}
+  .scale span{flex:1;text-align:center;font-size:.68rem;font-weight:600;color:#fff;padding:5px 2px;border-radius:4px;opacity:.45;transition:.15s;}
+  .scale span.on{opacity:1;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick a standard family. The comparator shows what kind of instrument it is, who issues it, its scope, whether an outside party can certify it, and how it relates to the EU AI Act.</p>
+  <div class="scale">
+    <span class="lvl-process" data-l="process">Process standard</span>
+    <span class="lvl-framework" data-l="framework">Voluntary framework</span>
+    <span class="lvl-management" data-l="management">Certifiable management system</span>
+  </div>
+  <div class="cases" id="cases"></div>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bannertext"></span><span class="lvl" id="bannerlvl"></span></div>
+    <div class="body">
+      <p class="instrument" id="instrument"></p>
+      <p class="issuer" id="issuer"></p>
+      <div class="badges" id="badges"></div>
+      <h4>Scope</h4>
+      <p class="line" id="scope"></p>
+      <h4>What it delivers</h4>
+      <ul id="delivers"></ul>
+      <h4>Relation to the EU AI Act</h4>
+      <p class="line" id="aiact"></p>
+      <span class="norm" id="norm"></span>
+    </div>
+  </div>
+</div>
+<script>
+const C=[
+ {label:"IEEE 7000 series",
+  instrument:"IEEE 7000-2021 and companion standards (7001, 7002, 7005, 7007, 7010, 2089)",
+  issuer:"IEEE Standards Association · voluntary, freely accessible through the IEEE GET programme",
+  level:"process",banner:"Process standard",lvltag:"process",
+  certifiable:false,
+  scope:"How to surface and address ethical concerns during system design. The anchor standard operationalises value-driven design; companions cover transparency, data privacy, employer data governance, robot ethics, well-being impact and age-appropriate design.",
+  delivers:["A repeatable model process for eliciting values and turning them into requirements","Documented method rather than a prescribed outcome","No numerical thresholds and no substantive result"],
+  aiact:"Not directly wired into the Act. As a process standard it can support the design work behind compliance, but it carries no conformity presumption and no certificate on its own.",
+  norm:"IEEE 7000-2021 · voluntary process standard"},
+ {label:"NIST AI RMF",
+  instrument:"NIST AI Risk Management Framework (AI RMF 1.0), NIST AI 100-1",
+  issuer:"US National Institute of Standards and Technology · voluntary, freely available",
+  level:"framework",banner:"Voluntary framework",lvltag:"framework",
+  certifiable:false,
+  scope:"A structured, risk-based method for identifying and managing AI risks across the system lifecycle, built around the functions Govern, Map, Measure and Manage.",
+  delivers:["A common vocabulary and lifecycle method for AI risk","Guidance an organisation adopts of its own accord","No prescribed outcome and no formal certification"],
+  aiact:"A US instrument with no legal force in the EU. It is widely used as a reference and overlaps in substance with AI Act risk management, but adopting it does not by itself create any presumption of conformity under EU law.",
+  norm:"NIST AI 100-1 · voluntary framework"},
+ {label:"ISO/IEC 42001",
+  instrument:"ISO/IEC 42001:2023 (with companion 42005:2025 on impact assessment)",
+  issuer:"ISO/IEC · sold rather than given away · certified by accredited third parties",
+  level:"management",banner:"Certifiable management system",lvltag:"management system",
+  certifiable:true,
+  scope:"A management-system standard for artificial intelligence. An organisation builds a documented, auditable AI management system, following the same logic as ISO standards for quality or information security.",
+  delivers:["An auditable AI management system with defined controls","Third-party certification of conformity by an accredited body","Verification an outside party can rely on, not just self-declaration"],
+  aiact:"The closest fit to the Act's compliance architecture: the quality-management obligations for high-risk systems map onto ISO/IEC 42001. Where a standard becomes a harmonised standard published in the Official Journal, following it triggers a presumption of conformity, turning the standard into a legal benchmark.",
+  norm:"ISO/IEC 42001:2023 · certifiable management-system standard"}
+];
+const cc=document.getElementById('cases');
+C.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+const sc=[...document.querySelectorAll('.scale span')];
+function pick(i){
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const c=C[i];
+ const r=document.getElementById('result');r.classList.add('show');
+ const banner=document.getElementById('banner');
+ banner.className='banner lvl-'+c.level;
+ document.getElementById('bannertext').textContent=c.banner;
+ document.getElementById('bannerlvl').textContent=c.lvltag;
+ document.getElementById('instrument').textContent=c.instrument;
+ document.getElementById('issuer').textContent=c.issuer;
+ const bd=document.getElementById('badges');bd.innerHTML='';
+ const cert=document.createElement('span');
+ cert.className='badge '+(c.certifiable?'yes':'no');
+ cert.textContent=c.certifiable?'Certifiable by an accredited third party':'Not certifiable · self-adopted';
+ bd.appendChild(cert);
+ document.getElementById('scope').textContent=c.scope;
+ const ul=document.getElementById('delivers');ul.innerHTML='';
+ c.delivers.forEach(p=>{const li=document.createElement('li');li.textContent=p;ul.appendChild(li);});
+ document.getElementById('aiact').textContent=c.aiact;
+ document.getElementById('norm').textContent=c.norm;
+ sc.forEach(s=>s.classList.toggle('on',s.dataset.l===c.level));
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

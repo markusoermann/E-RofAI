@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is it an AI system?</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .verdict{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.9;}
+  .is-yes{background:#1a8a3c;}
+  .is-no{background:#8a1a1a;}
+  .body{padding:14px 16px;}
+  .casename{font-size:.95rem;font-weight:600;margin:0 0 12px;color:#222;}
+  .crit{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+  .mark{flex:0 0 22px;height:22px;border-radius:50%;color:#fff;font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .mark.on{background:#1a8a3c;}
+  .mark.off{background:#b0b0b0;}
+  .crit .txt{font-size:.85rem;line-height:1.45;color:#444;}
+  .crit .txt b{color:#222;}
+  .verdicttext{margin:12px 0 0;font-size:.88rem;line-height:1.5;color:#333;background:#fafafa;border-left:3px solid #ff6a00;padding:10px 12px;border-radius:0 4px 4px 0;}
+  .norm{display:inline-block;margin-top:12px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick a system. The tester walks it through the three defining criteria of Art. 3(1) EU AI Act, autonomy, adaptiveness and the inference of outputs, and returns whether it counts as an "AI system" in the legal sense.</p>
+  <div class="cases" id="cases"></div>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bannertext"></span><span class="verdict" id="bannerverdict"></span></div>
+    <div class="body">
+      <p class="casename" id="casename"></p>
+      <div id="crits"></div>
+      <p class="verdicttext" id="verdicttext"></p>
+      <span class="norm" id="norm"></span>
+    </div>
+  </div>
+</div>
+<script>
+// c[0]=autonomy, c[1]=adaptiveness, c[2]=inference  (each true/false)
+// The decisive criterion for "AI system" is the INFERENCE of outputs (plus some autonomy).
+const C=[
+ {label:"Room thermostat (bimetal)",
+  name:"A mechanical thermostat switches the heating on and off at a fixed threshold set by a dial.",
+  c:[false,false,false],
+  reasons:[
+   "Runs strictly on a fixed rule set by the user; no operation independent of human control.",
+   "The behaviour never changes; the same input always yields the same switching point.",
+   "It does not infer anything from data; it executes a hard-wired if-then rule."],
+  isAI:false,
+  verdict:"Not an AI system. Classic, deterministically programmed logic falls outside Art. 3(1). Inference from data, the heart of the definition, is missing.",
+  norm:"Art. 3(1) AI Act"},
+ {label:"Deterministic payroll script",
+  name:"A payroll program multiplies hours by an hourly rate and applies fixed tax tables to compute net wages.",
+  c:[false,false,false],
+  reasons:[
+   "Executes exactly the calculation steps a developer coded; no autonomous behaviour.",
+   "The rules are static until a human edits the code or the tax tables.",
+   "It computes an output by a fixed formula; it does not infer a model from examples."],
+  isAI:false,
+  verdict:"Not an AI system. However complex, rule-based software that only applies explicitly coded instructions is excluded. This is the textbook contrast case in the AI Office guidelines.",
+  norm:"Art. 3(1) AI Act"},
+ {label:"Spam filter (machine-learned)",
+  name:"An e-mail filter trained on labelled examples scores each incoming message and moves likely spam to a separate folder.",
+  c:[true,true,true],
+  reasons:[
+   "Sorts mail on its own once deployed, without a human ruling on each message.",
+   "It can be retrained or updated on new spam patterns, adapting after deployment.",
+   "It infers, from features of the input, a prediction ('spam' / 'not spam')."],
+  isAI:true,
+  verdict:"An AI system. It infers a classification from data with some autonomy, satisfying Art. 3(1). Most everyday spam filters therefore fall under the definition, even if they are only minimal-risk in the risk tiers.",
+  norm:"Art. 3(1) AI Act"},
+ {label:"Large language model (chatbot)",
+  name:"A generative model produces conversational text in response to user prompts.",
+  c:[true,true,true],
+  reasons:[
+   "Generates outputs on its own from a prompt, with high autonomy over the wording.",
+   "It can adapt through fine-tuning or in-context learning after deployment.",
+   "It infers, from the input, how to generate content (a prime example named in Art. 3(1))."],
+  isAI:true,
+  verdict:"An AI system, and its underlying model is a general-purpose AI (GPAI) model under Art. 3(63): trained at scale, broadly capable and integrable into many downstream systems.",
+  norm:"Art. 3(1), 3(63) AI Act"},
+ {label:"Chess engine (search + heuristics)",
+  name:"A classical engine explores the game tree and evaluates positions with a hand-written scoring function to choose a move.",
+  c:[true,false,true],
+  reasons:[
+   "Selects its move autonomously once given a position.",
+   "A pure search engine does not change its behaviour after deployment (adaptiveness is optional under the definition, hence marked here as absent).",
+   "It infers a recommended move (a 'decision') from the board state it receives."],
+  isAI:true,
+  verdict:"An AI system. Adaptiveness is only a possible, not a required, feature ('may exhibit'). Because the engine autonomously infers an output, it meets Art. 3(1), a reminder that 'AI' in law is broader than 'machine learning'.",
+  norm:"Art. 3(1) AI Act"}
+];
+const critLabels=["Autonomy (operates with varying levels of autonomy)","Adaptiveness (may adapt after deployment)","Inference of outputs (infers from input how to generate outputs)"];
+const cc=document.getElementById('cases');
+C.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+function pick(i){
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const c=C[i];
+ const r=document.getElementById('result');r.classList.add('show');
+ const banner=document.getElementById('banner');
+ banner.className='banner '+(c.isAI?'is-yes':'is-no');
+ document.getElementById('bannertext').textContent=c.isAI?'Qualifies as an AI system':'Not an AI system';
+ document.getElementById('bannerverdict').textContent=c.isAI?'Art. 3(1) met':'Art. 3(1) not met';
+ document.getElementById('casename').textContent=c.name;
+ const box=document.getElementById('crits');box.innerHTML='';
+ c.c.forEach((on,k)=>{
+   const row=document.createElement('div');row.className='crit';
+   const m=document.createElement('span');m.className='mark '+(on?'on':'off');m.textContent=on?'✓':'✗';
+   const t=document.createElement('span');t.className='txt';
+   t.innerHTML='<b>'+critLabels[k]+'</b><br>'+c.reasons[k];
+   row.appendChild(m);row.appendChild(t);box.appendChild(row);
+ });
+ document.getElementById('verdicttext').textContent=c.verdict;
+ document.getElementById('norm').textContent=c.norm;
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

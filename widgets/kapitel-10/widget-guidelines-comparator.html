@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Ethics Guidelines Comparator</title>
+<style>
+  body{margin:0;padding:20px;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;box-sizing:border-box;}
+  .container{max-width:820px;margin:0 auto;}
+  .lead{font-size:.95rem;margin:0 0 14px;color:#555;}
+  .cases{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .cases button{background:#eee;color:#333;border:none;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:.15s;text-align:left;}
+  .cases button:hover{background:#e0e0e0;}
+  .cases button.active{background:#ff6a00;color:#fff;}
+  .result{border:1px solid #e3e3e3;border-radius:8px;background:#fff;overflow:hidden;opacity:0;transition:opacity .2s;}
+  .result.show{opacity:1;}
+  .banner{padding:12px 16px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .banner .lvl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;opacity:.9;}
+  .lvl-binding{background:#1a5a8a;}
+  .lvl-softpotential{background:#7a4fb5;}
+  .lvl-soft{background:#b8860b;}
+  .body{padding:14px 16px;}
+  .instrument{font-size:.95rem;font-weight:600;margin:0 0 4px;color:#222;}
+  .issuer{font-size:.82rem;color:#666;margin:0 0 10px;}
+  .body h4{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#999;}
+  .body p.line{font-size:.85rem;line-height:1.5;margin:0 0 6px;color:#444;}
+  .body ul{margin:0;padding-left:18px;}
+  .body li{font-size:.85rem;line-height:1.5;margin-bottom:3px;color:#444;}
+  .norm{display:inline-block;margin-top:10px;font-size:.78rem;color:#ff6a00;font-weight:600;background:#fff7f0;border:1px solid #ffd9b8;border-radius:4px;padding:3px 8px;}
+  .scale{display:flex;gap:6px;margin:0 0 16px;}
+  .scale span{flex:1;text-align:center;font-size:.68rem;font-weight:600;color:#fff;padding:5px 2px;border-radius:4px;opacity:.45;transition:.15s;}
+  .scale span.on{opacity:1;}
+</style>
+</head>
+<body>
+<div class="container">
+  <p class="lead">Pick a framework. The comparator shows the issuing body, the legal quality of its instrument, its core principles and how far it can actually be enforced.</p>
+  <div class="scale">
+    <span class="lvl-soft" data-l="soft">Soft law</span>
+    <span class="lvl-softpotential" data-l="softpotential">Soft, treaty pending</span>
+    <span class="lvl-binding" data-l="binding">Binding once ratified</span>
+  </div>
+  <div class="cases" id="cases"></div>
+  <div class="result" id="result">
+    <div class="banner" id="banner"><span id="bannertext"></span><span class="lvl" id="bannerlvl"></span></div>
+    <div class="body">
+      <p class="instrument" id="instrument"></p>
+      <p class="issuer" id="issuer"></p>
+      <h4>Legal quality</h4>
+      <p class="line" id="legal"></p>
+      <h4>Core principles</h4>
+      <ul id="principles"></ul>
+      <h4>Enforceability</h4>
+      <p class="line" id="enforce"></p>
+      <span class="norm" id="norm"></span>
+    </div>
+  </div>
+</div>
+<script>
+const C=[
+ {label:"EU HLEG",
+  instrument:"Ethics Guidelines for Trustworthy AI (2019)",
+  issuer:"EU High-Level Expert Group on AI, convened by the European Commission",
+  level:"soft",banner:"Soft law",
+  legal:"Non-binding guidelines, finalised in 2019 with no formal adoption procedure. An expert document, not an EU legal act, that became a key point of reference for the later AI Act.",
+  principles:["Respect for human autonomy","Prevention of harm","Fairness","Explicability (traceability, communication, explainability)"],
+  enforce:"None directly. The guidelines translate into seven requirements (including human oversight and transparency) and an assessment list, but compliance is voluntary. Their substance was later hardened into the binding EU AI Act.",
+  norm:"EU HLEG (2019) · four principles, seven requirements"},
+ {label:"OECD",
+  instrument:"Recommendation on Artificial Intelligence (OECD/LEGAL/0449)",
+  issuer:"OECD Council · 38 member states · adopted May 2019, updated 2023 and 2024",
+  level:"soft",banner:"Soft law",
+  legal:"A Council Recommendation, an intergovernmental standard. Not legally binding, but a strong policy commitment that members are expected to reflect in national policy.",
+  principles:["Inclusive growth and well-being","Human-centred values and fairness","Transparency and explainability","Robustness, security and safety","Accountability"],
+  enforce:"No sanctions. Influence works through peer pressure, monitoring and diffusion; its AI-system definition was adopted almost verbatim by the EU AI Act, giving it indirect legal weight.",
+  norm:"OECD/LEGAL/0449 · adopted 2019, amended 2023/2024"},
+ {label:"UNESCO",
+  instrument:"Recommendation on the Ethics of Artificial Intelligence (2021)",
+  issuer:"UNESCO General Conference · 194 member states · adopted November 2021",
+  level:"soft",banner:"Soft law",
+  legal:"The first global standard-setting instrument on AI ethics. A Recommendation addressed to member states, not a treaty; not legally binding.",
+  principles:["Proportionality and do no harm","Human oversight and determination","Fairness and non-discrimination","Sustainability","Right to privacy and data protection"],
+  enforce:"No sanctions, but a distinctive reporting mechanism: states report on implementation every four years, and two Readiness and Impact assessment methodologies operationalise the text.",
+  norm:"SHS/BIO/REC-AIETHICS/2021 · four-yearly reporting"},
+ {label:"G7 Hiroshima",
+  instrument:"Hiroshima Process International Code of Conduct for Advanced AI",
+  issuer:"G7 (informal coalition of seven industrialised states, EU observer) · 2023",
+  level:"soft",banner:"Soft law",
+  legal:"A voluntary code of conduct for organisations developing advanced (frontier) AI systems, issued as an outcome of the G7 Hiroshima Summit. Non-binding.",
+  principles:["Identify and mitigate risks across the lifecycle","Transparency and public reporting","Responsible information sharing and incident reporting","Robust security and content authentication"],
+  enforce:"Purely voluntary and organisation-facing. No monitoring body and no sanctions; adherence is a reputational commitment by the firms that opt in.",
+  norm:"G7 Hiroshima Process · Code of Conduct (2023)"},
+ {label:"Council of Europe",
+  instrument:"Framework Convention on AI, Human Rights, Democracy and the Rule of Law",
+  issuer:"Council of Europe (46 member states, separate from the EU) · opened for signature 2024",
+  level:"binding",banner:"Binding international law once ratified",
+  legal:"A convention, that is a genuine international treaty, drafted by the Committee on AI. Unlike every other instrument here, it becomes binding international law for a state once that state signs and ratifies it.",
+  principles:["Protection of human rights","Integrity of democratic processes and the rule of law","Transparency and oversight","Accountability and responsibility","Equality, non-discrimination and privacy"],
+  enforce:"Binding on ratifying parties, who must give domestic effect to its obligations and report through a follow-up mechanism. Reach depends on how many states actually ratify, and how they implement it.",
+  norm:"CoE Framework Convention on AI (2024)"}
+];
+const cc=document.getElementById('cases');
+C.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.label;b.onclick=()=>pick(i);cc.appendChild(b);});
+const sc=[...document.querySelectorAll('.scale span')];
+function pick(i){
+ [...cc.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+ const c=C[i];
+ const r=document.getElementById('result');r.classList.add('show');
+ const banner=document.getElementById('banner');
+ banner.className='banner lvl-'+c.level;
+ document.getElementById('bannertext').textContent=c.banner;
+ document.getElementById('bannerlvl').textContent=c.level==='binding'?'treaty':'soft law';
+ document.getElementById('instrument').textContent=c.instrument;
+ document.getElementById('issuer').textContent=c.issuer;
+ document.getElementById('legal').textContent=c.legal;
+ const ul=document.getElementById('principles');ul.innerHTML='';
+ c.principles.forEach(p=>{const li=document.createElement('li');li.textContent=p;ul.appendChild(li);});
+ document.getElementById('enforce').textContent=c.enforce;
+ document.getElementById('norm').textContent=c.norm;
+ sc.forEach(s=>s.classList.toggle('on',s.dataset.l===c.level||(c.level==='binding'&&s.dataset.l==='binding')));
+}
+pick(0);
+</script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+</html>

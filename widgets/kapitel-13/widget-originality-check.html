@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copyright Check</title>
+    <style>
+        :root {
+            --thws-orange: #ff6a00;
+            --legal: #0056b3;
+            --ethic: #d32f2f;
+        }
+
+        body {
+            margin: 0;
+            padding: 15px;
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+        }
+
+        .scenario-box {
+            padding: 20px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+            color: #444;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: #eee;
+        }
+
+        button {
+            border: none;
+            padding: 15px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #f0f0f0;
+            color: var(--thws-orange);
+        }
+
+        .result-area {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .tag.legal { background: var(--legal); }
+        .tag.ethic { background: var(--ethic); }
+
+        .result-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .result-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        .reset {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #f8f9fa;
+            border: none;
+            border-top: 1px solid #eee;
+            cursor: pointer;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">Is it protected by copyright?</div>
+
+        <div id="quest" class="scenario-box">
+            Pick a scenario and decide whether a protectable work (a personal intellectual creation) has come into being.
+        </div>
+
+        <div id="btns" class="actions">
+            <button onclick="check('ai')">AI logo from a prompt</button>
+            <button onclick="check('photo')">A photographer's portrait</button>
+            <button onclick="check('idea')">An idea for a novel</button>
+            <button onclick="check('kant')">Verbatim from Kant (d. 1804)</button>
+        </div>
+
+        <div id="result" class="result-area">
+            <div id="tags"></div>
+            <div id="res-title" class="result-title"></div>
+            <div id="res-desc" class="result-text"></div>
+        </div>
+
+        <button class="reset" onclick="location.reload()">Restart</button>
+    </div>
+
+    <script>
+        const scenarios = {
+            ai: {
+                tags: ['no'],
+                title: "No copyright",
+                desc: "A purely AI-generated output lacks a human personal creation. Prompting counts as a general technical instruction, not a creative act that shapes the concrete form. No one holds copyright; the output is effectively free to use (subject to the provider's terms)."
+            },
+            photo: {
+                tags: ['yes'],
+                title: "Protected work",
+                desc: "A portrait reflecting the photographer's free creative choices (framing, lighting, pose) is a personal intellectual creation. Copyright arises automatically at the moment of creation, with no registration required."
+            },
+            idea: {
+                tags: ['no'],
+                title: "Not protected",
+                desc: "Copyright never protects the mere idea, only its concrete expression. 'A boy attends a school for wizards' is free; only the specific text is protected. Ideas must stay free to keep culture and science moving."
+            },
+            kant: {
+                tags: ['free'],
+                title: "Public domain",
+                desc: "Kant died in 1804, so protection (life plus 70 years) has long lapsed. The text is in the public domain and may be reused freely. Failing to attribute it is still academic misconduct, but not a copyright infringement."
+            }
+        };
+
+        function check(id) {
+            const s = scenarios[id];
+            document.getElementById('btns').style.display = 'none';
+            document.getElementById('quest').style.display = 'none';
+            const res = document.getElementById('result');
+            res.style.display = 'block';
+
+            const tags = document.getElementById('tags');
+            tags.innerHTML = '';
+            const labels = { yes: ['legal', 'PROTECTED WORK'], no: ['ethic', 'NO PROTECTION'], free: ['legal', 'PUBLIC DOMAIN'] };
+            s.tags.forEach(t => {
+                const span = document.createElement('span');
+                span.className = 'tag ' + labels[t][0];
+                span.textContent = labels[t][1];
+                tags.appendChild(span);
+            });
+
+            document.getElementById('res-title').textContent = s.title;
+            document.getElementById('res-desc').textContent = s.desc;
+        }
+    </script>
+<script>
+(function () {
+  var lastH = 0;
+  function reportHeight() {
+    var h = document.body.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', function() { setTimeout(reportHeight, 100); });
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function() { setTimeout(reportHeight, 400); })
+      .observe(document.body, { attributes: true, childList: true, subtree: true,
+                                attributeFilter: ['class', 'style'] });
+  }
+})();
+</script>
+</body>
+
+</html>
