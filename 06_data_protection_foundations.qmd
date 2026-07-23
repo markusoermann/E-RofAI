@@ -18,7 +18,9 @@ course: "Introduction to the Ethics and Regulation of AI"
 version: "1.0"
 
 # --- Output formats ---
-format: moodle-html
+format:
+  moodle-html: default
+  reader-typst: default
 ---
 
 ```{=html}
