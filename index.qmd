@@ -36,6 +36,7 @@ Each unit below is a self-contained, interactive script: read it in the browser,
 | **Instructor** | Prof. Dr. iur. Markus Oermann, M.A. (THWS FIW) |
 | **Format** | 13 sessions, single-source publishing (interactive script + PDF) |
 | **Language** | English |
+| **DOI** | [![DOI](media/zenodo-doi-badge.svg)](https://doi.org/10.5281/zenodo.22931091) |
 
 ## How to use this site
 
@@ -85,6 +86,15 @@ The binding legal framework: the EU AI Act's risk-based approach, and how AI int
 |----|------|------|:------:|
 | 12 | [The EU AI Act](12_eu_ai_act.html) | The risk-based approach, prohibited practices (Art. 5), high-risk systems (Art. 6, Annex III), providers vs. deployers, general-purpose AI, transparency duties (Art. 50), governance and sanctions | [PDF](12_eu_ai_act.pdf) |
 | 13 | [AI, Intellectual Property & Liability](13_ai_ip_liability.html) | Copyright and AI-generated output, the TDM exception, civil liability for AI harms, the Product Liability Directive, and why the AI Liability Directive was withdrawn | [PDF](13_ai_ip_liability.pdf) |
+
+## Citation
+
+This course is archived on Zenodo and citable by DOI. The badge above links to the *concept DOI*, which always resolves to the most recent version.
+
+- **Concept DOI (all versions):** [10.5281/zenodo.22931091](https://doi.org/10.5281/zenodo.22931091)
+- **This version (WS 26/27, v1.0.0):** [10.5281/zenodo.22931092](https://doi.org/10.5281/zenodo.22931092)
+
+> Oermann, M. (2026). *Introduction to the Ethics and Regulation of AI: Course Materials* (Version 1.0.0) [Teaching materials]. Zenodo. <https://doi.org/10.5281/zenodo.22931091>
 
 ## Lecturer
 
