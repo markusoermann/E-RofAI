@@ -24,7 +24,11 @@ function Meta(m)
     if quarto.doc.is_format("typst") then
         local doc_dir = pandoc.path.directory(quarto.doc.input_file or ".")
         local function logo_rel(name)
-            return pandoc.path.make_relative(quarto.utils.resolvePath(name), doc_dir)
+            local p = pandoc.path.make_relative(quarto.utils.resolvePath(name), doc_dir)
+            -- Windows: make_relative liefert Backslash-Separatoren; Typst
+            -- read() und das .replace("\\","") in typst-show.typ wuerden die
+            -- Separatoren sonst schlucken. Forward Slashes gehen plattformweit.
+            return (p:gsub("\\", "/"))
         end
         if not m['reader-logo'] then
             m['reader-logo'] = pandoc.MetaString(logo_rel("thws-logo.svg"))
@@ -237,6 +241,14 @@ function Div(el)
             kind, box_label, box_title = "video", labels.video_title, nil
             typst_content = pandoc.Blocks({})
             typst_content:extend(el.content)
+        end
+
+        -- Box-Beschriftung/-Titel per Attribut überschreibbar, damit dieselben
+        -- Box-Looks auch außerhalb der Lehre nutzbar sind:
+        --   ::: {.details label="Kommentar" title="Warum so formuliert"}
+        if el.attributes then
+            if el.attributes.label then box_label = el.attributes.label end
+            if el.attributes.title then box_title = el.attributes.title end
         end
 
         if kind ~= nil then

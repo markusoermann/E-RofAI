@@ -16,6 +16,7 @@ author:
 semester: "WS 26/27"
 course: "Introduction to the Ethics and Regulation of AI"
 version: "1.0"
+faculty: "Fakultät Informatik und Wirtschaftsinformatik"
 
 # --- Output formats ---
 format:
