@@ -218,7 +218,7 @@ These specially protected data reveal:
 - data concerning health, sex life or sexual orientation.
 :::
 
-Exceptions to the prohibition exist, but they are drawn far more narrowly than under Art. 6. Processing is permitted only where a specific, still stricter ground of [Art. 9(2) GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"} applies, such as **explicit**, separately given consent for exactly these sensitive data, or a legal duty in employment and social-security law. The heightened standard, "explicit" rather than merely "unambiguous", makes the point clear: whoever wants to base sensitive-data processing on consent must obtain it separately, clearly delimited and targeted at precisely that category. This matters acutely for AI, because models routinely infer sensitive attributes (health, ethnicity, sexual orientation) from innocuous inputs, and such inference can itself amount to processing special-category data. Note also the interface with the EU AI Act, whose Art. 10(5) carves out a narrow permission to process special categories for the purpose of detecting and correcting bias in high-risk systems, a bridge back to the previous unit.
+Exceptions to the prohibition exist, but they are drawn far more narrowly than under Art. 6. Processing is permitted only where a specific, still stricter ground of [Art. 9(2) GDPR](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679){target="_blank"} applies, such as **explicit**, separately given consent for exactly these sensitive data, or a legal duty in employment and social-security law. The heightened standard, "explicit" rather than merely "unambiguous", makes the point clear: whoever wants to base sensitive-data processing on consent must obtain it separately, clearly delimited and targeted at precisely that category. This matters acutely for AI, because models routinely infer sensitive attributes (health, ethnicity, sexual orientation) from innocuous inputs, and such inference can itself amount to processing special-category data. Note also the interface with the EU AI Act, whose Art. 4a carves out a narrow permission to process special categories for the purpose of detecting and correcting bias, a bridge back to the previous unit. That permission originally sat in Art. 10(5) and applied only to providers of high-risk systems; the Digital Omnibus of 2026 moved it to Art. 4a and extended it to deployers and to systems below the high-risk threshold (see Unit 12).
 
 ::: {.case-study}
 #### Case: the tattoo studio's consent form
@@ -244,7 +244,7 @@ With this, the foundation is laid: we now know *why* data protection exists, *wh
 ### Norms & Standards
 
 - Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data (General Data Protection Regulation, GDPR), in particular Art. 2, 3, 4(1), 4(2), 4(7), 4(8), 4(11), 5, 6, 7, 9, 26. <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679>
-- Regulation (EU) 2024/1689 (Artificial Intelligence Act), Art. 10(5). <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689>
+- Regulation (EU) 2024/1689 (Artificial Intelligence Act), Art. 4a (formerly Art. 10(5), relocated by Regulation (EU) 2026/1744). <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689>
 
 ### Case law
 
